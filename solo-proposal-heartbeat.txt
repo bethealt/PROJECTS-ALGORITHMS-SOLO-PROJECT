@@ -1,0 +1,32 @@
+CODING DOJO SOLO PROJECT PROPOSAL
+
+TITLE 
+heartBEAT
+
+DESCRIPTION
+A simple registration app designed to support enrollment in "Bloodborne Pathogen, CPR, & First Aid" courses for a small non-profit that supports foster parents in Washington state.  Their current website does not offer any registration capabilities for the users who seek to take their classes.  
+
+WIREFRAME
+https://balsamiq.cloud/ss9lmuk/pupeger
+
+USER FEATURES (MVP)
+1.	User/admin login/registration page
+2.	User edits personal profile 
+3.	User registers for class/creates RSVP object
+4.	User can retrieve a list of all classes or a list of classes that they are currently associated with
+5.	User cancels an existing class RSVP
+6.	User cannot register for class w/o login
+
+ADMIN FEATURES (MVP)
+7.	Admin creates class objects
+8.	Admin retrieves list of classes
+9.	Admin can delete an existing class
+10. Google Maps API integration
+
+FUTURE (PRODUCT BACKLOG)
+11.	Socket.io for real-time registration management
+12.	Admin creates instructor profile
+13. Admin edits/deletes instructor profile
+14. User likes/reviews instructor
+15.	Admin cannot edit/delete w/o login
+16.	Upload of profile images for users and instructors
