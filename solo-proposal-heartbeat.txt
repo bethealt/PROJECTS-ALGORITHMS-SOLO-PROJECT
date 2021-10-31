@@ -30,3 +30,8 @@ FUTURE (PRODUCT BACKLOG)
 14. User likes/reviews instructor
 15.	Admin cannot edit/delete w/o login
 16.	Upload of profile images for users and instructors
+
+icons:
+heart-pulse
+wave-pulse
+monitor-waveform
