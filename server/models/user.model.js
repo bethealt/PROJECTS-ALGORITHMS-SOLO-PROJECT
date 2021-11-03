@@ -23,7 +23,9 @@ const UserSchema = new mongoose.Schema({
     },
     birthDate: {
         type: Date,
-        required: [true, "A birth date is required."]
+        required: [true, "Please indicate your birth date."],
+        min: [1931-01-01, "You must be no more than 90 years old to register for a course."],
+        max: [2008-01-01, "You must be at least 13 years old to register for a course."],
     },
     password: {
         type: String,
