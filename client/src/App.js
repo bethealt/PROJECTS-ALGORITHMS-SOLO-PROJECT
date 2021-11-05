@@ -1,7 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import {Container} from 'reactstrap';
-import {io} from "socket.io-client";
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Container} from 'reactstrap';
+import React, {useState, useEffect} from 'react';
+import {Router} from {'@reach/router'};
+import {io} from 'socket.io-client';
+
+import NavBar from './components/NavBar';
 
 function App() {
   const myFirstSecret = process.env.FIRST_SECRET_KEY;
@@ -22,8 +26,16 @@ function App() {
   }, [socket]);
  
   return (
-    <Container className="App">
-    
+    <Container className='App'>
+      <NavBar/>
+      <Router>
+        <Login path='/login'/>
+        <Dashboard path='/dashboard/:id'/>
+        <Catalog path='/courses/catalog'/>
+        <Course path='/courses/:id'/>
+        <Admin path='/admin'/>
+        <AddCourse path='/courses/add'/>
+      </Router>
     </Container>
   );
 }
