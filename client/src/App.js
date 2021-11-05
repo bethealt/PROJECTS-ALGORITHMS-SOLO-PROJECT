@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {Container} from 'reactstrap';
 import {io} from "socket.io-client";
 import './App.css';
 
@@ -21,8 +22,9 @@ function App() {
   }, [socket]);
  
   return (
-    <div className="App">
-    </div>
+    <Container className="App">
+    
+    </Container>
   );
 }
 
