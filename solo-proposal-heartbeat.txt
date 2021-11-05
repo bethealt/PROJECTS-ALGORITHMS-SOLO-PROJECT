@@ -35,3 +35,11 @@ icons:
 heart-pulse
 wave-pulse
 monitor-waveform
+
+technologies:
+reactstrap
+dotenv
+Socket.io
+JSON web tokens
+Cookies
+AWS EC2 deployment
