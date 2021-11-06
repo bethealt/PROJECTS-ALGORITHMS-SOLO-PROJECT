@@ -11,12 +11,11 @@ const UserForm = (props) => {
         onSubmitHandler,
         password,  setPassword,
         errors} = props;
-
     return (
         <Form onSubmit={onSubmitHandler}>
         {errors.map((err, index) => {
             return (
-                <Alert key={index} color="primary">{err}</Alert>
+                <Alert key={index} color='primary'>{err}</Alert>
             )})}<br/>
             <FormGroup>
                 <Label for='firstName' className='Form'>First Name</Label>
