@@ -2,14 +2,23 @@ import React from 'react';
 import {Collapse, Container, Nav, Navbar, NavbarBrand, NavbarToggler, NavLink, NavItem} from 'reactstrap';
 
 const NavBar = (props) => {
-    const {admin} = props;
+    //const {admin} = props;
     return (
         <Container>
             <Navbar color='faded' light>
-                <NavbarBrand className='me-auto' href='/'>heartBEAT</NavbarBrand>
+                <NavbarBrand className='me-auto' href='/'>
+                heartBEAT</NavbarBrand>
                 <NavbarToggler className='me-2' onClick={function noRefCheck(){}}/>
+                <Nav pills>
+                    <NavItem>
+                        <NavLink
+                            active href="/admin">
+                            Admin
+                        </NavLink>
+                    </NavItem>
+                </Nav>
                 <Collapse navbar>
-                    {
+                   {/*} {
                         (admin === true) ?
                         <Nav navbar>
                             <NavItem>
@@ -33,7 +42,7 @@ const NavBar = (props) => {
                                 </NavLink>
                             </NavItem>
                         </Nav> 
-                        :
+                        :*/}
                         <Nav navbar>
                             <NavItem>
                                 <NavLink href='/login'>
@@ -51,7 +60,7 @@ const NavBar = (props) => {
                                 </NavLink>
                             </NavItem>
                         </Nav> 
-                    }                           
+                    {/*}}      */}                     
                 </Collapse>
             </Navbar>
         </Container>

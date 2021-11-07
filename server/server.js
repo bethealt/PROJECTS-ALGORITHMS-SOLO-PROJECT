@@ -2,10 +2,14 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const socket = require('socket.io');
+const cookieParser = require('cookie-parser'); 
+
 const dotenv = require('dotenv')
 const buf = Buffer.from('hello world')
 const opt = { debug: true }
-const config = dotenv.parse(buf, opt)  // expect a debug message because the buffer is not in KEY=VAL form
+const config = dotenv.parse(buf, opt)  
+// expect a debug message because the buffer is not in KEY=VAL form
+
 const jwt = require("jsonwebtoken");
 const port = 8000;
 
@@ -21,29 +25,6 @@ require('./routes/course.routes')(app);
 const server = app.listen(port, () => {
     console.log(`Listening on port: ${port}`)
 });
- 
-// to initialize the socket, we need to invoke a new instance of socket.io and pass it our express server instance
-// We must also include a configuration settings object to prevent CORS errors
-const io = require("socket.io")(server, {
-    cors: {
-        origin: 'http://localhost:3000',
-        methods: ['GET', 'POST'],
-        allowedHeaders: ['*'],
-        credentials: true,
-    }
-});
-
-io.on("connection", socket => {
-    // NOTE: Each client that connects get their own socket id!
-    // if this is logged in our node terminal, that means we a new client has successfully completed the handshake!
-    console.log('socket id: ' + socket.id);
-    
-    // Event Listeners:
-    socket.on("event_from_client", data => {
-    // send a message with "data" to ALL clients EXCEPT for the one that emitted the "event_from_client" event
-        socket.broadcast.emit("event_to_all_other_clients", data);
-    });
-});
 
 const payload = {
     id: user._id,
@@ -53,6 +34,33 @@ const payload = {
   };
    
 const userToken = jwt.sign(payload, process.env.SECRET_KEY);
-  
+ 
+// to initialize the socket, we need to invoke a new instance of socket.io and pass it our express server instance
+// We must also include a configuration settings object to prevent CORS errors
+const io = require("socket.io")(server, {
+    cors: {
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['*'],
+        credentials: true,
+    }
+});
+
+io.on("connection", socket => {
+    // NOTE: Each client that connects get their own socket id!
+    console.log('successful handshake with socket id: ' + socket.id);
+    
+    // Use specific socket to create event listeners and emitters for clients
+    // send a message with "data" to ALL clients EXCEPT for the one that emitted the "event_from_client" event
+    socket.on("added_new_course", data => {
+        socket.broadcast.emit("new_course_added", data)
+    });
+    socket.on("canceled_course", data => {
+        socket.broadcast.emit("course_canceled", data)
+    });
+    socket.on("updated_course", data => {
+        socket.broadcast.emait("course_updated", data)
+    });
+});
   
 

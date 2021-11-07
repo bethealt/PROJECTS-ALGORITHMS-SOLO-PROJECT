@@ -3,6 +3,7 @@ import {Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
 
 const LoginForm = (props) => {
     const {onSubmitHandler, emailAddress, setEmailAddress, password, setPassword, errors} = props;
+    
     return(
         <Form onSubmit={onSubmitHandler}>
             {errors.map((err, index) => {
@@ -19,7 +20,7 @@ const LoginForm = (props) => {
                     value={emailAddress}
                     onChange = {(e) => setEmailAddress(e.target.value)}
                 />
-            </FormGroup><br/>
+            </FormGroup>
             <FormGroup>
                 <Label for='password' className='Form'>Password</Label>
                 <Input

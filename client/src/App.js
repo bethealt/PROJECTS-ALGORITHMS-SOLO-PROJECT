@@ -1,13 +1,22 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container} from 'reactstrap';
-import React, {useState, useEffect} from 'react';
-import {Router} from {'@reach/router'};
+import {React, useState, useEffect} from 'react';
+import {Router} from '@reach/router';
 import {io} from 'socket.io-client';
 
-import NavBar from './components/NavBar';
+import Navbar from './components/Navbar';
+import Login from './views/Login';
+import Dashboard from './views/Dashboard';
+import Catalog from './views/Catalog';
+import Course from './views/Course';
+import Admin from './views/Admin';
+import AddCourse from './views/AddCourse';
 
 function App() {
+  const [admin, setAdmin] = useState(false);
+  const [errors, setErrors] = useState([]);
+
   const myFirstSecret = process.env.FIRST_SECRET_KEY;
   const [socket] = useState(() => io(':8000'));
   // notice that we pass a callback function to initialize the socket
@@ -27,17 +36,18 @@ function App() {
  
   return (
     <Container className='App'>
-      <NavBar/>
+      <Navbar admin={admin}/>
       <Router>
-        <Login path='/login'/>
-        <Dashboard path='/dashboard/:id'/>
-        <Catalog path='/courses/catalog'/>
+        <Login path='/login' errors={errors}/>
+        <Dashboard path='/dashboard' errors={errors}/>
+        <Catalog path='/catalog'/>
         <Course path='/courses/:id'/>
-        <Admin path='/admin'/>
-        <AddCourse path='/courses/add'/>
+        <Admin path='/admin' errors={errors}/>
+        <AddCourse path='/courses/add' errors={errors}/>
       </Router>
     </Container>
   );
+
 }
 
 export default App;

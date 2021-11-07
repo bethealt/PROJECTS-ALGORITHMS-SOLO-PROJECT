@@ -1,6 +1,6 @@
-import {React} from 'react';
+import React from 'react';
 import {Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
-import {Link} from '@reach/router';
+import {navigate} from '@reach/router';
 
 const UserForm = (props) => {
     const {
@@ -9,8 +9,10 @@ const UserForm = (props) => {
         emailAddress, setEmailAddress,
         birthDate, setBirthDate,
         onSubmitHandler,
-        password,  setPassword,
+        password,  setPassword, 
+        confirmPassword, setConfirmPassword,
         errors} = props;
+
     return (
         <Form onSubmit={onSubmitHandler}>
         {errors.map((err, index) => {
@@ -27,7 +29,7 @@ const UserForm = (props) => {
                     value={firstName}
                     onChange = {(e) => setFirstName(e.target.value)}
                     />
-            </FormGroup><br/>
+            </FormGroup>
             <FormGroup>
                 <Label for='lastName' className='Form'>Last Name</Label>
                 <Input
@@ -38,7 +40,7 @@ const UserForm = (props) => {
                     value={lastName}
                     onChange = {(e) => setLastName(e.target.value)}
                     />
-            </FormGroup><br/>
+            </FormGroup>
             <FormGroup>
                 <Label for='emailAddress' className='Form'>Email Address</Label>
                 <Input
@@ -49,7 +51,7 @@ const UserForm = (props) => {
                     value={emailAddress}
                     onChange = {(e) => setEmailAddress(e.target.value)}
                     />
-            </FormGroup><br/>
+            </FormGroup>
             <FormGroup>
                 <Label for='birthDate' className='Form'>Birth Date</Label>
                 <Input
@@ -60,27 +62,30 @@ const UserForm = (props) => {
                     value={birthDate}
                     onChange = {(e) => setBirthDate(e.target.value)}
                     />
-            </FormGroup><br/>
+            </FormGroup>
             <FormGroup>
                 <Label for='password' className='Form'>Password</Label>
                 <Input
                     type='password'
                     id='password'
+                    name='password'
                     placeholder='Enter a password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     />
-            </FormGroup><br/>
+            </FormGroup>
             <FormGroup>
-                <Label for='confirm-pwd' className='Form'>Confirm Password</Label>
+                <Label for='confirmPassword' className='Form'>Confirm Password</Label>
                 <Input
                     type='password'
-                    id='password'
+                    id='confirmPassword'
+                    name='confirmPassword'
+                    value={confirmPassword}
                     placehokder='Confirm the password'
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     />
             </FormGroup>
             <Button type='submit' color='danger'>Register</Button>&nbsp;&nbsp;
-            <Link to='/login'><Button type='button' color='primary'>Login</Button></Link>
         </Form>
     )
 }
