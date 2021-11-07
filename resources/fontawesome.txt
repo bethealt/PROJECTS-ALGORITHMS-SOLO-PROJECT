@@ -1,0 +1,61 @@
+FONTAWESOME && REACT
+
+1. Install the SVG core (includes all the utilities to make the icons work):
+    documentation: https://fontawesome.com/v6.0/docs/web/dig-deeper/svg-core/
+    # install the beta package - using the @next flag
+    npm i --save @fortawesome/fontawesome-svg-core@next
+
+2. Add Icon Packages (FREE):
+    documentation: https://fontawesome.com/v6.0/docs/web/dig-deeper/styles/
+    # Free icons styles
+    npm i --save @fortawesome/free-solid-svg-icons@next
+    npm i --save @fortawesome/free-regular-svg-icons@next
+
+3. Add the Font Awesome React Component:
+    npm i --save @fortawesome/react-fontawesome@latest
+
+4. Add Icons to Project
+    documentation: https://fontawesome.com/v6.0/docs/web/add-icons/how-to/
+    To add an icon, you need to know two bits of information:
+    (1) The shorthand class name for the style you want to use
+    (2) The icon name, prefixed with fa- 
+
+5. There are six styles of Font Awesome — Each has a unique class name and font-weight. 
+
+    style   availability    style-class     @font-face weight 
+    Solid 	Free Plan 	    fa-solid 	    900
+    Brands  Free Plan       fa-Brands       400
+
+6. Dynamic Icon Importing
+    Install the Babel macros
+    # install the beta package - using the @next flag
+    npm install babel-plugin-macros
+
+    import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+    import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used
+
+    <FontAwesomeIcon icon={solid('user-secret')}" />
+    <FontAwesomeIcon icon={regular('coffee')}" />
+    <FontAwesomeIcon icon={brands('twitter')}" />
+
+7. Add Individual Icons Explicitly
+    import ReactDOM from 'react-dom'
+    import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+    import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+
+    const element = <FontAwesomeIcon icon={faCoffee} />
+
+    ReactDOM.render(element, document.body)
+
+8. Add Icons to HTML
+    Fontawesome was designed for use with inline elements
+    recommended to use the same inline element consistently inside project: <i> or <span>
+    syntax:
+    
+    <!-- This example uses <i> element with: 
+    1. the `fa-solid` style class for solid style
+    2. the `user` icon with the `fa-` prefix -->
+    <i class="fa-solid fa-user"></i>
+
+    <!-- Or you can use a <span> element, with classes applied in the same way -->
+    <span class="fa-solid fa-user"></span>

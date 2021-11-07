@@ -1,0 +1,62 @@
+git: staging, commiting, and branching
+https://github.com/bethealt/PROJECTS-ALGORITHMS-solo-project-heartBEAT.git
+
+TERMINAL COMMANDS
+
+git init                    initialize local git repository for current folder: /.git
+ls  -a                      list all folders
+git add .                   adds all files to staging
+git add                     add individual files to staging
+git status                  provides status of staged files
+git log                     displays all commits
+git remote -v               confirm connection to remote repo
+git push origin master      pushes local repo/updates to remote
+git commit -m               commits files to local/remote repo
+git rm --cached             unstages files
+git rm                      deletes file from repo
+git branch                  lists all available branches
+git checkout -b             create new branch and checkout to it 
+git pull origin master      pulls existing merge updates from remote to local
+git revert HEAD             reverts back 1 commit
+git revert commit_#         reverts to a specific commit (requires remote syncing)
+git log --oneline           condensed commit log
+q                           quit git log
+git reset --hard commit_#   reverts both local/remote repos (no syncing)
+
+git commit -m 'initial commit. html and css files setup'
+- quotes encapsulate comments on what the commit involves             
+
+DISTINCTION ENTRE LOCAL & REMOTE REPOS
+commit is to local, like push is to remote
+
+create new repo on github
+- to avoid commit issues - do not create the default files for the remote repo suggested by github (README, gitignore, etc.)
+- those files must exist in the local repo to prevent downstream commit issues
+- edited/updated files must be restaged in order to commit changes
+
+MERGE & PULL REQUEST (terminal)
+git add .
+git status
+git commit -m
+git push origin branch_name
+git checkout master
+git merge branch_name
+git push origin master
+
+RENAME A BRANCH
+git branch -m main <BRANCH>
+git fetch origin
+git branch -u origin/<BRANCH> <BRANCH>
+git remote set-head origin -TOUCH
+
+PUSH AN EXISTING repository
+git remote add origin <repository_URL>
+git branch -M main
+git push -u origin main
+
+node exit
+ctrl + C
+process.exit()
+
+https://github.com/bethealt/PROJECTS-ALGORITHMS-solo-project-heartBEAT
+https://github.com/bethealt/PROJECTS-ALGORITHMS-assignments.git
