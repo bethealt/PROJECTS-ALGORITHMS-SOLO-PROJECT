@@ -53,13 +53,13 @@ console.log('successful handshake with socket id: ' + socket.id); */}
 let sequenceNumberByClient = new Map();
 
 //event fired every time a new client connects:
-    io.on("connection", (socket) => {
+io.on("connection", (socket) => {
     console.log(`Client connected [socket id=${socket.id}]`);
     // initialize this client's sequence number
     sequenceNumberByClient.set(socket, 1);
     
 //when socket disconnects, remove it from the list:
-    socket.on("disconnect", () => {
+socket.on("disconnect", () => {
         sequenceNumberByClient.delete(socket);
         console.info(`Client gone [id=${socket.id}]`);
     });
