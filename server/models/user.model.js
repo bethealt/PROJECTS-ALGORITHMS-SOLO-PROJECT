@@ -27,6 +27,11 @@ const UserSchema = new mongoose.Schema({
         min: [1931-01-01, "You must be no more than 90 years old to register for a course."],
         max: [2008-01-01, "You must be at least 13 years old to register for a course."],
     },
+    zipcode: {
+        type: Number,
+        required: [true, "A zip code is required."],
+        minlength: [5, "A zipcode must have at least 5 characters."]
+    },
     password: {
         type: String,
         required: [true, "A password is required."],

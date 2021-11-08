@@ -7,13 +7,15 @@ module.exports = {
             lastName, 
             emailAddress, 
             birthDate, 
+            zipcode,
             password, 
             courses} = req.body;
         User.create({
             firstName, 
             lastName, 
             emailAddress, 
-            birthDate, 
+            birthDate,
+            zipcode, 
             password, 
             courses
         })

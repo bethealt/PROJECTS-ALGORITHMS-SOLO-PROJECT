@@ -1,22 +1,27 @@
-import {React, useState} from 'react';
+import React, {useState} from 'react';
+import axios from 'axios';
 import {Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'reactstrap';
 import classnames from 'classnames';
 import LoginForm from '../components/LoginForm';
 import UserForm from '../components/UserForm';
 
 const Login = (props) => {
-    const {errors}=props;
+    const {errors, users, setUsers}=props;
     const [activeTab, setActiveTab] = useState('1');
 
     const toggle = (tab) => {
         if(activeTab !== tab) setActiveTab(tab);
     }
 
-    const createUser = (props) => {
-
+    const createUser = user => {
+        axios.post('http://localhost:8000/api/users', user)
+            .then(res => {
+                setUsers([...users, res.data]);
+            })
     }
 
     const loginUser = (props) => {
+        
 
     }
 

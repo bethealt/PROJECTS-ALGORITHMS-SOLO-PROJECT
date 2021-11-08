@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container} from 'reactstrap';
-import {React, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Router} from '@reach/router';
 import {io} from 'socket.io-client';
 
@@ -15,6 +15,8 @@ import AddCourse from './views/AddCourse';
 
 function App() {
   const [admin, setAdmin] = useState(false);
+  const [catalog, setCatalog] = useState([]);
+  const [users, setUsers] = useState([]);
   const [errors, setErrors] = useState([]);
 
   const myFirstSecret = process.env.FIRST_SECRET_KEY;

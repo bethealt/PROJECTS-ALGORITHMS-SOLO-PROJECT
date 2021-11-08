@@ -3,22 +3,23 @@ const app = express();
 const cors = require('cors');
 const socket = require('socket.io');
 const cookieParser = require('cookie-parser'); 
+const mongooose = require('./config/mongoose.config');
+const port = 8000;
 
-const dotenv = require('dotenv')
+//requiring the dotenv library and invoking its config function
+const dotenv = require('dotenv').config({ debug: process.env.DEBUG });
 const buf = Buffer.from('hello world')
 const opt = { debug: true }
 const config = dotenv.parse(buf, opt)  
 // expect a debug message because the buffer is not in KEY=VAL form
 
 const jwt = require("jsonwebtoken");
-const port = 8000;
+
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-require('dotenv').config({ debug: process.env.DEBUG })
-require('./config/mongoose.config');
 require('./routes/user.routes')(app);
 require('./routes/course.routes')(app);
  
@@ -30,7 +31,7 @@ const payload = {
     id: user._id,
     firstName: user.firstName,
     lastName: user.lastName,
-    admin: true
+    admin: user.admin,
   };
    
 const userToken = jwt.sign(payload, process.env.SECRET_KEY);

@@ -1,17 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
 import {navigate} from '@reach/router';
 
 const UserForm = (props) => {
     const {
-        firstName, setFirstName, 
+        firstName, setFirstName,
         lastName, setLastName,
         emailAddress, setEmailAddress,
         birthDate, setBirthDate,
+        zipcode, setZipCode,
         onSubmitHandler,
-        password,  setPassword, 
+        password, setPassword, 
         confirmPassword, setConfirmPassword,
-        errors} = props;
+        errors
+    } = props;
 
     return (
         <Form onSubmit={onSubmitHandler}>
@@ -64,6 +66,17 @@ const UserForm = (props) => {
                     />
             </FormGroup>
             <FormGroup>
+                <Label for='zipcode' className='Form'>Zip Code</Label>
+                <Input
+                    type='number'
+                    id='zipcode'
+                    name='zipcode'
+                    placeholder='Enter a zip code'
+                    value={zipcode}
+                    onChange = {(e) => setZipCode(e.target.value)}
+                    />
+            </FormGroup>
+            <FormGroup>
                 <Label for='password' className='Form'>Password</Label>
                 <Input
                     type='password'
@@ -81,11 +94,11 @@ const UserForm = (props) => {
                     id='confirmPassword'
                     name='confirmPassword'
                     value={confirmPassword}
-                    placehokder='Confirm the password'
+                    placeholder='Confirm the password'
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     />
             </FormGroup>
-            <Button type='submit' color='danger'>Register</Button>&nbsp;&nbsp;
+            <Button color='danger'>Register</Button>&nbsp;&nbsp;
         </Form>
     )
 }

@@ -1,0 +1,55 @@
+dotenv 
+- a library which enables file-based storing of environment variables
+- installation: npm install dotenv
+- create a hidden (.env) file in the server directory
+- do not commit to github repo (add .env to .gitignore)
+- syntax:
+    FIRST_SECRET_KEY="first key value"
+    SECOND_SECRET_KEY="second key value"
+- include the following in server.js:
+    require('dotenv').config();
+- requires the dotenv library and invokes its config function
+- retrieve the values from the process.env object with the following:
+    const myFirstSecret = process.env.FIRST_SECRET_KEY;
+
+JSON web tokens (JWT)
+- a structured method for keeping data secure and preventing data from being tampered with during the response/request cycle
+- 3 Main parts:
+- Header: holds data about the JWT itself
+    {
+        "alg": "HS256",     //signing algorithm used (HMAC SHA256 or RSA)
+        "typ": "JWT"        //type of token used (JWT)
+    }
+- Payload: stores the desired claims/information
+    - when a new JWT is created, it will create an object that represents the payload.
+    - This payload will typically be the id of the user instance that was logged in
+    - claims: statements about an entity (the user) and additional data
+    - claim names are only 3 characters long as JWT is meant to be compact
+    - for signed tokens, though protected against tampering, the payload is readable by anyone. 
+    - secret information should not be put in the payload or header elements of a JWT unless it is encrypted.
+        - registered: set of recommended but not mandatory, pre-defined claims
+            - provides a set of useful, interoperable claims
+            - i.e.  iss (issuer), exp (expiration time), sub (subject), aud (audience)
+            - documentation: https://datatracker.ietf.org/doc/html/rfc7519#section-4.1
+        - public:
+            - defined at will by the JWT user
+            - to avoid collisions must be defined:
+                - in the IANA JSON Web Token Registry (https://www.iana.org/assignments/jwt/jwt.xhtml)
+                - as a URI that contains a collision resistant namespace
+            - documentation: https://datatracker.ietf.org/doc/html/rfc7519#section-4.2
+        - private: custom claims created to share information between parties that agree on using them and are neither registered or public claims.
+- Signature: signs the JWT
+    - creation of the signature requires the encoded header, the encoded payload, a secret, and the algorithm specified by the header.
+    - verifies that the content has not been tampered with
+    - for private keys, verifies that the sender is authentic
+- ouput: 3 Base64-URL strings separated by dots that can be easily passed in HTML and HTTP environments
+    - syntax: xxxxx.yyyyy.zzzzz
+- installation: npm install jsonwebtoken
+- include the following in server.js:
+    const jwt = require("jsonwebtoken");
+- authorization: the most common scenario for JWT
+    - after login, the JWT is included in every request to grant access to access routes, services, and resources that are permitted with that token. 
+- information exchange: securely transmitting information between parties
+    - signed JWT, using public/private key pairs, ensure that senders are who they say they are
+    - the signature is calculated using both the header and payload, enabling verification that the content has not been tampered with.
+- use jwt.io Debugger (https://jwt.io/#debugger-io) to decode, verify, and generate JWTs.
