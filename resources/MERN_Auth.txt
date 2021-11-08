@@ -1,4 +1,5 @@
-dotenv 
+dotenv
+- documentation: https://www.npmjs.com/package/dotenv 
 - a library which enables file-based storing of environment variables
 - installation: npm install dotenv
 - create a hidden (.env) file in the server directory
@@ -13,6 +14,7 @@ dotenv
     const myFirstSecret = process.env.FIRST_SECRET_KEY;
 
 JSON web tokens (JWT)
+- documentation: https://jwt.io/
 - a structured method for keeping data secure and preventing data from being tampered with during the response/request cycle
 - 3 Main parts:
 - Header: holds data about the JWT itself
