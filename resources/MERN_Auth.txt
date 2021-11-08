@@ -73,6 +73,9 @@ COOKIES
 
 3 MAIN PURPOSES:
 - session management: logins, shopping carts, game scores, or anything else the server should remember
+    - session cookies are deleted when the current session ends. 
+    - browser defines when the "current session" ends, and some browsers use session restoring when restarting. 
+    This can cause session cookies to last indefinitely.
 - personalization: user preferences, themes, and other settings
 - tracking: recording and analyzing user behavior
 
@@ -88,6 +91,6 @@ COOKIES & EXPRESS
     res.cookie("mycookie", "mydata", { httpOnly: true }).json({
     message: "This response has a cookie"
     });
-- 
+- once the cookie is client side, the cookie can be sent with every request
 
 

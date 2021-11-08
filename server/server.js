@@ -7,6 +7,10 @@ const jwt = require("jsonwebtoken");
 const mongoose = require('./config/mongoose.config');
 const port = 8000;
 
+const server = app.listen(port, () => {
+    console.log(`Listening on port: ${port}`)
+});
+
 //requires the dotenv library and invokes its config function
 const dotenv = require('dotenv').config({ debug: process.env.DEBUG });
 const buf = Buffer.from('hello world')
@@ -23,20 +27,15 @@ app.use(express.urlencoded({extended:true}));
 require('./routes/user.routes')(app);
 require('./routes/course.routes')(app);
  
-const server = app.listen(port, () => {
-    console.log(`Listening on port: ${port}`)
-});
-
 const payload = {
     id: user._id,
     firstName: user.firstName,
     lastName: user.lastName,
     admin: user.admin,
   };
-   
 const userToken = jwt.sign(payload, process.env.SECRET_KEY);
  
-//initializes the socket: invokes a new instance of socket.io and passes the express server instance
+//initializes the socket, invokes a new instance of socket.io, & passes the express server instance
 //always include a configuration settings object to prevent CORS errors
 const io = require("socket.io")(server, {
     cors: {
@@ -47,12 +46,33 @@ const io = require("socket.io")(server, {
     }
 });
 
-io.on("connection", socket => {
-    // NOTE: Each client that connects get their own socket id!
-    console.log('successful handshake with socket id: ' + socket.id);
+{/*io.on("connection", socket => {
+//each client that connects get their own socket id
+console.log('successful handshake with socket id: ' + socket.id); */}
+
+let sequenceNumberByClient = new Map();
+
+//event fired every time a new client connects:
+    io.on("connection", (socket) => {
+    console.log(`Client connected [socket id=${socket.id}]`);
+    // initialize this client's sequence number
+    sequenceNumberByClient.set(socket, 1);
     
-    // Use specific socket to create event listeners and emitters for clients
-    // send a message with "data" to ALL clients EXCEPT for the one that emitted the "event_from_client" event
+//when socket disconnects, remove it from the list:
+    socket.on("disconnect", () => {
+        sequenceNumberByClient.delete(socket);
+        console.info(`Client gone [id=${socket.id}]`);
+    });
+    });
+    
+//sends each client its current sequence number
+    setInterval(() => {
+    for (const [client, sequenceNumber] of sequenceNumberByClient.entries()) {
+        client.emit("seq-num", sequenceNumber);
+        sequenceNumberByClient.set(client, sequenceNumber + 1);
+    }
+//uses specific socket to create event listeners and emitters for clients
+//sends a message with "data" to ALL clients EXCEPT for the one that emitted the "event_from_client" event
     socket.on("added_new_course", data => {
         socket.broadcast.emit("new_course_added", data)
     });
@@ -62,6 +82,13 @@ io.on("connection", socket => {
     socket.on("updated_course", data => {
         socket.broadcast.emait("course_updated", data)
     });
+    socket.on("enrolled_student", data => {
+        socket.broadcast.emit("student_enrolled", data)
+    });
+    socket.on("removed_student", data => {
+        socket.broadcast.emit("student_removed", data)
+    });
 });
+
   
 
