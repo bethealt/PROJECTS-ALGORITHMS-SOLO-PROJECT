@@ -1,4 +1,4 @@
-dotenv
+ENVIRONMENT VARIABLES (dotenv) 
 - documentation: https://www.npmjs.com/package/dotenv 
 - a library which enables file-based storing of environment variables
 - installation: npm install dotenv
@@ -13,7 +13,7 @@ dotenv
 - retrieve the values from the process.env object with the following:
     const myFirstSecret = process.env.FIRST_SECRET_KEY;
 
-JSON web tokens (JWT)
+JSON WEB TOKENS (JWT)
 - documentation: https://jwt.io/
 - a structured method for keeping data secure and preventing data from being tampered with during the response/request cycle
 - 3 Main parts:
@@ -55,3 +55,39 @@ JSON web tokens (JWT)
     - signed JWT, using public/private key pairs, ensure that senders are who they say they are
     - the signature is calculated using both the header and payload, enabling verification that the content has not been tampered with.
 - use jwt.io Debugger (https://jwt.io/#debugger-io) to decode, verify, and generate JWTs.
+
+COOKIES
+- documentation: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
+- HTTP cookies are a method for sending information between the client and server
+- sent from the server and stored in the browser
+- kept in the browser while the user is interacting with the site
+- the JWT containing the user id is saved in a cookie
+- typically used to tell if two requests come from the same browser — i.e. keeping a user logged in
+- remembers stateful information for the stateless HTTP protocol
+- cookies can be compromised via javascript in a cross site scripting attack
+- HttpOnly cookies are invisible to client-side javaScript and can only be read by the server
+- to prevent attacks, cookies should only be sent during secure sessions, using https
+- not typically implemented in dev due to extra configuration required
+- usually implemented in production via a secure flag in the cookie
+- to see stored cookies (and other storage that a web page can use), enable the Storage Inspector in Developer Tools and select Cookies from the storage tree.
+
+3 MAIN PURPOSES:
+- session management: logins, shopping carts, game scores, or anything else the server should remember
+- personalization: user preferences, themes, and other settings
+- tracking: recording and analyzing user behavior
+
+COOKIES & EXPRESS
+- installation: npm install cookie-parser
+- add the following to server.js:
+    const cookieParser = require('cookie-parser');
+    ...
+    app.use(cookieParser());
+    // Change the app.use(cors()) to the one below
+    app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+- In a given response, set a cookie via the following:
+    res.cookie("mycookie", "mydata", { httpOnly: true }).json({
+    message: "This response has a cookie"
+    });
+- 
+
+
