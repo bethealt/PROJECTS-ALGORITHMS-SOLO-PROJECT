@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const CourseSchema = new mongoose.Schema({
     title: {
@@ -42,7 +43,12 @@ const CourseSchema = new mongoose.Schema({
     county: {
         type: String,
         required: [true, "Please select a county for the course."]
+    },
+    createdBy:{
+        type: mongoose.Schema.Types.Mixed,
+        ref: "User"
     }
 }, {timestamps: true});
 
 module.exports = mongoose.model('Course', CourseSchema);
+

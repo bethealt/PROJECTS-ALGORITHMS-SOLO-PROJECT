@@ -13,10 +13,10 @@ const server = app.listen(port, () => {
 
 //requires the dotenv library and invokes its config function
 const dotenv = require('dotenv').config({ debug: process.env.DEBUG });
-const buf = Buffer.from('hello world')
+{/*const buf = Buffer.from('hello world')
 const opt = { debug: true }
 const config = dotenv.parse(buf, opt)  
-// expect a debug message because the buffer is not in KEY=VAL form
+// expect a debug message because the buffer is not in KEY=VAL form*/}
 
 //enables the app to send and read cookies with each request/response
 app.use(cookieParser());
@@ -26,14 +26,6 @@ app.use(express.urlencoded({extended:true}));
 
 require('./routes/user.routes')(app);
 require('./routes/course.routes')(app);
- 
-const payload = {
-    id: user._id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    admin: user.admin,
-  };
-const userToken = jwt.sign(payload, process.env.SECRET_KEY);
  
 //initializes the socket, invokes a new instance of socket.io, & passes the express server instance
 //always include a configuration settings object to prevent CORS errors
@@ -57,22 +49,22 @@ io.on("connection", (socket) => {
     console.log(`Client connected [socket id=${socket.id}]`);
     // initialize this client's sequence number
     sequenceNumberByClient.set(socket, 1);
-    
-//when socket disconnects, remove it from the list:
-socket.on("disconnect", () => {
-        sequenceNumberByClient.delete(socket);
-        console.info(`Client gone [id=${socket.id}]`);
-    });
-    });
-    
-//sends each client its current sequence number
+
+    //sends each client its current sequence number
     setInterval(() => {
-    for (const [client, sequenceNumber] of sequenceNumberByClient.entries()) {
-        client.emit("seq-num", sequenceNumber);
-        sequenceNumberByClient.set(client, sequenceNumber + 1);
-    }
-//uses specific socket to create event listeners and emitters for clients
-//sends a message with "data" to ALL clients EXCEPT for the one that emitted the "event_from_client" event
+        for (const [client, sequenceNumber] of sequenceNumberByClient.entries()) {
+            client.emit("seq-num", sequenceNumber);
+            sequenceNumberByClient.set(client, sequenceNumber + 1);
+        }
+    });
+    
+    //when socket disconnects, remove it from the list:
+    socket.on("disconnect", () => {
+        sequenceNumberByClient.delete(socket);
+        console.log(`Client disconnected [socket id=${socket.id}]`);
+    });
+    //uses specific socket to create event listeners and emitters for clients
+    //sends a message with "data" to ALL clients EXCEPT for the one that emitted the "event_from_client" event
     socket.on("added_new_course", data => {
         socket.broadcast.emit("new_course_added", data)
     });
@@ -88,7 +80,9 @@ socket.on("disconnect", () => {
     socket.on("removed_student", data => {
         socket.broadcast.emit("student_removed", data)
     });
+
 });
 
-  
+
+
 
