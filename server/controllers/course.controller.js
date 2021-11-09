@@ -13,17 +13,7 @@ module.exports = {
             zipCode,
             county
         } = req.body;
-        Course.create({
-            title, 
-            description,
-            date,
-            time,
-            location,
-            streetAddress,
-            city,
-            zipCode,
-            county
-        })
+        Course.create(req.body)
             .then(newCourse => res.json(newCourse))
             .catch(err => res.status(400).json(err))
     },

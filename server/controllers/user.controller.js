@@ -1,5 +1,7 @@
 const User = require('../models/user.model');
 const Course = require('../models/course.model');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
     register: (req, res) => {
@@ -25,7 +27,7 @@ module.exports = {
                   .cookie("usertoken", userToken, secret, {
                       httpOnly: true
                   })
-                  .json({msg: "Login successful!", user: user});
+                  .json({msg: "Registration & login successful!", user: user});
             })
             .catch(err => res.status(400).json(err))
     },
@@ -33,12 +35,12 @@ module.exports = {
         const user = await User.findOne({emailAddress: req.body.emailAddress});
         
         if (user === null) {
-            return res.sendStatus(400);
+            return res.status(400).json;
         }
         
         const correctPassword = await bcrypt.compare(req.body.password, user.password);
         if (!correctPassword) {
-            return res.sendStatus(400);
+            return res.status(400).json;
         }
 
         const payload = {
@@ -57,7 +59,7 @@ module.exports = {
     },
     logout: (req, res) => {
         res.clearCookie("usertoken");
-        res.sendStatus(200);
+        res.status(200).json({msg: "Logout successful!"});
     },
     read: (req, res) => {
         User.find({})
