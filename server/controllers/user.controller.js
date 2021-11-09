@@ -2,7 +2,7 @@ const User = require('../models/user.model');
 const Course = require('../models/course.model');
 
 module.exports = {
-    create: (req, res) => {
+    register: (req, res) => {
         const {
             firstName, 
             lastName, 
@@ -11,17 +11,53 @@ module.exports = {
             zipcode,
             password, 
             courses} = req.body;
-        User.create({
-            firstName, 
-            lastName, 
-            emailAddress, 
-            birthDate,
-            zipcode, 
-            password, 
-            courses
-        })
-            .then(newUser => res.json(newUser))
+        User.create(req.body)
+            .then(user => {
+                const payload = {
+                    id: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    admin: user.admin,
+                  };
+                const userToken = jwt.sign(payload, process.env.SECRET_KEY);
+                  
+                res
+                  .cookie("usertoken", userToken, secret, {
+                      httpOnly: true
+                  })
+                  .json({msg: "Login successful!", user: user});
+            })
             .catch(err => res.status(400).json(err))
+    },
+    login: async(req, res) => {
+        const user = await User.findOne({emailAddress: req.body.emailAddress});
+        
+        if (user === null) {
+            return res.sendStatus(400);
+        }
+        
+        const correctPassword = await bcrypt.compare(req.body.password, user.password);
+        if (!correctPassword) {
+            return res.sendStatus(400);
+        }
+
+        const payload = {
+            id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            admin: user.admin,
+          };
+        const userToken = jwt.sign(payload, process.env.SECRET_KEY);
+
+        res
+          .cookie("usertoken", userToken, secret, {
+              httpOnly: true
+          })
+          .json({msg: "Login successful!"});
+    },
+    logout: (req, res) => {
+        res.clearCookie("usertoken");
+        res.sendStatus(200);
     },
     read: (req, res) => {
         User.find({})

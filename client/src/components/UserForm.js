@@ -98,7 +98,7 @@ const UserForm = (props) => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     />
             </FormGroup>
-            <Button color='danger'>Register</Button>&nbsp;&nbsp;
+            <Button color='danger' type='submit'>Register</Button>&nbsp;&nbsp;
         </Form>
     )
 }

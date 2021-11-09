@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container} from 'reactstrap';
 import React, {useState, useEffect} from 'react';
-import {Router} from '@reach/router';
+import {Router, Redirect} from "@reach/router";
 import {io} from 'socket.io-client';
 
 import Navbar from './components/Navbar';
@@ -40,6 +40,7 @@ function App() {
     <Container className='App'>
       <Navbar admin={admin}/>
       <Router>
+        <Redirect from='/' to='/login'/>
         <Login path='/login' errors={errors}/>
         <Dashboard path='/dashboard' errors={errors}/>
         <Catalog path='/catalog'/>
