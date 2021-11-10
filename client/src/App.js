@@ -16,8 +16,9 @@ import AddCourse from './views/AddCourse';
 function App() {
   const [admin, setAdmin] = useState(false);
   const [catalog, setCatalog] = useState([]);
-  const [users, setUsers] = useState([]);
   const [errors, setErrors] = useState([]);
+  const [onSubmitProp] = useState({});
+  const [users, setUsers] = useState([]);
 
   const myFirstSecret = process.env.FIRST_SECRET_KEY;
   const [socket] = useState(() => io(':8000'));

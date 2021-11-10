@@ -2,27 +2,60 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'reactstrap';
 import classnames from 'classnames';
+import {navigate} from '@reach/router';
+
 import LoginForm from '../components/LoginForm';
 import UserForm from '../components/UserForm';
 
 const Login = (props) => {
-    const {errors, users, setUsers}=props;
+    const { errors, setErrors, users, setUsers, onSubmitProp } = props;
     const [activeTab, setActiveTab] = useState('1');
-
+    const [userRegistered, setUserRegistered] = useState(false);
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
+    
     const toggle = (tab) => {
         if(activeTab !== tab) setActiveTab(tab);
     }
 
-    const createUser = user => {
-        axios.post('http://localhost:8000/api/users', user)
-            .then(res => {
-                setUsers([...users, res.data]);
-            })
+    const registerUser = user => {
+        axios.post('http://localhost:8000/api/register', user, 
+        {withCredentials: true})
+        .then(res => {
+            console.log(res);
+            setUsers([...users, res.data]);
+            setUserRegistered(!userRegistered);
+            setUserLoggedIn(!userLoggedIn);
+            navigate("/dashboard");
+        })
+        .catch(err => {
+            console.log(err);
+            const errorResponse = err.response.data.errors;
+            const errorArr = [];
+            for (const key of Object.keys(errorResponse)) {
+                errorArr.push(errorResponse[key].message)
+            }
+            console.log(errorArr);
+            setErrors(errorArr);
+        })
     }
 
-    const loginUser = (props) => {
-        
-
+    const loginUser = user => {
+        axios.post('http://localhost:8000/api/login', user, 
+        {withCredentials: true})
+        .then(res => {
+            setUserLoggedIn(!userLoggedIn);
+            navigate("/dashboard");
+        })
+        .catch(err => {
+            console.log(err);
+            const errorResponse = err.response.data.errors;
+            const errorArr = [];
+            for (const key of Object.keys(errorResponse)) {
+                errorArr.push(errorResponse[key].message)
+            }
+            console.log(errorArr);
+            setErrors(errorArr);
+        })
     }
 
     return(
@@ -50,7 +83,10 @@ const Login = (props) => {
                             md={{ offset: 3, size: 6}}
                             sm="12"><br/>
                             <h4>Welcome Back!</h4><br/>
-                            <LoginForm onSubmitHandler={loginUser} errors={errors} />
+                            <LoginForm 
+                                onSubmitProp={loginUser} 
+                                errors={errors} 
+                            />
                         </Col>
                     </Row>
                 </TabPane>
@@ -60,7 +96,10 @@ const Login = (props) => {
                             md={{ offset: 3, size: 6}}
                             sm="12"><br/>
                             <h4>Welcome to heartBEAT!</h4><br/>
-                            <UserForm onSubmitHandler={createUser} errors={errors} />
+                            <UserForm 
+                                onSubmitProp={registerUser} 
+                                errors={errors} 
+                            />
                         </Col>
                     </Row>
                 </TabPane>

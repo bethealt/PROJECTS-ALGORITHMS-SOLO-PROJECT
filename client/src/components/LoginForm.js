@@ -2,8 +2,10 @@ import React from 'react';
 import {Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
 
 const LoginForm = (props) => {
-    const {onSubmitHandler, emailAddress, setEmailAddress, password, setPassword, errors} = props;
-    
+    const {
+        emailAddress, setEmailAddress, password, setPassword, errors, onSubmitHandler
+    } = props;
+
     return(
         <Form onSubmit={onSubmitHandler}>
             {errors.map((err, index) => {
@@ -32,7 +34,7 @@ const LoginForm = (props) => {
                     onChange= {(e) => setPassword(e.target.value)}
                     />
             </FormGroup>
-            <Button type='submit' color='danger'>Login</Button>&nbsp;&nbsp;
+            <Button type='submit' color='danger'>Submit</Button>&nbsp;&nbsp;
         </Form>
     )
 }

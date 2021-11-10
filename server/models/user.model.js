@@ -94,6 +94,9 @@ const UserSchema = new mongoose.Schema({
     courses: [CourseSchema]
 }, {timestamps: true});
 
+UserSchema.plugin(uniqueValidator,{
+    msg: 'User already exists in the database.'});
+
 UserSchema.pre('save', function(next) {
     bcrypt.hash(this.password, 10)
       .then(hash => {

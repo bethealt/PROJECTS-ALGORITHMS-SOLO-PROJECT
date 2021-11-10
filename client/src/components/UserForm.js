@@ -3,17 +3,28 @@ import {Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
 import {navigate} from '@reach/router';
 
 const UserForm = (props) => {
-    const {
-        firstName, setFirstName,
-        lastName, setLastName,
-        emailAddress, setEmailAddress,
-        birthDate, setBirthDate,
-        zipcode, setZipCode,
-        onSubmitHandler,
-        password, setPassword, 
-        confirmPassword, setConfirmPassword,
-        errors
-    } = props;
+    const {errors, onSubmitProp} = props;
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [emailAddress, setEmailAddress] = useState('');
+    const [birthDate, setBirthDate] =useState('');
+    const [zipcode, setZipCode] = useState();
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+        onSubmitProp=({
+            firstName,
+            lastName,
+            emailAddress,
+            birthDate,
+            zipcode,
+            password,
+            confirmPassword
+        });
+
+    }
 
     return (
         <Form onSubmit={onSubmitHandler}>
@@ -98,7 +109,7 @@ const UserForm = (props) => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     />
             </FormGroup>
-            <Button color='danger' type='submit'>Register</Button>&nbsp;&nbsp;
+            <Button color='danger' type='submit'>Submit</Button>&nbsp;&nbsp;
         </Form>
     )
 }

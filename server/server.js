@@ -74,11 +74,17 @@ io.on("connection", (socket) => {
     socket.on("updated_course", data => {
         socket.broadcast.emait("course_updated", data)
     });
-    socket.on("enrolled_student", data => {
-        socket.broadcast.emit("student_enrolled", data)
+    socket.on("registered_user", data => {
+        socket.broadcast.emit("user_registered", data)
     });
-    socket.on("removed_student", data => {
-        socket.broadcast.emit("student_removed", data)
+    socket.on("updated_user", data => {
+        socket.broadcast.emit("user_updated", data)
+    });
+    socket.on("enrolled_user", data => {
+        socket.broadcast.emit("user_enrolled", data)
+    });
+    socket.on("removed_user", data => {
+        socket.broadcast.emit("user_removed", data)
     });
 
 });
