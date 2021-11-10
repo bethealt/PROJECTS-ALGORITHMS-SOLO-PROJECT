@@ -5,7 +5,7 @@ import React, {useState, useEffect} from 'react';
 import {Router, Redirect} from "@reach/router";
 import {io} from 'socket.io-client';
 
-import Navbar from './components/Navbar';
+import NavBar from './components/NavBar';
 import Login from './views/Login';
 import Dashboard from './views/Dashboard';
 import Catalog from './views/Catalog';
@@ -15,7 +15,6 @@ import AddCourse from './views/AddCourse';
 
 function App() {
   const [admin, setAdmin] = useState(false);
-  const [catalog, setCatalog] = useState([]);
   const [errors, setErrors] = useState([]);
   const [onSubmitProp] = useState({});
   const [users, setUsers] = useState([]);
@@ -38,18 +37,21 @@ function App() {
   }, [socket]);
  
   return (
-    <Container className='App'>
-      <Navbar admin={admin}/>
+    <div className='App'>
+      <NavBar admin={admin}/>
       <Router>
         <Redirect from='/' to='/login'/>
-        <Login path='/login' errors={errors}/>
+        <Login
+          onSubmitProp={onSubmitProp} 
+          path='/login' admin={admin}
+          errors={errors}/>
         <Dashboard path='/dashboard' errors={errors}/>
         <Catalog path='/catalog'/>
         <Course path='/courses/:id'/>
         <Admin path='/admin' errors={errors}/>
         <AddCourse path='/courses/add' errors={errors}/>
       </Router>
-    </Container>
+    </div>
   );
 
 }

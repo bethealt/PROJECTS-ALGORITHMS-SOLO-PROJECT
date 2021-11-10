@@ -2,9 +2,12 @@ import React from 'react';
 import {Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
 
 const LoginForm = (props) => {
-    const {
-        emailAddress, setEmailAddress, password, setPassword, errors, onSubmitHandler
-    } = props;
+    const { emailAddress, setEmailAddress, errors, onSubmitProp, password, setPassword } = props;
+
+    const onSubmitHandler = e => {
+        e.preventDefault();
+        onSubmitProp({emailAddress, password});
+    }
 
     return(
         <Form onSubmit={onSubmitHandler}>

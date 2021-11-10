@@ -8,7 +8,7 @@ import LoginForm from '../components/LoginForm';
 import UserForm from '../components/UserForm';
 
 const Login = (props) => {
-    const { errors, setErrors, users, setUsers, onSubmitProp } = props;
+    const { admin, errors, setErrors, users, setUsers, onSubmitProp } = props;
     const [activeTab, setActiveTab] = useState('1');
     const [userRegistered, setUserRegistered] = useState(false);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -44,13 +44,16 @@ const Login = (props) => {
         {withCredentials: true})
         .then(res => {
             setUserLoggedIn(!userLoggedIn);
-            navigate("/dashboard");
+            {
+                (admin === true)  ?
+                navigate("/admin") :
+                navigate("/dashboard");
+            };
         })
         .catch(err => {
-            console.log(err);
             const errorResponse = err.response.data.errors;
             const errorArr = [];
-            for (const key of Object.keys(errorResponse)) {
+            for (const key of Object.keys({'errorResponse': 'err.response.data.errors'})) {
                 errorArr.push(errorResponse[key].message)
             }
             console.log(errorArr);
@@ -83,7 +86,7 @@ const Login = (props) => {
                             md={{ offset: 3, size: 6}}
                             sm="12"><br/>
                             <h4>Welcome Back!</h4><br/>
-                            <LoginForm 
+                            <LoginForm
                                 onSubmitProp={loginUser} 
                                 errors={errors} 
                             />

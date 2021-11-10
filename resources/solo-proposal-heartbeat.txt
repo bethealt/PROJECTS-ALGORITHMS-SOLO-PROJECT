@@ -39,6 +39,7 @@ monitor-waveform
 technologies:
 reactstrap
 dotenv
+fontawesome
 Socket.io
 JSON web tokens
 Cookies

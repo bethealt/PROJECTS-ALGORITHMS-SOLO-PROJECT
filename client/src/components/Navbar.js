@@ -1,14 +1,22 @@
-import React from 'react';
-import {Collapse, Container, Nav, Navbar, NavbarBrand, NavbarToggler, NavLink, NavItem} from 'reactstrap';
+import React, { useState } from 'react';
+import { render } from "react-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navbar, NavbarBrand, NavbarToggler, Nav, NavItem, NavLink, Collapse } from 'reactstrap';
+import { faHeartPulse } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 const NavBar = (props) => {
-    //const {admin} = props;
+    const {admin} = props;
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
-        <Container>
+        <div style={{ display: 'block', width: 900, padding: 30}}>
             <Navbar color='faded' light>
-                <NavbarBrand className='me-auto' href='/'>
-                heartBEAT</NavbarBrand>
-                <NavbarToggler className='me-2' onClick={function noRefCheck(){}}/>
+                <NavbarBrand className='me-auto' href='/login'>
+                    <FontAwesomeIcon icon={faHeartPulse}/>
+                    heartBEAT
+                </NavbarBrand>
                 <Nav pills>
                     <NavItem>
                         <NavLink
@@ -16,55 +24,37 @@ const NavBar = (props) => {
                             Admin
                         </NavLink>
                     </NavItem>
-                </Nav>
-                <Collapse navbar>
-                   {/*} {
-                        (admin === true) ?
-                        <Nav navbar>
-                            <NavItem>
-                                <NavLink href='/admin'>
-                                    Admin login
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href='/add'>
-                                    Add a Course
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href='/dashboard'>
-                                    Dashboard
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href='/catalog'>
-                                    Course Catalog
-                                </NavLink>
-                            </NavItem>
-                        </Nav> 
-                        :*/}
-                        <Nav navbar>
-                            <NavItem>
-                                <NavLink href='/login'>
-                                    Login/Register
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href='/dashboard'>
-                                    Dashboard
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href='/catalog'>
-                                    Course Catalog
-                                </NavLink>
-                            </NavItem>
-                        </Nav> 
-                    {/*}}      */}                     
+                </Nav>&nbsp;&nbsp;
+                <NavbarToggler className='me-2' onClick={() => { setIsOpen(!isOpen) }}/>
+                <Collapse isOpen={isOpen} navbar>
+                    <Nav navbar>
+                        <NavItem>
+                            <NavLink href='/login'>
+                                Login/Register
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href='/dashboard'>
+                                Dashboard
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href='/catalog'>
+                                Course Catalog
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href='/logout'>
+                                Logout
+                            </NavLink>
+                        </NavItem>
+                    </Nav>
                 </Collapse>
-            </Navbar>
-        </Container>
-    )
+            </Navbar> 
+        </div>
+    );
 }
+
+render(<NavBar />, document.getElementById("root"));
 
 export default NavBar;
