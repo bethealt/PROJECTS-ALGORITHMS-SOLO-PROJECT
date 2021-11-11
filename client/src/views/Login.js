@@ -8,6 +8,7 @@ import LoginForm from '../components/LoginForm';
 import UserForm from '../components/UserForm';
 
 const Login = (props) => {
+    const dbPort = process.env.DB_PORT
     const { 
         admin, 
         errors, setErrors, 
@@ -30,7 +31,7 @@ const Login = (props) => {
     }
 
     const registerUser = user => {
-        axios.post('http://localhost:8000/api/register', {
+        axios.post(`http://localhost:${dbPort}/api/users/register`, {
             firstName,
             lastName,
             emailAddress,
@@ -59,7 +60,7 @@ const Login = (props) => {
     }
 
     const loginUser = user => {
-        axios.post('http://localhost:8000/api/login', {
+        axios.post(`http://localhost:${dbPort}/api/users/login`, {
             emailAddress, 
             password}, 
             {withCredentials: true})

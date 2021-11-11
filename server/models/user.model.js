@@ -104,10 +104,12 @@ UserSchema.pre('save', function(next) {
         next();
       });
   });
-  
+
+//confirmPassword is a virtual field that holds data from the request, but it is not saved to the db.
+//password is saved to the database only once
 UserSchema.virtual('confirmPassword')
-  .get( () => this._confirmPassword )
-  .set( value => this._confirmPassword = value );
+  .get(() => this._confirmPassword )
+  .set((value) => this._confirmPassword = value);
 
 UserSchema.pre('validate', function(next) {
 if (this.password !== this.confirmPassword) {
@@ -115,5 +117,6 @@ if (this.password !== this.confirmPassword) {
 }
 next();
 });
-  
+
+//mongoose creates a db collection with a lowercase & plural conversion of User
 module.exports = mongoose.model('User', UserSchema);

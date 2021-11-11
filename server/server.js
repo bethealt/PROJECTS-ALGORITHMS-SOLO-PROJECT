@@ -14,7 +14,7 @@ const mongoose = require('./config/mongoose.config');
 
 //
 const server = app.listen(process.env.DB_PORT, () => {
-    console.log('Listening on port:' + process.env.DB_PORT)
+    console.log(`Listening on port: ${process.env.DB_PORT}`)
 });
 
 //configure the express app server
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 //adds the ability to use credentials with cookies
-app.use(cors({credentials: true, origin: 'http://' + process.env.DB_HOST}));
+app.use(cors({credentials: true, origin: `http://${process.env.DB_HOST}`}));
 
 //enables the app to send and read cookies with each request/response
 app.use(cookieParser());

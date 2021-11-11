@@ -32,7 +32,7 @@ ICONS:
 
 TECHNOLOGIES:
 - reactstrap                x
-- dotenv
+- dotenv                    x
 - fontawesome               x
 - Socket.io
 - JSON web tokens           x   
