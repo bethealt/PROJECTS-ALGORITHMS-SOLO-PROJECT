@@ -1,0 +1,41 @@
+heartBEAT TO DO LIST
+
+TO BUILD:
+- Dashboard
+- Catalog
+- Course Detail 
+- Add Course Form 
+- Admin Login
+
+INTEGRATIONS:
+- Google Directions API
+- Socket.io Rooms
+- AWS EC2
+- .env (environment variables)
+- private route for site administrator
+
+ISSUES:
+- initial rendering of index page requires refresh    x
+- revisit and refine CRUD applications
+- revisit error messaging and apply consistent construction
+- onSubmitProp & undefined Object.error
+- standardize Submit buttons
+
+ERRORS:
+- object Object upon initial render     x
+- undefined Object.error
+
+ICONS:
+- heart-pulse
+- wave-pulse
+- monitor-waveform
+
+TECHNOLOGIES:
+- reactstrap                x
+- dotenv
+- fontawesome               x
+- Socket.io
+- JSON web tokens           x   
+- Cookies                   x
+- AWS EC2 deployment
+- google directions API

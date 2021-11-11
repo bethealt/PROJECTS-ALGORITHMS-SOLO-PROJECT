@@ -35,12 +35,12 @@ module.exports = {
         const user = await User.findOne({emailAddress: req.body.emailAddress});
         
         if (user === null) {
-            return res.status(400).json;
+            return res.status(400).json(err);
         }
         
         const correctPassword = await bcrypt.compare(req.body.password, user.password);
         if (!correctPassword) {
-            return res.status(400).json;
+            return res.status(400).json(err);
         }
 
         const payload = {

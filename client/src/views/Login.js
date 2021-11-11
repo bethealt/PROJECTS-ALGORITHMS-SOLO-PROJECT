@@ -8,7 +8,19 @@ import LoginForm from '../components/LoginForm';
 import UserForm from '../components/UserForm';
 
 const Login = (props) => {
-    const { admin, errors, setErrors, users, setUsers, onSubmitProp } = props;
+    const { 
+        admin, 
+        errors, setErrors, 
+        users, setUsers, 
+        firstName,
+        lastName,
+        emailAddress,
+        birthDate,
+        zipcode,
+        password,
+        confirmPassword,
+        onSubmitProp 
+    } = props;
     const [activeTab, setActiveTab] = useState('1');
     const [userRegistered, setUserRegistered] = useState(false);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -18,8 +30,16 @@ const Login = (props) => {
     }
 
     const registerUser = user => {
-        axios.post('http://localhost:8000/api/register', user, 
-        {withCredentials: true})
+        axios.post('http://localhost:8000/api/register', {
+            firstName,
+            lastName,
+            emailAddress,
+            birthDate,
+            zipcode,
+            password,
+            confirmPassword}, 
+            //ensures that cookies are sent with each request; Middleware verifies who is logged in
+            {withCredentials: true})
         .then(res => {
             console.log(res);
             setUsers([...users, res.data]);
@@ -28,36 +48,39 @@ const Login = (props) => {
             navigate("/dashboard");
         })
         .catch(err => {
-            console.log(err);
             const errorResponse = err.response.data.errors;
             const errorArr = [];
             for (const key of Object.keys(errorResponse)) {
                 errorArr.push(errorResponse[key].message)
             }
-            console.log(errorArr);
             setErrors(errorArr);
+            console.log(errorArr);
         })
     }
 
     const loginUser = user => {
-        axios.post('http://localhost:8000/api/login', user, 
-        {withCredentials: true})
+        axios.post('http://localhost:8000/api/login', {
+            emailAddress, 
+            password}, 
+            {withCredentials: true})
         .then(res => {
             setUserLoggedIn(!userLoggedIn);
+            // eslint-disable-next-line no-lone-blocks
             {
-                (admin === true)  ?
-                navigate("/admin") :
-                navigate("/dashboard");
+                admin === true  ?
+                navigate("/admin") 
+                :
+                navigate("/dashboard")
             };
         })
         .catch(err => {
             const errorResponse = err.response.data.errors;
             const errorArr = [];
-            for (const key of Object.keys({'errorResponse': 'err.response.data.errors'})) {
+            for (const key of Object.keys(errorResponse)) {
                 errorArr.push(errorResponse[key].message)
             }
-            console.log(errorArr);
             setErrors(errorArr);
+            console.log(errorArr);
         })
     }
 
@@ -87,7 +110,7 @@ const Login = (props) => {
                             sm="12"><br/>
                             <h4>Welcome Back!</h4><br/>
                             <LoginForm
-                                onSubmitProp={loginUser} 
+                                onSubmitProp = {loginUser} 
                                 errors={errors} 
                             />
                         </Col>

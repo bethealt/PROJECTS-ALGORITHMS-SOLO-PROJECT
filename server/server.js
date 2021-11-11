@@ -1,3 +1,5 @@
+//requires the dotenv library and invokes its config function
+const dotenv = require('dotenv').config({ debug: process.env.DEBUG });
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -5,22 +7,14 @@ const socket = require('socket.io');
 const cookieParser = require('cookie-parser'); 
 const jwt = require("jsonwebtoken");
 const mongoose = require('./config/mongoose.config');
-const port = 8000;
 
-const server = app.listen(port, () => {
-    console.log(`Listening on port: ${port}`)
+const server = app.listen(process.env.DB_PORT, () => {
+    console.log('Listening on port:' + process.env.DB_PORT)
 });
-
-//requires the dotenv library and invokes its config function
-const dotenv = require('dotenv').config({ debug: process.env.DEBUG });
-{/*const buf = Buffer.from('hello world')
-const opt = { debug: true }
-const config = dotenv.parse(buf, opt)  
-// expect a debug message because the buffer is not in KEY=VAL form*/}
 
 //enables the app to send and read cookies with each request/response
 app.use(cookieParser());
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors({credentials: true, origin: 'http://' + process.env.DB_HOST}));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
@@ -76,6 +70,9 @@ io.on("connection", (socket) => {
     });
     socket.on("registered_user", data => {
         socket.broadcast.emit("user_registered", data)
+    });
+    socket.on("authorized_user", data => {
+        socket.broadcast.emit("user_authorized", data)
     });
     socket.on("updated_user", data => {
         socket.broadcast.emit("user_updated", data)

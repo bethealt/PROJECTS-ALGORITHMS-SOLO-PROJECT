@@ -37,21 +37,20 @@ function App() {
   }, [socket]);
  
   return (
-    <div className='App'>
+    <Container className='App'>
       <NavBar admin={admin}/>
       <Router>
-        <Redirect from='/' to='/login'/>
         <Login
           onSubmitProp={onSubmitProp} 
-          path='/login' admin={admin}
+          path='/' admin={admin}
           errors={errors}/>
         <Dashboard path='/dashboard' errors={errors}/>
-        <Catalog path='/catalog'/>
+        <Catalog path='/courses/catalog'/>
         <Course path='/courses/:id'/>
-        <Admin path='/admin' errors={errors}/>
+        <Admin path='/courses/login' errors={errors}/>
         <AddCourse path='/courses/add' errors={errors}/>
       </Router>
-    </div>
+    </Container>
   );
 
 }

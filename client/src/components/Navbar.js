@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 const NavBar = (props) => {
-    const {admin} = props;
     const [isOpen, setIsOpen] = useState(false);
 
     return (
