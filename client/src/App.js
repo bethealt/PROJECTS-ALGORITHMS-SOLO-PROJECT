@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container} from 'reactstrap';
 import React, {useState, useEffect} from 'react';
-import {Router, Redirect} from "@reach/router";
+import {Router} from "@reach/router";
 import {io} from 'socket.io-client';
 
 import NavBar from './components/NavBar';

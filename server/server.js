@@ -1,29 +1,39 @@
 //requires the dotenv library and invokes its config function
 const dotenv = require('dotenv').config({ debug: process.env.DEBUG });
+
+//imports express and other libraries
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const socket = require('socket.io');
 const cookieParser = require('cookie-parser'); 
 const jwt = require("jsonwebtoken");
+
+//configure mongoose to connect
 const mongoose = require('./config/mongoose.config');
 
+//
 const server = app.listen(process.env.DB_PORT, () => {
     console.log('Listening on port:' + process.env.DB_PORT)
 });
 
-//enables the app to send and read cookies with each request/response
-app.use(cookieParser());
-app.use(cors({credentials: true, origin: 'http://' + process.env.DB_HOST}));
+//configure the express app server
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
+//adds the ability to use credentials with cookies
+app.use(cors({credentials: true, origin: 'http://' + process.env.DB_HOST}));
+
+//enables the app to send and read cookies with each request/response
+app.use(cookieParser());
+
+//add routes to listen
 require('./routes/user.routes')(app);
 require('./routes/course.routes')(app);
  
-//initializes the socket, invokes a new instance of socket.io, & passes the express server instance
-//always include a configuration settings object to prevent CORS errors
+//initializes the socket, invokes a new socket.io instance, and passes the express server
 const io = require("socket.io")(server, {
+    //always include a configuration settings object to prevent CORS errors
     cors: {
         origin: 'http://localhost:3000',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -32,14 +42,11 @@ const io = require("socket.io")(server, {
     }
 });
 
-{/*io.on("connection", socket => {
-//each client that connects get their own socket id
-console.log('successful handshake with socket id: ' + socket.id); */}
-
 let sequenceNumberByClient = new Map();
 
 //event fired every time a new client connects:
 io.on("connection", (socket) => {
+    //each client that connects get their own socket id
     console.log(`Client connected [socket id=${socket.id}]`);
     // initialize this client's sequence number
     sequenceNumberByClient.set(socket, 1);
@@ -57,9 +64,10 @@ io.on("connection", (socket) => {
         sequenceNumberByClient.delete(socket);
         console.log(`Client disconnected [socket id=${socket.id}]`);
     });
+
     //uses specific socket to create event listeners and emitters for clients
-    //sends a message with "data" to ALL clients EXCEPT for the one that emitted the "event_from_client" event
     socket.on("added_new_course", data => {
+        //sends a message with "data" to ALL clients EXCEPT for the one that emitted the "event_from_client" event
         socket.broadcast.emit("new_course_added", data)
     });
     socket.on("canceled_course", data => {
