@@ -97,26 +97,33 @@ const UserSchema = new mongoose.Schema({
 UserSchema.plugin(uniqueValidator,{
     msg: 'User already exists in the database.'});
 
-UserSchema.pre('save', function(next) {
-    bcrypt.hash(this.password, 10)
-      .then(hash => {
-        this.password = hash;
-        next();
-      });
-  });
-
 //confirmPassword is a virtual field that holds data from the request, but it is not saved to the db.
 //password is saved to the database only once
 UserSchema.virtual('confirmPassword')
   .get(() => this._confirmPassword )
   .set((value) => this._confirmPassword = value);
 
+//Middleware interrupts a process, performs some work, and then continues on to the NEXT step/function of the process
 UserSchema.pre('validate', function(next) {
 if (this.password !== this.confirmPassword) {
-    this.invalidate('confirmPassword', 'Password must match confirm password');
+    this.invalidate('confirmPassword', 'Passwords do not match. Please correct.');
 }
 next();
 });
+
+//encrypts the confirmed password before it is saved to the db.
+UserSchema.pre('save', function(next) {
+    bcrypt.hash(this.password, 10)
+      .then(hashedPWD => {
+        //update the password (in this instance) to the hashed, returned version
+        this.password = hashedPWD;
+        next();
+      })
+      .catch((err) => {
+          console.log('An error occurred while hashing the password.');
+      });
+});
+
 
 //mongoose creates a db collection with a lowercase & plural conversion of User
 module.exports = mongoose.model('User', UserSchema);
