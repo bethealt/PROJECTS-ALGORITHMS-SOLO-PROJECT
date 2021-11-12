@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secret ="Vivir con miedo, es como vivir a medias!";
+const secret = process.env.JWT_SECRET_KEY2;
 
 module.exports.secret = secret;
 module.exports.authenticate = (req, res, next) => {

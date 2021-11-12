@@ -6,13 +6,8 @@ const jwt = require('jsonwebtoken');
 module.exports = {
     register: (req, res) => {
         const {
-            firstName, 
-            lastName, 
-            emailAddress, 
-            birthDate, 
-            zipcode,
-            password, 
-            courses} = req.body;
+            firstName, lastName, emailAddress, birthDate, zipcode, password, courses
+        } = req.body;
         User.create(req.body)
             .then(user => {
                 const payload = {
@@ -21,7 +16,7 @@ module.exports = {
                     lastName: user.lastName,
                     admin: user.admin,
                   };
-                const userToken = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+                const userToken = jwt.sign(payload, process.env.JWT_SECRET_KEY1);
                   
                 res
                   .cookie("usertoken", userToken, secret, {
@@ -33,7 +28,6 @@ module.exports = {
     },
     login: async(req, res) => {
         const user = await User.findOne({emailAddress: req.body.emailAddress});
-        
         if (user === null) {
             return res.status(400).json(err);
         }
@@ -49,17 +43,17 @@ module.exports = {
             lastName: user.lastName,
             admin: user.admin,
           };
-        const userToken = jwt.sign(payload, process.env.SECRET_KEY);
+        const userToken = jwt.sign(payload, process.env.JWT_SECRET_KEY1);
 
         res
           .cookie("usertoken", userToken, secret, {
               httpOnly: true
           })
-          .json({msg: "Login successful!"});
+          .json({msg: "Login successful."});
     },
     logout: (req, res) => {
         res.clearCookie("usertoken");
-        res.status(200).json({msg: "Logout successful!"});
+        res.status(200).json({msg: "Logout successful."});
     },
     read: (req, res) => {
         User.find({})
