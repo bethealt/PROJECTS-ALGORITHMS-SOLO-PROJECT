@@ -12,7 +12,7 @@ const NavBar = (props) => {
     return (
         <div style={{ display: 'block', width: 900, padding: 30}}>
             <Navbar color='faded' light>
-                <NavbarBrand className='me-auto' href='/login'>
+                <NavbarBrand className='me-auto' href='/'>
                     <FontAwesomeIcon icon={faHeartPulse}/>
                     heartBEAT
                 </NavbarBrand>
@@ -28,7 +28,7 @@ const NavBar = (props) => {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav navbar>
                         <NavItem>
-                            <NavLink href='/login'>
+                            <NavLink href='/'>
                                 Login/Register
                             </NavLink>
                         </NavItem>

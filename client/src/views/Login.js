@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'reactstrap';
+import {Container, Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'reactstrap';
 import classnames from 'classnames';
 import {navigate} from '@reach/router';
 
@@ -86,7 +86,7 @@ const Login = (props) => {
     }
 
     return(
-        <div>
+        <Container>
             <Nav tabs>
                 <NavItem>
                     <NavLink
@@ -107,7 +107,7 @@ const Login = (props) => {
                 <TabPane tabId='1'>
                     <Row>
                         <Col 
-                            md={{ offset: 3, size: 6}}
+                            md={{ offset: 2, size: 8}}
                             sm="12"><br/>
                             <h4>Welcome Back!</h4><br/>
                             <LoginForm
@@ -120,7 +120,7 @@ const Login = (props) => {
                 <TabPane tabId='2'>
                     <Row>
                         <Col 
-                            md={{ offset: 3, size: 6}}
+                            md={{ offset: 2, size: 8}}
                             sm="12"><br/>
                             <h4>Welcome to heartBEAT!</h4><br/>
                             <UserForm 
@@ -131,7 +131,7 @@ const Login = (props) => {
                     </Row>
                 </TabPane>
             </TabContent>
-        </div>
+        </Container>
     )
 }
 

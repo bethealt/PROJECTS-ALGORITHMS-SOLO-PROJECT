@@ -27,9 +27,9 @@ const UserForm = (props) => {
 
     return (
         <Form onSubmit={onSubmitHandler}>
-        {errors.map((err, index) => {
+        {errors.map((error, index) => {
             return (
-                <Alert key={index} color='primary'>{err}</Alert>
+                <Alert key={index} color='primary'>{error}</Alert>
             )})}<br/>
             <Row>
                 <Col>
@@ -114,7 +114,7 @@ const UserForm = (props) => {
                     </FormGroup>
                 </Col>
             </Row>
-            <Row><Button color='danger' type='submit'>Submit</Button>&nbsp;&nbsp;</Row>
+            <Button color='danger' type='submit'>Submit</Button>
         </Form>
     )
 }

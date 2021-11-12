@@ -7,6 +7,6 @@ module.exports = function(app){
     app.post('api/users/logout', authenticate, UserController.logout);
     app.get('/api/users', authenticate, UserController.read);
     app.get('/api/users/:id', authenticate, UserController.readOne);
-    app.put('/api/users/edit/:id', authenticate, UserController.update);
+    app.put('/api/users/update/:id', authenticate, UserController.update);
     app.delete('/api/users/:id', authenticate, UserController.delete);
 };

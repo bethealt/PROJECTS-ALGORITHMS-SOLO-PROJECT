@@ -119,7 +119,7 @@ const CourseForm = (props) => {
                     onChange = {(e) => setCounty(e.target.value)}
                     />
             </FormGroup>
-            <Button type='submit' color='danger'>Add Course</Button>&nbsp;&nbsp;
+            <Button type='submit' color='danger'>Add</Button>&nbsp;&nbsp;
             <Link to='/admin'><Button type='button' color='secondary'>Cancel</Button></Link>
         </Form>
     )
