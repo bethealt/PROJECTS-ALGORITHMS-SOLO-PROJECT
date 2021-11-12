@@ -7,9 +7,10 @@ import {io} from 'socket.io-client';
 
 import NavBar from './components/NavBar';
 import Login from './views/Login';
-import Dashboard from './views/Dashboard';
-import Course from './views/Course';
 import Admin from './views/Admin';
+import Dashboard from './views/Dashboard';
+import ViewCourse from './views/ViewCourse';
+import ViewUser from './views/ViewUser';
 
 function App() {
   const [admin, setAdmin] = useState(false);
@@ -45,15 +46,6 @@ function App() {
           errors={errors}
           setErrors={setErrors}
           />
-        <Dashboard 
-          path='/dashboard' 
-          catalog={catalog} 
-          errors={errors}
-          setErrors={setErrors}
-          />
-        <Course 
-          path='/courses/:id'
-          />
         <Admin 
           path='/admin'
           admin={admin} 
@@ -64,6 +56,22 @@ function App() {
           setErrors={setErrors}
           users={users}
           setUsers={setUsers}
+          />
+        <Dashboard 
+          path='/dashboard' 
+          catalog={catalog} 
+          errors={errors}
+          setErrors={setErrors}
+          />
+        <ViewCourse 
+          path='/courses/:id'
+          errors={errors}
+          setErrors={setErrors}
+          />
+        <ViewUser 
+          path='/users/:id'
+          errors={errors}
+          setErrors={setErrors}
           />
       </Router>
     </Container>

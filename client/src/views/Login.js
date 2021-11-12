@@ -120,7 +120,7 @@ const Login = (props) => {
                 <TabPane tabId='2'>
                     <Row>
                         <Col 
-                            md={{ offset: 2, size: 8}}
+                            md={{ offset: 1, size: 10}}
                             sm="12"><br/>
                             <h4>Welcome to heartBEAT!</h4><br/>
                             <UserForm 

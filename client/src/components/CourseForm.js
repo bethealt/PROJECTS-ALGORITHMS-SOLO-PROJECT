@@ -1,10 +1,8 @@
 import {React, useState} from 'react';
 import {Container, Row, Col, Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
-import {Link} from '@reach/router';
 
 const CourseForm = (props) => {
-    const {onSubmitHandler, errors} = props;
-    const [title, setTitle] = useState('');
+   const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState();
     const [start, setStart] = useState();
@@ -14,7 +12,8 @@ const CourseForm = (props) => {
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState();
     const [county, setCounty] = useState('');
-
+    const {onSubmitHandler, errors} = props;
+    
     return (
         <Container>
             <Form onSubmit={onSubmitHandler}>
