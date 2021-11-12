@@ -21,7 +21,7 @@ module.exports = {
                     lastName: user.lastName,
                     admin: user.admin,
                   };
-                const userToken = jwt.sign(payload, process.env.SECRET_KEY);
+                const userToken = jwt.sign(payload, process.env.JWT_SECRET_KEY);
                   
                 res
                   .cookie("usertoken", userToken, secret, {
