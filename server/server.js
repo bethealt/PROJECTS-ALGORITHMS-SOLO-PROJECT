@@ -1,5 +1,5 @@
 //requires the dotenv library and invokes its config function
-const dotenv = require('dotenv').config({ debug: process.env.DEBUG });
+const dotenv = require('dotenv').config();
 
 //imports express and other libraries
 const express = require('express');
@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 //configure mongoose to connect
 const mongoose = require('./config/mongoose.config');
 
-//
+//starts the app server listening
 const server = app.listen(process.env.DB_PORT, () => {
     console.log(`Listening on port: ${process.env.DB_PORT}`)
 });

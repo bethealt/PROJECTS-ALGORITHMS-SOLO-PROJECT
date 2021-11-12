@@ -3,15 +3,7 @@ import {Container, Table, Button} from 'reactstrap';
 import {Link} from '@reach/router';
 
 const UserList = (props) => {
-    const {users} = props;
-
-    const authorizeUser = (e) => {
-
-    };
-
-    const deleteUser = (e) => {
-
-    };
+    const {users, authorizeUser, deleteUser} = props;
 
     return (
         <Container>

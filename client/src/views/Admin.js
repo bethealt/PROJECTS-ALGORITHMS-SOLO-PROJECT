@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {Container, Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'reactstrap';
 import classnames from 'classnames';
+import io from 'socket.io-client';
 
 import CourseList from '../components/CourseList';
 import CourseForm from '../components/CourseForm';
@@ -16,6 +17,7 @@ const Admin = (props) => {
     } = props;
  
     const [activeTab, setActiveTab] = useState('1');
+    const [socket, setSocket] = useState(() => io(":8000"));
     
     const toggle = (tab) => {
         if(activeTab !== tab) setActiveTab(tab);
