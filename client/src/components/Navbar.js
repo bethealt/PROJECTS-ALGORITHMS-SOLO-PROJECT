@@ -33,13 +33,13 @@ const NavBar = (props) => {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href='/dashboard'>
-                                Dashboard
+                            <NavLink href='/admin'>
+                                Admin
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href='/catalog'>
-                                Course Catalog
+                            <NavLink href='/dashboard'>
+                                Dashboard
                             </NavLink>
                         </NavItem>
                         <NavItem>

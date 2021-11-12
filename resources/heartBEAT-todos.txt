@@ -2,10 +2,11 @@ heartBEAT TO DO LIST
 
 TO BUILD:
 - Dashboard    x
-- Catalog
-- Course Detail 
-- Add Course View
-- Admin Login
+- Catalog      x
+- Course Detail  
+- User Detail  
+- Add Course View  x
+- Admin Login x
 
 INTEGRATIONS:
 - Google Directions API
@@ -28,6 +29,8 @@ ERRORS:
 FUNCTIONS:
 - enroll
 - drop
+- authorize
+- delete
 
 ICONS:
 - heart-pulse

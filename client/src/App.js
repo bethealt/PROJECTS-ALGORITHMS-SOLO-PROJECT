@@ -55,7 +55,7 @@ function App() {
           path='/courses/:id'
           />
         <Admin 
-          path='/courses/admin'
+          path='/admin'
           admin={admin} 
           setAdmin={setAdmin}
           catalog={catalog} 

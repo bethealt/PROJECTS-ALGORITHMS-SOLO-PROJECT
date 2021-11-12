@@ -16,9 +16,13 @@ const CourseSchema = new mongoose.Schema({
         type: Date,
         required: [true, "Please select a date for the course."]
     },
-    time: {
-        type: Number,
-        required: [true, "Please select a time for the course."]
+    start: {
+        type: String,
+        required: [true, "Please select a start time for the course."]
+    },
+    end: {
+        type: String,
+        required: [true, "Please select an end time for the course."]
     },
     location: {
         type: String,

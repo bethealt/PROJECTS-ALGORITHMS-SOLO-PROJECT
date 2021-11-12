@@ -5,11 +5,11 @@ import {Link} from '@reach/router';
 const CourseList = (props) => {
     const {catalog} = props;
 
-    const enrollUser = (props) => {
+    const enrollUser = (e) => {
 
     };
 
-    const dropUser = (props) => {
+    const dropUser = (e) => {
 
     };
 
