@@ -8,10 +8,8 @@ import {io} from 'socket.io-client';
 import NavBar from './components/NavBar';
 import Login from './views/Login';
 import Dashboard from './views/Dashboard';
-import Catalog from './views/Catalog';
 import Course from './views/Course';
 import Admin from './views/Admin';
-import AddCourse from './views/AddCourse';
 
 function App() {
   const [admin, setAdmin] = useState(false);
@@ -20,7 +18,7 @@ function App() {
   const [onSubmitProp] = useState({});
   const [users, setUsers] = useState([]);
 
-  const myFirstSecret = process.env.FIRST_SECRET_KEY;
+  const secret = process.env.JWT_SECRET_KEY1;
   const [socket] = useState(() => io(':8000'));
   // notice that we pass a callback function to initialize the socket
   // we don't need to destructure the 'setSocket' function since we won't be updating the socket state
@@ -45,20 +43,27 @@ function App() {
           onSubmitProp={onSubmitProp} 
           path='/' admin={admin}
           errors={errors}
+          setErrors={setErrors}
           />
         <Dashboard 
           path='/dashboard' 
           catalog={catalog} 
           errors={errors}
+          setErrors={setErrors}
           />
         <Course 
           path='/courses/:id'
           />
         <Admin 
-          path='/courses/admin' 
+          path='/courses/admin'
+          admin={admin} 
+          setAdmin={setAdmin}
           catalog={catalog} 
           setCatalog={setCatalog}
           errors={errors}
+          setErrors={setErrors}
+          users={users}
+          setUsers={setUsers}
           />
       </Router>
     </Container>
