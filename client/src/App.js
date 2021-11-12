@@ -44,12 +44,22 @@ function App() {
         <Login
           onSubmitProp={onSubmitProp} 
           path='/' admin={admin}
-          errors={errors}/>
-        <Dashboard path='/dashboard' catalog={catalog} errors={errors}/>
-        <Catalog path='/courses/catalog'/>
-        <Course path='/courses/:id'/>
-        <Admin path='/courses/login' errors={errors}/>
-        <AddCourse path='/courses/add' errors={errors}/>
+          errors={errors}
+          />
+        <Dashboard 
+          path='/dashboard' 
+          catalog={catalog} 
+          errors={errors}
+          />
+        <Course 
+          path='/courses/:id'
+          />
+        <Admin 
+          path='/courses/admin' 
+          catalog={catalog} 
+          setCatalog={setCatalog}
+          errors={errors}
+          />
       </Router>
     </Container>
   );
