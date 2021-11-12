@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {Container, Nav, NavItem, NavLink, TabContent, TabPane, Row, Col, CardGroup, Card, CardImg, CardTitle, CardSubtitle, CardText, CardBody, Button} from 'reactstrap';
+import {Container, Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'reactstrap';
 import classnames from 'classnames';
 import {navigate} from '@reach/router';
 
+import CourseHistory from '../components/CourseHistory';
 import CourseList from '../components/CourseList';
 import UserForm from '../components/UserForm';
 
 const Dashboard = (props) => {
     const dbPort = process.env.DB_PORT
     const {
+        catalog,
         firstName,
         lastName,
         emailAddress,
@@ -21,7 +23,6 @@ const Dashboard = (props) => {
         setUserLoggedIn, userLoggedIn, setErrors, errors
     } = props;
     const [activeTab, setActiveTab] = useState('1');
-    const [catalog, setCatalog] = useState([]);
     
     const toggle = (tab) => {
         if(activeTab !== tab) setActiveTab(tab);
@@ -77,7 +78,7 @@ const Dashboard = (props) => {
                 <NavItem>
                     <NavLink
                         className={classnames({active: activeTab === '3'})}
-                        onClick={() => {toggle('2'); }}>
+                        onClick={() => {toggle('3'); }}>
                         CATALOG
                     </NavLink>
                 </NavItem>
@@ -102,92 +103,7 @@ const Dashboard = (props) => {
                             md={{ offset: 1, size: 10}}
                             sm="12"><br/>
                             <h4>Manage Your Courses</h4><br/>
-                            <Container>
-                                <Row>
-                                    <Col><br/>
-                                    <CardGroup>
-                                    <Card>
-                                        <CardImg
-                                        alt="Card image cap"
-                                        src="https://picsum.photos/318/180"
-                                        top
-                                        width="100%"
-                                        />
-                                        <CardBody color="danger"
-                                        outline>
-                                        <CardTitle tag="h5">
-                                            PREVIOUS
-                                        </CardTitle>
-                                        <CardSubtitle
-                                            className="mb-2 text-muted"
-                                            tag="h6"
-                                        >
-                                            Card subtitle
-                                        </CardSubtitle>
-                                        <CardText>
-                                            This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                                        </CardText>
-                                        <Button>
-                                            Button
-                                        </Button>
-                                        </CardBody>
-                                    </Card>
-                                        <Card>
-                                            <CardImg
-                                            alt="Card image cap"
-                                            src="https://picsum.photos/318/180"
-                                            top
-                                            width="100%"
-                                            />
-                                            <CardBody color="danger"
-                                        outline>
-                                            <CardTitle tag="h5">
-                                                CURRENT
-                                            </CardTitle>
-                                            <CardSubtitle
-                                                className="mb-2 text-muted"
-                                                tag="h6"
-                                            >
-                                                Card subtitle
-                                            </CardSubtitle>
-                                            <CardText>
-                                                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                                            </CardText>
-                                            <Button>
-                                                Button
-                                            </Button>
-                                            </CardBody>
-                                        </Card>
-                                        <Card>
-                                            <CardImg
-                                            alt="Card image cap"
-                                            src="https://picsum.photos/318/180"
-                                            top
-                                            width="100%"
-                                            />
-                                            <CardBody color="danger"
-                                        outline>
-                                            <CardTitle tag="h5">
-                                                FUTURE
-                                            </CardTitle>
-                                            <CardSubtitle
-                                                className="mb-2 text-muted"
-                                                tag="h6"
-                                            >
-                                                Card subtitle
-                                            </CardSubtitle>
-                                            <CardText>
-                                                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                                            </CardText>
-                                            <Button>
-                                                Button
-                                            </Button>
-                                            </CardBody>
-                                            </Card>
-                                        </CardGroup>
-                                    </Col>
-                                </Row>
-                            </Container>
+                            <CourseHistory />
                         </Col>
                     </Row>
                 </TabPane>

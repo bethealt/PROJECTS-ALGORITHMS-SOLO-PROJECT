@@ -1,9 +1,17 @@
 import React from 'react';
-import {Container, Table} from 'reactstrap';
-
+import {Container, Table, Button} from 'reactstrap';
+import {Link} from '@reach/router';
 
 const CourseList = (props) => {
     const {catalog} = props;
+
+    const enrollUser = (props) => {
+
+    };
+
+    const dropUser = (props) => {
+
+    };
 
     return (
         <Container>
@@ -31,8 +39,13 @@ const CourseList = (props) => {
                                     <td>{course.time}</td>
                                     <td>{course.city}</td>
                                     <td>{course.county}</td>
+                                    <td>
+                                        <Link to={`/courses/${course._id}`}><Button>View</Button></Link>&nbsp;&nbsp;
+                                        <Button onClick={enrollUser}>Enroll</Button>&nbsp;&nbsp;
+                                        <Button onClick={dropUser}>Drop</Button>
+                                    </td>
                                 </tr>
-                        )})};
+                        )})}
                 </tbody>
             </Table>
         </Container>

@@ -15,6 +15,7 @@ import AddCourse from './views/AddCourse';
 
 function App() {
   const [admin, setAdmin] = useState(false);
+  const [catalog, setCatalog] = useState([]);
   const [errors, setErrors] = useState([]);
   const [onSubmitProp] = useState({});
   const [users, setUsers] = useState([]);
@@ -44,7 +45,7 @@ function App() {
           onSubmitProp={onSubmitProp} 
           path='/' admin={admin}
           errors={errors}/>
-        <Dashboard path='/dashboard' errors={errors}/>
+        <Dashboard path='/dashboard' catalog={catalog} errors={errors}/>
         <Catalog path='/courses/catalog'/>
         <Course path='/courses/:id'/>
         <Admin path='/courses/login' errors={errors}/>

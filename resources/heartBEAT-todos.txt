@@ -25,6 +25,10 @@ ERRORS:
 - object Object upon initial render     x
 - undefined Object.error                x
 
+FUNCTIONS:
+- enroll
+- drop
+
 ICONS:
 - heart-pulse
 - wave-pulse
