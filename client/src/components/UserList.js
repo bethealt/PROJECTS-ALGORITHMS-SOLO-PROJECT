@@ -1,9 +1,37 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import axios from 'axios';
 import {Container, Table, Button} from 'reactstrap';
 import {Link} from '@reach/router';
 
 const UserList = (props) => {
-    const {users, authorizeUser, deleteUser} = props;
+    const {setAdmin, setLoaded, users, setUsers} = props;
+    const dbHost = process.env.DB_HOST
+
+    useEffect(() => {
+        axios.get(`http://${dbHost}/api/users`,
+        {withCredentials: true})
+            .then((res) => {
+                console.log(res);
+                setUsers(res.data);
+                setLoaded(true);
+            })
+            .catch((err) => console.log(err));
+    }, [setAdmin, setLoaded, setUsers, dbHost]);
+
+    const authorizeUser = (_id) => {
+        setAdmin(true);
+    }
+
+    const removeFromDom = (_id) => {
+        setUsers(users.filter(user => user._id !== _id));
+    }
+
+    const deleteUser = (_id) => {
+        axios.delete(`http://${dbHost}/api/users/${_id}`,
+        {withCredentials: true})
+            .then(res => {removeFromDom(_id)})
+            .catch(err => console.log(err));
+    }
 
     return (
         <Container>

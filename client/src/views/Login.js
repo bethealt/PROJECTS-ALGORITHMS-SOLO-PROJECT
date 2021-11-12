@@ -13,13 +13,10 @@ const Login = (props) => {
         admin, 
         errors, setErrors, 
         users, setUsers, 
-        firstName,
-        lastName,
-        emailAddress,
-        birthDate,
-        zipcode,
+        firstName, lastName,
+        emailAddress, birthDate,
+        zipcode, 
         password,
-        confirmPassword,
         onSubmitProp 
     } = props;
     const [activeTab, setActiveTab] = useState('1');
@@ -37,8 +34,7 @@ const Login = (props) => {
             emailAddress,
             birthDate,
             zipcode,
-            password,
-            confirmPassword}, 
+            password}, 
             //ensures that cookies are sent with each request; Middleware verifies who is logged in
             {withCredentials: true})
         .then(res => {

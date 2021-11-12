@@ -1,17 +1,12 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Container, Table, Button} from 'reactstrap';
 import {Link} from '@reach/router';
+import io from 'socket.io-client';
 
 const CourseList = (props) => {
-    const {catalog} = props;
+    const {catalog, enrollUser, dropUser} = props;
+    const [socket] = useState(() => io(':8000'));
 
-    const enrollUser = (e) => {
-
-    };
-
-    const dropUser = (e) => {
-
-    };
 
     return (
         <Container>

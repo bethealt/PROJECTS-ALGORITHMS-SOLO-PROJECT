@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Container, Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'reactstrap';
 import classnames from 'classnames';
@@ -10,15 +10,15 @@ import UserList from '../components/UserList';
 
 const Admin = (props) => {
     const {
-        admin, setAdmin, 
+        setAdmin, 
         catalog, setCatalog,
         errors, setErrors,
         users, setUsers,
     } = props;
- 
+    const [loaded, setLoaded] = useState(false);
     const [activeTab, setActiveTab] = useState('1');
     const [socket, setSocket] = useState(() => io(":8000"));
-    
+
     const toggle = (tab) => {
         if(activeTab !== tab) setActiveTab(tab);
     }
@@ -55,12 +55,12 @@ const Admin = (props) => {
                         md={{ offset: 1, size: 10}}
                         sm="12"><br/>
                         <h4>Manage Users</h4><br/>
-                        <UserList 
-                            admin={admin}
+                        {loaded && <UserList 
                             setAdmin={setAdmin}
+                            setLoaded={setLoaded}
                             users={users}
                             setUsers={setUsers}
-                        />
+                        />}
                     </Col>
                 </Row>
             </TabPane>

@@ -3,8 +3,8 @@ heartBEAT TO DO LIST
 TO BUILD:
 - Dashboard    x
 - Catalog      x
-- Course Detail  
-- User Detail  
+- Course Detail  X
+- User Detail  x
 - Add Course View  x
 - Admin Login x
 
@@ -17,7 +17,7 @@ INTEGRATIONS:
 
 ISSUES:
 - initial rendering of index page requires refresh    x
-- revisit and refine CRUD applications
+- revisit and refine CRUD applications x
 - revisit error messaging and apply consistent construction     x
 - onSubmitProp & undefined Object.error
 - standardize Submit buttons                           x
@@ -29,8 +29,8 @@ ERRORS:
 FUNCTIONS:
 - enroll
 - drop
-- authorize
-- delete
+- authorize     x
+- delete        x
 
 ICONS:
 - heart-pulse
