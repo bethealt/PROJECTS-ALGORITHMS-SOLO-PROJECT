@@ -5,7 +5,7 @@ import {Link} from '@reach/router';
 
 const UserList = (props) => {
     const {setAdmin, setLoaded, users, setUsers} = props;
-    const dbHost = process.env.DB_HOST
+    const dbHost = process.env.DB_HOST;
 
     useEffect(() => {
         axios.get(`http://${dbHost}/api/users`,

@@ -1,8 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import React, {useState} from 'react';
 import {Container, Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'reactstrap';
 import classnames from 'classnames';
-import io from 'socket.io-client';
 
 import CourseList from '../components/CourseList';
 import CourseForm from '../components/CourseForm';
@@ -17,7 +15,6 @@ const Admin = (props) => {
     } = props;
     const [loaded, setLoaded] = useState(false);
     const [activeTab, setActiveTab] = useState('1');
-    const [socket, setSocket] = useState(() => io(":8000"));
 
     const toggle = (tab) => {
         if(activeTab !== tab) setActiveTab(tab);
@@ -70,10 +67,11 @@ const Admin = (props) => {
                         md={{ offset: 1, size: 10}}
                         sm="12"><br/>
                         <h4>Manage Courses</h4><br/>
-                        <CourseList 
+                        {loaded && <CourseList 
+                            setLoaded={setLoaded}
                             catalog={catalog}
                             setCatalog={setCatalog}
-                            />
+                        />}
                     </Col>
                 </Row>
             </TabPane>
@@ -86,6 +84,7 @@ const Admin = (props) => {
                         <CourseForm 
                             errors={errors}
                             setErrors={setErrors}
+                            setCatalog={setCatalog}
                         />
                     </Col>
                 </Row>

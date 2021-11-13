@@ -1,12 +1,30 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Container, Table, Button} from 'reactstrap';
 import {Link} from '@reach/router';
-import io from 'socket.io-client';
+import axios from 'axios';
 
 const CourseList = (props) => {
-    const {catalog, enrollUser, dropUser} = props;
-    const [socket] = useState(() => io(':8000'));
+    const {catalog, setCatalog, setLoaded} = props;
+    const dbHost = process.env.DB_HOST;
+   
+    useEffect(() => {
+        axios.get(`http://${dbHost}/api/courses`,
+        {withCredentials: true})
+            .then((res) => {
+                console.log(res);
+                setCatalog(res.data);
+                setLoaded(true);
+            })
+            .catch((err) => console.log(err));
+    }, [dbHost, setCatalog, setLoaded]);
 
+    const enrollUser = (_id) => {
+        return null
+    }
+
+    const dropUser = (_id) => {
+        return null
+    }
 
     return (
         <Container>
