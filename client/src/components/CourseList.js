@@ -22,7 +22,10 @@ const CourseList = (props) => {
             console.log('in added_new_course');
             console.log(newCourseObj);
             console.log(catalog);
-            setCatalog([...catalog, newCourseObj]);
+            //passes the current value of the catalog array as a parameter for the function
+            //returns brand new array for the setter to use
+            //by default, it's an empty array because of when it was initiated and saved into state
+            setCatalog((currentCatalog) => [...catalog, newCourseObj]);
         })
         //best practice: socket client disconnects when the component is closed
         //return from useEffect will only run when the component is closed
