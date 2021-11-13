@@ -38,9 +38,9 @@ monitor-waveform
 
 technologies:
 reactstrap      x
-dotenv
+dotenv          X
 fontawesome     x
-Socket.io
-JSON web tokens
-Cookies
+Socket.io       x
+JSON web tokens x
+Cookies         x
 AWS EC2 deployment

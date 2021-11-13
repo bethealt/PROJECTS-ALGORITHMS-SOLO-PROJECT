@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Container, Row, Col, Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
 import {navigate} from '@reach/router';
 import io from 'socket.io-client';
 
-const CourseForm = (props) => {
-    const {dbHost, errors, setErrors} = props;
+const CourseUpdate = (props) => {
+    const {dbHost, _id, errors, setErrors} = props;
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState();
@@ -16,13 +16,25 @@ const CourseForm = (props) => {
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState();
     const [county, setCounty] = useState('');
+    const [course, setCourse] = useState({});
     const [socket] = useState(() => io(':8000'));
     //passes a callback function to initialize the socket
     //setSocket is not required as the socket state will not be updated
-  
+    
+    useEffect(() => {
+        axios.get(`http://${dbHost}/api/courses/${_id}`,
+        {withCredentials: true})
+            .then((res) => {
+                console.log(res);
+                setCourse(res.data)
+                
+            })
+            .catch((err) => console.log(err))  
+    }, []);
+
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        const newCourse = {
+        const updatedCourse = {
             title,
             description,
             date,
@@ -35,17 +47,17 @@ const CourseForm = (props) => {
             county
         };
 
-        axios.post(`http://${dbHost}/api/courses`, newCourse,
+    axios.put(`http://${dbHost}/api/courses`, updatedCourse,
         {withCredentials: true})
             .then((res) => {
-                console.log('Adding a new course:')
+                console.log('Updating an existing course:')
                 console.log(res.data);
-                socket.emit("added_new_course", res.data);
+                socket.emit("updated_course", res.data);
                 socket.disconnect();
                 navigate('/admin');
-                //successfully adds a new course
-                //notifies the server so that it sends a message and data to all listeners
-                //sends the entire new course object to the socket.io server
+                //succesfully updates an existing course
+                //notifies the server so that it sends message and data to all listeners
+                //sends the entire updated course object to the socket.io server
                 //disconnects from the server before navigating away
             })
             .catch((err) => {
@@ -58,7 +70,7 @@ const CourseForm = (props) => {
                 }
             })
     }
-    
+
     return (
         <Container>
             <Form onSubmit={onSubmitHandler}>
@@ -75,7 +87,7 @@ const CourseForm = (props) => {
                                 id='title'
                                 name='title'
                                 placeholder='Enter a course title'
-                                value={title}
+                                value={course.title}
                                 onChange = {(e) => setTitle(e.target.value)}
                             />
                         </FormGroup>
@@ -87,7 +99,7 @@ const CourseForm = (props) => {
                                 id='description'
                                 name='description'
                                 placeholder='Enter a course description'
-                                value={description}
+                                value={course.description}
                                 onChange = {(e) => setDescription(e.target.value)}
                             />
                         </FormGroup>
@@ -98,7 +110,7 @@ const CourseForm = (props) => {
                                 id='date'
                                 name='date'
                                 placeholder='Select a date'
-                                value={date}
+                                value={course.date}
                                 onChange = {(e) => setDate(e.target.value)}
                             />
                         </FormGroup>
@@ -109,7 +121,7 @@ const CourseForm = (props) => {
                                 id='start'
                                 name='start'
                                 placeholder='Enter a start time'
-                                value={start}
+                                value={course.start}
                                 onChange = {(e) => setStart(e.target.value)}
                                 />
                         </FormGroup>
@@ -120,7 +132,7 @@ const CourseForm = (props) => {
                                 id='end'
                                 name='end'
                                 placeholder='Enter a end time'
-                                value={end}
+                                value={course.end}
                                 onChange = {(e) => setEnd(e.target.value)}
                                 />
                         </FormGroup>
@@ -133,7 +145,7 @@ const CourseForm = (props) => {
                                 id='location'
                                 name='location'
                                 placeholder='Enter a location'
-                                value={location}
+                                value={course.location}
                                 onChange = {(e) => setLocation(e.target.value)}
                                 />
                         </FormGroup>
@@ -144,7 +156,7 @@ const CourseForm = (props) => {
                                 id='streetAddress'
                                 name='streetAddress'
                                 placeholder='Enter a street address'
-                                value={streetAddress}
+                                value={course.streetAddress}
                                 onChange = {(e) => setStreetAddress(e.target.value)}
                                 />
                         </FormGroup>
@@ -155,7 +167,7 @@ const CourseForm = (props) => {
                                 id='city'
                                 name='city'
                                 placeholder='Enter a city'
-                                value={city}
+                                value={course.city}
                                 onChange = {(e) => setCity(e.target.value)}
                                 />
                         </FormGroup>
@@ -166,7 +178,7 @@ const CourseForm = (props) => {
                                 id='zipCode'
                                 name='zipCode'
                                 placeholder='Enter a zip code'
-                                value={zipCode}
+                                value={course.zipCode}
                                 onChange = {(e) => setZipCode(e.target.value)}
                                 />
                         </FormGroup>
@@ -177,7 +189,7 @@ const CourseForm = (props) => {
                                 id='county'
                                 name='county'
                                 placeholder='Enter a county'
-                                value={county}
+                                value={course.county}
                                 onChange = {(e) => setCounty(e.target.value)}
                                 />
                         </FormGroup>
@@ -187,6 +199,6 @@ const CourseForm = (props) => {
             </Form>
         </Container>
     )
-}
 
-export default CourseForm;
+}
+export default CourseUpdate;

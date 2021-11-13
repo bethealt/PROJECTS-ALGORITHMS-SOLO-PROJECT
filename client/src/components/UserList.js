@@ -1,23 +1,37 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Container, Table, Button} from 'reactstrap';
-import {Link} from '@reach/router';
+import {Link, navigate} from '@reach/router';
 import io from 'socket.io-client';
 
 const UserList = (props) => {
     const {dbHost, setAdmin, setLoaded, users, setUsers} = props;
+    const [admins, setAdmins] = useState([]);
     const [socket] = useState(() => io(':8000'));
     //passes a callback function to initialize the socket
     //setSocket is not required as the socket state will not be updated
 
     useEffect(() => {
-        //confirms connection to and comuunication with the server
         console.log(`Inside {UL} useEffect for socket.io-client`)
-
         socket.on('connect', () => {
             console.log(`Connected to the server via socket: ${socket.id}`);
+            //confirms connection to and comuunication with the server
         })
-    })
+        socket.on('user_authorized', (authorizedUser) => {
+            console.log('in authorized_user:');
+            console.log(authorizedUser);
+            console.log(admins);
+            setAdmins((currentAdmins) => [...admins, authorizedUser]);
+            //passes the current value of the catalog array as a parameter for the function
+            //returns brand new array for the setter to use
+            //by default, it's an empty array because of when it was initiated and saved into state
+        })
+        return () => socket.disconnect();
+        //best practice: socket client disconnects when the component is closed
+        //return from useEffect will only run when the component is closed
+        //include the dependency array to enusure that the useEffect continues to run
+
+    }, []);
 
     useEffect(() => {
         axios.get(`http://${dbHost}/api/users`,
@@ -28,10 +42,20 @@ const UserList = (props) => {
                 setLoaded(true);
             })
             .catch((err) => console.log(err));
-    }, [setAdmin, setLoaded, setUsers, dbHost]);
+    }, []);
 
     const authorizeUser = (_id) => {
-        setAdmin(true);
+        axios.get(`http://${dbHost}/api/users/${_id}`,
+        {withCredentials: true})
+            .then((res) => {
+                setAdmin(true);
+                setAdmins([...admins, res.data]);
+                console.log('Authorizing an existing user:');
+                console.log(res.data);
+                socket.emit("authorize_user", _id);
+                socket.disconnect();
+            })
+            .catch((err) => console.log(err));
     }
 
     const removeFromDom = (_id) => {
@@ -41,7 +65,18 @@ const UserList = (props) => {
     const deleteUser = (_id) => {
         axios.delete(`http://${dbHost}/api/users/${_id}`,
         {withCredentials: true})
-            .then(res => {removeFromDom(_id)})
+            .then(res => {
+                removeFromDom(_id)
+                console.log('Deleting an existing user:')
+                console.log(res.data);
+                socket.emit("deleted_user", _id)
+                socket.disconnect();
+                navigate('/admin');
+                //successfully deletes an existing user
+                //notifies the server so that it sends a message and data to all listeners
+                //sends the user_id to the socket.io server
+                //disconnects from the server before navigating away
+            })
             .catch(err => console.log(err));
     }
 
@@ -52,8 +87,9 @@ const UserList = (props) => {
                     <tr>
                         <th data-type='string'>First Name</th>
                         <th data-type='string'>Last Name</th>
-                        <th data-type='date'>Email</th>
-                        <th data-type='string'>Zip Code</th>
+                        <th data-type='string'>Email</th>
+                        <th data-type='number'>Zip Code</th>
+                        <th data-type='boolean'>Admin Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

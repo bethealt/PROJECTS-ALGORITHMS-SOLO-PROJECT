@@ -72,26 +72,33 @@ io.on("connection", (socket) => {
         console.log(newCourseObj);
         socket.broadcast.emit("new_course_added", newCourseObj);
     });
-    socket.on("canceled_course", data => {
-        socket.broadcast.emit("course_canceled", data)
+    socket.on("updated_course", (updatedCourseObj) => {
+        console.log("An existing course was updated.");
+        console.log(updatedCourseObj);
+        socket.broadcast.emit("course_updated", updatedCourseObj);
     });
-    socket.on("updated_course", data => {
-        socket.broadcast.emait("course_updated", data)
+    socket.on("deleted_course", (deletedCourseId) => {
+        console.log("An existing course was deleted.");
+        console.log(deletedCourseId);
+        socket.broadcast.emit("course_deleted", deletedCourseId);
     });
     socket.on("registered_user", data => {
         socket.broadcast.emit("user_registered", data)
     });
-    socket.on("authorized_user", data => {
-        socket.broadcast.emit("user_authorized", data)
-    });
     socket.on("updated_user", data => {
         socket.broadcast.emit("user_updated", data)
+    });
+    socket.on("deleted_user", data => {
+        socket.broadcast.emit("user_deleted", data)
+    })
+    socket.on("authorized_user", data => {
+        socket.broadcast.emit("user_authorized", data)
     });
     socket.on("enrolled_user", data => {
         socket.broadcast.emit("user_enrolled", data)
     });
-    socket.on("removed_user", data => {
-        socket.broadcast.emit("user_removed", data)
+    socket.on("dropped_user", data => {
+        socket.broadcast.emit("user_droppped", data)
     });
 
 });
