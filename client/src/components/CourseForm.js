@@ -2,9 +2,11 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {Container, Row, Col, Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
 import {navigate} from '@reach/router';
+import io from 'socket.io-client';
 
 const CourseForm = (props) => {
-   const [title, setTitle] = useState('');
+    const {dbHost, errors, setErrors} = props;
+    const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState();
     const [start, setStart] = useState();
@@ -14,8 +16,10 @@ const CourseForm = (props) => {
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState();
     const [county, setCounty] = useState('');
-    const {dbHost, errors, setErrors} = props;
-
+    const [socket] = useState(() => io(':8000'));
+    //passes a callback function to initialize the socket
+    //setSocket is not required as the socket state will not be updated
+  
     const onSubmitHandler = (e) => {
         e.preventDefault();
         const newCourse = {
@@ -33,7 +37,13 @@ const CourseForm = (props) => {
         axios.post(`http://${dbHost}/api/courses`, newCourse,
         {withCredentials: true})
             .then((res) => {
+                //successfully adds a new course
+                //notifies the server so that it can send msg + data to all listeners
+                //sends the entire new object to the socket.io server
+                //disconnects from the server before navigating away
                 console.log(res);
+                socket.emit("added_new_course", res.data);
+                socket.disconnect();
                 navigate('/catalog');
             })
             .catch((err) => {

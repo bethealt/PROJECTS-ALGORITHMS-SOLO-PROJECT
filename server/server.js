@@ -66,9 +66,11 @@ io.on("connection", (socket) => {
     });
 
     //uses specific socket to create event listeners and emitters for clients
-    socket.on("added_new_course", data => {
-        //sends a message with "data" to ALL clients EXCEPT for the one that emitted the "event_from_client" event
-        socket.broadcast.emit("new_course_added", data)
+    //sends a message with "data" to ALL clients EXCEPT for the one that emitted the "event_from_client" event
+    socket.on("added_new_course", (newCourseObj) => {
+        console.log("A new course was added.");
+        console.log(newCourseObj);
+        socket.broadcast.emit("new_course_added", newCourseObj);
     });
     socket.on("canceled_course", data => {
         socket.broadcast.emit("course_canceled", data)

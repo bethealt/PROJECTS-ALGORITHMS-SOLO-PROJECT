@@ -5,8 +5,8 @@ import {Link} from '@reach/router';
 import io from 'socket.io-client';
 
 const UserList = (props) => {
-    const {dbHost, dbPort, setAdmin, setLoaded, users, setUsers} = props;
-    const [socket] = useState(() => io(`:${dbPort}`));
+    const {dbHost, setAdmin, setLoaded, users, setUsers} = props;
+    const [socket] = useState(() => io(':8000'));
     //passes a callback function to initialize the socket
     //setSocket is not required as the socket state will not be updated
 

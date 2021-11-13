@@ -1,15 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import {Container, Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
 import {navigate} from '@reach/router';
 
 const LoginForm = (props) => {
-    const {
-        dbHost,
-        emailAddress, setEmailAddress, 
-        errors, setErrors,
-        password, setPassword} = props;
-
+    const {dbHost, userLoggedIn, setUserLoggedIn, errors, setErrors} = props;
+    const [emailAddress, setEmailAddress] = useState('');
+    const [password, setPassword] = useState('');
+    
     const onSubmitHandler = (e) => {
         e.preventDefault();
         const newLogin = {
@@ -21,10 +19,11 @@ const LoginForm = (props) => {
         {withCredentials: true})
             .then((res) => {
                 console.log(res);
+                setUserLoggedIn(!userLoggedIn);
                 navigate('/dashboard');
             })
             .catch((err) => {
-                if(err.response.status === (401)) {
+                if(err.response.data.status === (401)) {
                     navigate('/');
                 }
                 console.log(err.response.data.errors);

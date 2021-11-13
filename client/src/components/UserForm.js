@@ -4,6 +4,7 @@ import {Container, Row, Col, Form, FormGroup, Input, Label, Button, Alert} from 
 import {navigate} from '@reach/router';
 
 const UserForm = (props) => {
+    const {dbHost, userRegistered, setUserRegistered, errors, setErrors} = props;
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [emailAddress, setEmailAddress] = useState('');
@@ -11,7 +12,6 @@ const UserForm = (props) => {
     const [zipcode, setZipCode] = useState();
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const {dbHost, errors, setErrors} = props;
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
@@ -29,6 +29,7 @@ const UserForm = (props) => {
         {withCredentials: true})
             .then((res) => {
                 console.log(res);
+                setUserRegistered(!userRegistered)
                 navigate('/dashboard');
             })
             .catch((err) => {
