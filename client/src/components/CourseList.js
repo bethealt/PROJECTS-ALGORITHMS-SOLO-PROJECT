@@ -1,12 +1,28 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Container, Table, Button} from 'reactstrap';
 import {Link} from '@reach/router';
 import axios from 'axios';
+import io from 'socket.io-client';
 
 const CourseList = (props) => {
     const {catalog, setCatalog, setLoaded} = props;
     const dbHost = process.env.DB_HOST;
-   
+    const dbPort = process.env.DB_PORT;
+    const [socket] = useState(() => io(`:${dbPort}`));
+    //passes a callback function to initialize the socket
+    //setSocket is not required as the socket state will not be updated
+
+    useEffect(() => {
+        //confirms connection to and communication with the server
+        console.log(`Inside {CL} useEffect for socket.io-client`);
+
+        socket.on('connect', () => {
+            console.log(`Connected to the server via socket: ${socket.id}`);
+            
+
+        })
+    })
+    
     useEffect(() => {
         axios.get(`http://${dbHost}/api/courses`,
         {withCredentials: true})

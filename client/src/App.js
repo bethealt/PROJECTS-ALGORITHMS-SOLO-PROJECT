@@ -15,8 +15,8 @@ function App() {
   const [admin, setAdmin] = useState(false);
   const [catalog, setCatalog] = useState([]);
   const [errors, setErrors] = useState([]);
-  const [onSubmitProp] = useState({});
   const [users, setUsers] = useState([]);
+  const [onSubmitProp] = useState({});
 
   return (
     <Container className='App'>

@@ -27,13 +27,13 @@ app.use(cors({credentials: true, origin: `http://${process.env.DB_HOST}`}));
 //enables the app to send and read cookies with each request/response
 app.use(cookieParser());
 
-//add routes to listen
+//adds routes to listen
 require('./routes/user.routes')(app);
 require('./routes/course.routes')(app);
  
 //initializes the socket, invokes a new socket.io instance, and passes the express server
 const io = require("socket.io")(server, {
-    //always include a configuration settings object to prevent CORS errors
+    //includes a configuration settings object to prevent CORS errors
     cors: {
         origin: 'http://localhost:3000',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],

@@ -12,7 +12,11 @@ const CourseForm = (props) => {
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState();
     const [county, setCounty] = useState('');
-    const {onSubmitHandler, errors} = props;
+    const {errors} = props;
+
+    const onSubmitHandler = (e) => {
+
+    }
     
     return (
         <Container>
