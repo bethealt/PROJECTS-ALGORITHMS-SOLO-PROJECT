@@ -1,11 +1,23 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Container, Table, Button} from 'reactstrap';
 import {Link} from '@reach/router';
+import io from 'socket.io-client';
 
 const UserList = (props) => {
-    const {setAdmin, setLoaded, users, setUsers} = props;
-    const dbHost = process.env.DB_HOST;
+    const {dbHost, dbPort, setAdmin, setLoaded, users, setUsers} = props;
+    const [socket] = useState(() => io(`:${dbPort}`));
+    //passes a callback function to initialize the socket
+    //setSocket is not required as the socket state will not be updated
+
+    useEffect(() => {
+        //confirms connection to and comuunication with the server
+        console.log(`Inside {UL} useEffect for socket.io-client`)
+
+        socket.on('connect', () => {
+            console.log(`Connected to the server via socket: ${socket.id}`);
+        })
+    })
 
     useEffect(() => {
         axios.get(`http://${dbHost}/api/users`,

@@ -17,7 +17,6 @@ const Login = (props) => {
         emailAddress, birthDate,
         zipcode, 
         password,
-        onSubmitProp 
     } = props;
     const [activeTab, setActiveTab] = useState('1');
     const [userRegistered, setUserRegistered] = useState(false);

@@ -1,5 +1,7 @@
-import {React, useState} from 'react';
+import React, {useState} from 'react';
+import axios from 'axios';
 import {Container, Row, Col, Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
+import {navigate} from '@reach/router';
 
 const CourseForm = (props) => {
    const [title, setTitle] = useState('');
@@ -12,10 +14,37 @@ const CourseForm = (props) => {
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState();
     const [county, setCounty] = useState('');
-    const {errors} = props;
+    const {dbHost, errors, setErrors} = props;
 
     const onSubmitHandler = (e) => {
+        e.preventDefault();
+        const newCourse = {
+            title,
+            description,
+            date,
+            start,
+            end,
+            location,
+            streetAddress,
+            city,
+            county
+        };
 
+        axios.post(`http://${dbHost}/api/courses`, newCourse,
+        {withCredentials: true})
+            .then((res) => {
+                console.log(res);
+                navigate('/catalog');
+            })
+            .catch((err) => {
+                if(err.response.status === (401)) {
+                    navigate('/');
+                }
+                console.log(err.response.data.errors);
+                if (err.response.data.errors) {
+                    setErrors(err.response.data.errors);
+                }
+            })
     }
     
     return (
