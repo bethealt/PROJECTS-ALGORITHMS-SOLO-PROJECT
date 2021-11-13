@@ -16,8 +16,8 @@ INTEGRATIONS:
 - private route for site administrator
 
 ISSUES:
-- initial rendering of index page requires refresh    x
-- revisit and refine CRUD applications x
+- initial rendering of index page requires refresh      x
+- revisit and refine CRUD applications 
 - revisit error messaging and apply consistent construction     x
 - onSubmitProp & undefined Object.error
 - standardize Submit buttons                           x

@@ -13,7 +13,7 @@ USER FEATURES (MVP)
 1.	User/admin login/registration page
 2.	User edits personal profile 
 3.	User registers for class/creates RSVP object
-4.	User can retrieve a list of all classes or a list of classes that they are currently associated with
+4.	User can retrieve a list of all classes or a list of classes that they are currently associated with (course history)
 5.	User cancels an existing class RSVP
 6.	User cannot register for class w/o login
 
@@ -37,9 +37,9 @@ wave-pulse
 monitor-waveform
 
 technologies:
-reactstrap
+reactstrap      x
 dotenv
-fontawesome
+fontawesome     x
 Socket.io
 JSON web tokens
 Cookies
