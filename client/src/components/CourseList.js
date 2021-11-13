@@ -31,6 +31,8 @@ const CourseList = (props) => {
         //return from useEffect will only run when the component is closed
         //include the dependency array to enusure that the useEffect continues to run
         return () => socket.disconnect();
+
+        socket.on('course_canceled', ())
     }, []);
     
     useEffect(() => {
@@ -43,6 +45,17 @@ const CourseList = (props) => {
             })
             .catch((err) => console.log(err));
     }, [dbHost, setCatalog, setLoaded]);
+
+    const removeFromDom = (_id) => {
+        setCatalog(catalog.filter(course => course._id !== _id));
+    }
+
+    const cancelCourse = (_id) => {
+        axios.delete(`http://${dbHost}/api/courses/${_id}`,
+        {withCredentials: true})
+            .then(res => {removeFromDom(_id)})
+            .catch(err =>  console.log(err));
+    }
 
     const enrollUser = (_id) => {
         return null
@@ -78,11 +91,23 @@ const CourseList = (props) => {
                                     <td>{course.time}</td>
                                     <td>{course.city}</td>
                                     <td>{course.county}</td>
-                                    <td>
-                                        <Link to={`/courses/${course._id}`}><Button>View</Button></Link>&nbsp;&nbsp;
+                                    {
+                                        admin === true ?
+                                        <td>
+                                        <Link to={`/courses/${course._id}`}>
+                                        <Button>View</Button></Link>&nbsp;&nbsp;
+                                        <Link to={`/courses/edit/${course._id}`}>
+                                        <Button>Edit</Button></Link>&nbsp;&nbsp;
+                                        <Button onClick={cancelCourse}>Cancel</Button>&nbsp;&nbsp;
+                                        </td>
+                                        :
+                                        <td>
+                                        <Link to={`/courses/${course._id}`}>
+                                        <Button>View</Button></Link>&nbsp;&nbsp;
                                         <Button onClick={enrollUser}>Enroll</Button>&nbsp;&nbsp;
                                         <Button onClick={dropUser}>Drop</Button>
-                                    </td>
+                                        </td>
+                                    }
                                 </tr>
                         )})}
                 </tbody>

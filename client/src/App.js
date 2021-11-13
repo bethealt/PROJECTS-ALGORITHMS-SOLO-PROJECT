@@ -8,8 +8,8 @@ import NavBar from './components/NavBar';
 import Login from './views/Login';
 import Admin from './views/Admin';
 import Dashboard from './views/Dashboard';
-import ViewCourse from './views/ViewCourse';
-import ViewUser from './views/ViewUser';
+import CourseView from './views/CourseView';
+import UserView from './views/UserView';
 
 function App() {
   const dbHost = process.env.DB_HOST;
@@ -51,14 +51,14 @@ function App() {
           errors={errors}
           setErrors={setErrors}
           />
-        <ViewCourse 
+        <CourseView 
           path='/courses/:id'
           dbHost={dbHost}
           dbPort={dbPort}
           errors={errors}
           setErrors={setErrors}
           />
-        <ViewUser 
+        <UserView
           path='/users/:id'
           dbHost={dbHost}
           dbPort={dbPort}
