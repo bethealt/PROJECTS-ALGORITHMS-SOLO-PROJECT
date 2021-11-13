@@ -5,7 +5,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 
 const CourseList = (props) => {
-    const {admin, catalog, setCatalog, dbHost, setLoaded} = props;
+    const {admin, catalog, setCatalog, enrolledCourses, setEnrolledCourses, dbHost, setLoaded} = props;
     const [courses, setCourses] = useState([]);
     const [socket] = useState(() => io(':8000'));
     //passes a callback function to initialize the socket
@@ -98,8 +98,19 @@ const CourseList = (props) => {
         .catch((err) => console.log(err));
     }
 
-    const dropUser = (_id) => {
-        return null
+    const dropUser = (enrolledCourses, _id) => {
+        axios.get(`http://${dbHost}/api/courses/${_id}`,
+        {withCredentials: true})
+        .then((res) => {
+            let dropObj = res.data
+            setEnrolledCourses((currentEnrolledCourses) => {
+            let filteredCourses = currentEnrolledCourses.flter(courseObj => (courseObj._id !== dropObj._id))
+            console.log('Dropping user from a class:')
+            console.log(dropObj);
+            socket.emit("drop_user", dropObj);
+            socket.disconnect();
+        })})
+        .catch((err) => console.log(err));
     }
 
     return (

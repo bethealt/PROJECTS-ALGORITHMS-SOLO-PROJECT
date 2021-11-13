@@ -16,6 +16,7 @@ function App() {
   const dbPort = process.env.DB_PORT;
   const [admin, setAdmin] = useState(false);
   const [catalog, setCatalog] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [errors, setErrors] = useState([]);
   const [users, setUsers] = useState([]);
 
@@ -48,6 +49,8 @@ function App() {
           dbHost={dbHost}
           dbPort={dbPort} 
           catalog={catalog} 
+          courses={courses}
+          setCourses={setCourses}
           errors={errors}
           setErrors={setErrors}
           />

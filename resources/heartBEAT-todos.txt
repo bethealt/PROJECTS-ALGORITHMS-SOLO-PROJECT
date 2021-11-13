@@ -27,8 +27,8 @@ ERRORS:
 - undefined Object.error                x
 
 FUNCTIONS:
-- enroll
-- drop
+- enroll        x
+- drop          x
 - authorize     x
 - delete        x
 
@@ -41,7 +41,7 @@ TECHNOLOGIES:
 - reactstrap                x
 - dotenv                    x
 - fontawesome               x
-- Socket.io
+- Socket.io                 x
 - JSON web tokens           x   
 - Cookies                   x
 - AWS EC2 deployment
