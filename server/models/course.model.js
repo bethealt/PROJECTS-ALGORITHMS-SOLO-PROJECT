@@ -56,6 +56,6 @@ const CourseSchema = new mongoose.Schema({
 
 CourseSchema.plugin(uniqueValidator,{
     msg: 'Course already exists in the database.'});
-
+    
 module.exports = mongoose.model('Course', CourseSchema);
 

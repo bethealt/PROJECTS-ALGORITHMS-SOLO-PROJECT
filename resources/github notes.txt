@@ -4,7 +4,9 @@ https://github.com/bethealt/PROJECTS-ALGORITHMS-solo-project-heartBEAT.git
 TERMINAL COMMANDS
 
 git init                    initialize local git repository for current folder: /.git
-ls  -a                      list all folders
+rm -rf .git                 removes .git directory without prompts/irreversible
+ls -a                       list all folders
+ls -al                      reveals all hidden folders (including .git)
 git add .                   adds all files to staging
 git add                     add individual files to staging
 git status                  provides status of staged files
@@ -24,7 +26,10 @@ q                           quit git log
 git reset --hard commit_#   reverts both local/remote repos (no syncing)
 
 git commit -m 'initial commit. html and css files setup'
-- quotes encapsulate comments on what the commit involves             
+- quotes encapsulate comments on what the commit involves    
+
+echo node_modules/ > .gitignore     
+- creates gitignore files that ensures that node_modules will not be included in either client/server folders
 
 DISTINCTION ENTRE LOCAL & REMOTE REPOS
 commit is to local, like push is to remote

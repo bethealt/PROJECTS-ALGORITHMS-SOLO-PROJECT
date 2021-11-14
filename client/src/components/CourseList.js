@@ -5,7 +5,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 
 const CourseList = (props) => {
-    const {admin, catalog, setCatalog, enrolledCourses, setEnrolledCourses, dbHost, setLoaded} = props;
+    const {admin, catalog, setCatalog, setEnrolledCourses, dbHost, setLoaded} = props;
     const [courses, setCourses] = useState([]);
     const [socket] = useState(() => io(':8000'));
     //passes a callback function to initialize the socket

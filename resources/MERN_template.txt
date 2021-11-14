@@ -1,0 +1,12 @@
+MERN TEMPLATE
+
+server.js 
+
+//import express and other libraries
+//configure express app server
+//configure mongoose to connect 
+//add routes for listening
+//start app servers listening
+
+app.css
+

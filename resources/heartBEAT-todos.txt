@@ -10,7 +10,7 @@ TO BUILD:
 
 INTEGRATIONS:
 - Google Directions API
-- Socket.io Rooms
+- Socket.io 
 - AWS EC2
 - .env (environment variables)          x
 - private route for site administrator

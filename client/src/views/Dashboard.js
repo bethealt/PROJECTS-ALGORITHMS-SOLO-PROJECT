@@ -6,7 +6,7 @@ import {navigate} from '@reach/router';
 
 import CourseHistory from '../components/CourseHistory';
 import CourseList from '../components/CourseList';
-import UserForm from '../components/UserForm';
+import UserRegister from '../components/UserRegister';
 
 const Dashboard = (props) => {
     const dbPort = process.env.DB_PORT
@@ -90,7 +90,7 @@ const Dashboard = (props) => {
                             md={{ offset: 1, size: 10}}
                             sm="12"><br/>
                             <h4>Manage Your Profile</h4><br/>
-                            <UserForm
+                            <UserRegister
                                 onSubmitProp = {updateUser} 
                                 errors={errors} 
                             />

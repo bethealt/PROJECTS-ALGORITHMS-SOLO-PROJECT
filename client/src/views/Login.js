@@ -3,7 +3,7 @@ import {Container, Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'r
 import classnames from 'classnames';
 
 import LoginForm from '../components/LoginForm';
-import UserForm from '../components/UserForm';
+import UserRegister from '../components/UserRegister';
 
 const Login = (props) => {
     const {dbHost, errors, setErrors} = props;
@@ -56,7 +56,7 @@ const Login = (props) => {
                             md={{ offset: 1, size: 10}}
                             sm="12"><br/>
                             <h4>Welcome to heartBEAT!</h4><br/>
-                            <UserForm
+                            <UserRegister
                                 dbHost={dbHost}
                                 userRegistered={userRegistered}
                                 setUserRegistered={setUserRegistered}

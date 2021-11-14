@@ -1,28 +1,47 @@
-const User = require('../models/user.model');
+const {User, Admin} = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
     register: (req, res) => {
-        console.log("in register:");
-        console.log(req.body);
-        const user = new User(req.body);
-        //uses req data and the user model contructor to create a user object
-
-        user.save()
-            .then((newUser) => {
-                console.log("Registration successful.");
-                console.log(newUser);
-                res.json({
-                    message: "Registration successful.",
-                    user: newUser
-                })
+        User.create(req.body)
+            .then(user => {
+                const payload = {
+                    id: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    admin: false,
+                  };
+                const userToken = jwt.sign(payload, process.env.JWT_SECRET_KEY1);
+                  
+                res
+                  .cookie("usertoken", userToken, secret, {
+                      httpOnly: true
+                  })
+                  .json({msg: "Registration & login successful!", user: user});
             })
-            .catch((err) => {
-                console.log("Registration not successful.");
-                res.status(400).json(err);
-            });
-    },       
+            .catch(err => res.status(400).json(err))
+    },
+
+    registerAdmin: (req, res) => {
+        Admin.create(req.body)
+            .then(admin => {
+                const payload = {
+                    id: admin._id,
+                    firstName: admin.firstName,
+                    lastName: admin.lastName,
+                    admin: true
+                  };
+                const adminToken = jwt.sign(payload, process.env.JWT_SECRET_KEY2);
+                  
+                res
+                  .cookie("admintoken", adminToken, secret, {
+                      httpOnly: true
+                  })
+                  .json({msg: "Registration & login successful!", admin: admin});
+            })
+            .catch(err => res.status(400).json(err))
+    },
 
     login: async(req, res) => {
         const user = await User.findOne({emailAddress: req.body.emailAddress});
@@ -44,7 +63,7 @@ module.exports = {
         const userToken = jwt.sign(payload, process.env.JWT_SECRET_KEY1);
 
         res
-          .cookie("usertoken", userToken, secret, {
+          .cookie("usertoken", userToken, secret1, {
               httpOnly: true
           })
           .json({msg: "Login successful."});

@@ -1,57 +1,74 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import {Container, Row, Col, Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
-import {navigate} from '@reach/router';
 
-const UserForm = (props) => {
-    const {dbHost, userRegistered, setUserRegistered, errors, setErrors} = props;
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [emailAddress, setEmailAddress] = useState('');
-    const [birthDate, setBirthDate] =useState('');
-    const [zipcode, setZipCode] = useState();
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+const UserRegister = (props) => {
+    const {dbHost} = props;
+    const [userRegConfirm, setUserRegConfirm] = useState('');
+    const [errs, setErrs] = useState([]);
+
+    const[user, setUser] = useState({
+        firstName: '',
+        lastName: '',
+        emailAddress: '',
+        birthDate: '',
+        zipCode: '',
+        password: '',
+        confirmPassword: '',
+    })
+
+    const onChangeHandler = (e) => {
+        setUser({...user, [e.target.name]: e.target.value})
+        //uses a single function to update the state object
+        //input name serves as the key into the object
+    }
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        const newUser = {
-            firstName,
-            lastName,
-            emailAddress,
-            birthDate,
-            zipcode,
-            password,
-            confirmPassword
-        };
-
-        axios.post(`http://${dbHost}/api/users/register`, newUser,
+        axios.post(`http://${dbHost}/api/users/register`, user,
         {withCredentials: true})
             .then((res) => {
-                console.log(res);
-                setUserRegistered(!userRegistered)
-                navigate('/dashboard');
+                console.log('successful registration:')
+                console.log(res.data);
+                setUser({
+                    firstName: '',
+                    lastName: '',
+                    emailAddress: '',
+                    birthDate: '',
+                    zipCode: '',
+                    password: '',
+                    confirmPassword: '',
+                })
+                setUserRegConfirm("Registration successful: please login.")
+                setErrs([]);
+                //user state exists as an object with correct keys and values
+                //forces the send of credentials/cookies with request for update
+                //XMLHttpRequest from another domain cannot set cookie values for their own domain unless {withCredentials: true} before making request
+                //reset state for UserRegister as user does not navigate away
+                //reset errors state if registration is successful
             })
             .catch((err) => {
-                console.log(err)
-                if(err.response.status === (401)) {
-                    navigate('/');
-                }
+                console.log(err);
                 console.log(err.response.data.errors);
-                if (err.response.data.errors) {
-                    setErrors(err.response.data.errors);
-                }
-            })
-    }
+                setErrs(err.response.data.errors);
+                });
+    };
 
     return (
         <Container>
-            <Form onSubmit={onSubmitHandler}>
-            {errors.map((error, index) => {
-                return (
-                    <Alert key={index} color='primary'>{error}</Alert>
-                )})}<br/>
+            {errs !== null ?
+                {errs, map((err, index) => {
+                    return(
+                    <Row>
+                        <Alert key={index} color='primary'>{err}</Alert><br/>
+                    </Row>)
+                    :
                 <Row>
+                    <Alert color='success'>{userRegConfirm}</Alert><br/>
+                </Row>
+            }
+            <Row>
+                <Form onSubmit={onSubmitHandler}>
                     <Col>
                         <FormGroup>
                             <Label for='firstName' className='Form'>First Name</Label>
@@ -60,8 +77,8 @@ const UserForm = (props) => {
                                 id='firstName'
                                 name='firstName'
                                 placeholder='Enter a first name'
-                                value={firstName}
-                                onChange = {(e) => setFirstName(e.target.value)}
+                                value={user.firstName}
+                                onChange={onChangeHandler}
                                 />
                         </FormGroup>
                         <FormGroup>
@@ -71,8 +88,8 @@ const UserForm = (props) => {
                                 id='lastName'
                                 name='lastName'
                                 placeholder='Enter a last name'
-                                value={lastName}
-                                onChange = {(e) => setLastName(e.target.value)}
+                                value={user.lastName}
+                                onChange={onChangeHandler}
                                 />
                         </FormGroup>
                         <FormGroup>
@@ -82,8 +99,8 @@ const UserForm = (props) => {
                                 id='emailAddress'
                                 name='emailAddress'
                                 placeholder='Enter an email address'
-                                value={emailAddress}
-                                onChange = {(e) => setEmailAddress(e.target.value)}
+                                value={user.emailAddress}
+                                onChange={onChangeHandler}
                                 />
                         </FormGroup>
                         <FormGroup>
@@ -93,8 +110,8 @@ const UserForm = (props) => {
                                 id='birthDate'
                                 name='birthDate'
                                 placeholder='mm/dd/yyyy'
-                                value={birthDate}
-                                onChange = {(e) => setBirthDate(e.target.value)}
+                                value={user.birthDate}
+                                onChange={onChangeHandler}
                                 />
                         </FormGroup>
                     </Col>
@@ -103,11 +120,11 @@ const UserForm = (props) => {
                             <Label for='zipcode' className='Form'>Zip Code</Label>
                             <Input
                                 type='number'
-                                id='zipcode'
-                                name='zipcode'
+                                id='zipCode'
+                                name='zipCode'
                                 placeholder='Enter a zip code'
-                                value={zipcode}
-                                onChange = {(e) => setZipCode(e.target.value)}
+                                value={user.zipCode}
+                                onChange={onChangeHandler}
                                 />
                         </FormGroup>
                         <FormGroup>
@@ -117,8 +134,8 @@ const UserForm = (props) => {
                                 id='password'
                                 name='password'
                                 placeholder='Enter a password'
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                value={user.password}
+                                onChange={onChangeHandler}
                                 />
                         </FormGroup>
                         <FormGroup>
@@ -127,17 +144,17 @@ const UserForm = (props) => {
                                 type='password'
                                 id='confirmPassword'
                                 name='confirmPassword'
-                                value={confirmPassword}
+                                value={user.confirmPassword}
                                 placeholder='Confirm the password'
-                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                onChange={onChangeHandler}
                                 />
                         </FormGroup>
                     </Col>
-                </Row>
                 <Button color='danger' type='submit'>Submit</Button>
-            </Form>
+                </Form>
+            </Row>
         </Container>
     )
 }
 
-export default UserForm;
+export default UserRegister;
