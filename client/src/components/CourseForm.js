@@ -18,7 +18,7 @@ const CourseForm = (props) => {
     const [county, setCounty] = useState('');
     const [socket] = useState(() => io(':8000'));
     //passes a callback function to initialize the socket
-    //setSocket is not required as the socket state will not be updated
+    //setSocket is omitted as the socket state will not be updated
   
     const onSubmitHandler = (e) => {
         e.preventDefault();

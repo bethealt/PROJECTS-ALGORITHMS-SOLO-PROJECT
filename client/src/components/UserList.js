@@ -17,14 +17,24 @@ const UserList = (props) => {
             console.log(`Connected to the server via socket: ${socket.id}`);
             //confirms connection to and comuunication with the server
         })
-        socket.on('user_authorized', (authorizedUser) => {
+        socket.on('user_authorized', (authUserObj) => {
             console.log('in authorized_user:');
-            console.log(authorizedUser);
+            console.log(authUserObj);
             console.log(admins);
-            setAdmins((currentAdmins) => [...admins, authorizedUser]);
+            setAdmins((currentAdmins) => [...admins, authUserObj]);
             //passes the current value of the catalog array as a parameter for the function
             //returns brand new array for the setter to use
             //by default, it's an empty array because of when it was initiated and saved into state
+        })
+        socket.on('user_deleted', (delUserId) => {
+            console.log('in deleted_user:');
+            console.log(delUserId);
+            console.log(users);
+            setUsers((currentUsers) => {
+            let filteredUsers = currentUsers.filter(oneUserObj => oneUserObj._id !== delUserId);
+            return filteredUsers});
+            //performs work inside the setter method to have access to the current users array value
+            //returns the filtered array value to be used by the setUsers setter method
         })
         return () => socket.disconnect();
         //best practice: socket client disconnects when the component is closed

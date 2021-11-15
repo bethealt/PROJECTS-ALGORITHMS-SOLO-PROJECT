@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import {Container, Row, Col, Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
+import io from 'socket.io-client';
 
 const UserRegister = (props) => {
     const {dbHost} = props;
     const [userRegConfirm, setUserRegConfirm] = useState('');
     const [userRegFail, setUserRegFail] = useState('');
     const [errors, setErrors] = useState({});
+    const [socket] = useState(() => io(':8000'));
+    //passes a callback function to initialize the socket
+    //setSocket is omitted as the socket state will not be updated
 
     const[user, setUser] = useState({
         firstName: '',
@@ -32,6 +36,8 @@ const UserRegister = (props) => {
             .then((res) => {
                 console.log('successful registration:')
                 console.log(res.data);
+                socket.emit("registered_user", res.data);
+                socket.disconnect();
                 setUser({
                     firstName: '',
                     lastName: '',
@@ -68,7 +74,7 @@ const UserRegister = (props) => {
                 <Alert color='danger'>{userRegFail}</Alert>
                 : null}
             <Row>
-                <Form onSubmit={onSubmitHandler}>
+                <Form inline onSubmit={onSubmitHandler}>
                 <Col>
                     <FormGroup>
                     {errors.firstName ? 

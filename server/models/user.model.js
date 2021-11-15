@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema({
     emailAddress: {
         type: String,
         required: [true, "An email is required."],
-        unique: true, 
+        unique: [true, "This email already exists in the database."], 
         minlength: [3, "An email must have at least 3 characters."],
         validate: {
             validator: val => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
@@ -45,7 +45,7 @@ const UserSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 UserSchema.plugin(uniqueValidator,{
-    msg: 'User already exists in the database.'});
+    msg: 'This email already exists in the database.'});
 
 //confirmPassword is a virtual field that holds data from the request, but it is not saved to the db.
 //password is saved to the database only once

@@ -87,20 +87,25 @@ io.on("connection", (socket) => {
         console.log(regUserObj);
         socket.broadcast.emit("user_registered", regUserObj)
     });
+    socket.on("loggedin_user", (logUserObj) => {
+        console.log("A user logged in.");
+        console.log(logUserObj);
+        socket.broadcast.emit("user_loggedin", logUserObj)
+    });
     socket.on("updated_user", (updUserObj) => {
         console.log("An existing user was updated.");
         console.log(updUserObj)
         socket.broadcast.emit("user_updated", updUserObj);
     });
-    socket.on("deleted_user", (delUserObj) => {
-        console.log("An existing user was deleted.");
-        console.log(delUserObj)
-        socket.broadcast.emit("user_deleted", delUserObj);
-    });
     socket.on("authorized_user", (authUserObj) => {
         console.log("A user was authorized.");
         console.log(authUserObj);
         socket.broadcast.emit("user_authorized", authUserObj);
+    });
+    socket.on("deleted_user", (delUserId) => {
+        console.log("An existing user was deleted.");
+        console.log(delUserId)
+        socket.broadcast.emit("user_deleted", delUserId);
     });
     socket.on("enrolled_user", (enrlUserObj) => {
         console.log("A user was enrolled in a course.");

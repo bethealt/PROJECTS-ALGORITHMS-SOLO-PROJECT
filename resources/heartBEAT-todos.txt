@@ -19,7 +19,7 @@ INTEGRATIONS:
       src="https://www.google.com/maps/embed/v1/place?key=API_KEY
         &q=${location}">
     </iframe>
-- Socket.io - finish setup for users/courses/rooms
+- Socket.io - finish setup for users/courses
 - AWS EC2  N/A
 - .env (environment variables)          x
 - private route for site administrator TBD
