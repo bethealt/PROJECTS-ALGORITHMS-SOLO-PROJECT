@@ -3,9 +3,10 @@ import axios from 'axios';
 import {Container, Row, Col, Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
 
 const UserRegister = (props) => {
-    const {dbHost, errors} = props;
+    const {dbHost} = props;
     const [userRegConfirm, setUserRegConfirm] = useState('');
-    const [errs, setErrs] = useState({});
+    const [userRegFail, setUserRegFail] = useState('');
+    const [errors, setErrors] = useState({});
 
     const[user, setUser] = useState({
         firstName: '',
@@ -41,7 +42,7 @@ const UserRegister = (props) => {
                     confirmPassword: '',
                 })
                 setUserRegConfirm("Registration successful: please login.")
-                setErrs({});
+                setErrors({});
                 //user state exists as an object with correct keys and values
                 //forces the send of credentials/cookies with request for update
                 //XMLHttpRequest from another domain cannot set cookie values for their own domain unless {withCredentials: true} before making request
@@ -49,40 +50,44 @@ const UserRegister = (props) => {
                 //reset errors state if registration is successful
             })
             .catch((err) => {
-                console.log('inside UserRegister:')
+                console.log('in UserRegister:')
                 console.log(err);
-                setErrs(err);
-                for (const key of Object.keys(errs)) {
-                    errors.push(errs[key.message])
-                }
-                console.log(errors)
-                setErrs({});
-            })
+                console.log(err.response.data);
+                setErrors(err.response.data.errors);
+                setUserRegFail("Registration failed: please review the form and resubmit.")
+                setErrors({});
+            });
     };
 
     return (
         <Container>
             {userRegConfirm ?
                 <Alert color='success'>{userRegConfirm}</Alert>
-                : errors.map((err, index) => {
-                return (
-                    <Alert key={index} color='primary'>{err}</Alert>
-            )})}
+                : null}
+            {userRegFail ? 
+                <Alert color='danger'>{userRegFail}</Alert>
+                : null}
             <Row>
                 <Form onSubmit={onSubmitHandler}>
                     <Col>
-                        <FormGroup>
-                            <Label for='firstName' className='Form'>First Name</Label>
-                            <Input
-                                type='text'
-                                id='firstName'
-                                name='firstName'
-                                placeholder='Enter a first name'
-                                value={user.firstName}
-                                onChange={onChangeHandler}
-                                />
+                    <FormGroup>
+                    {errors.firstName ? 
+                        <Alert color='danger'>{errors.firstName.message}</Alert>
+                        : null}
+                        <Label for='firstName' className='Form'>First Name</Label>
+                        <Input
+                            type='text'
+                            id='firstName'
+                            name='firstName'
+                            placeholder='Enter a last name'
+                            value={user.firstName}
+                            onChange={onChangeHandler}
+                            />
                         </FormGroup>
                         <FormGroup>
+                        {errors.lastName ? 
+                            <Alert color='danger'>{errors.lastName.message}</Alert>
+                            : null}
                             <Label for='lastName' className='Form'>Last Name</Label>
                             <Input
                                 type='text'
@@ -94,6 +99,9 @@ const UserRegister = (props) => {
                                 />
                         </FormGroup>
                         <FormGroup>
+                        {errors.emailAddress ? 
+                            <Alert color='danger'>{errors.emailAddress.message}</Alert>
+                            : null}
                             <Label for='emailAddress' className='Form'>Email Address</Label>
                             <Input
                                 type='email'
@@ -105,6 +113,9 @@ const UserRegister = (props) => {
                                 />
                         </FormGroup>
                         <FormGroup>
+                        {errors.birthDate ? 
+                            <Alert color='danger'>{errors.birthDate.message}</Alert>
+                            : null}
                             <Label for='birthDate' className='Form'>Birth Date</Label>
                             <Input
                                 type='date'
@@ -118,6 +129,9 @@ const UserRegister = (props) => {
                     </Col>
                     <Col>
                         <FormGroup>
+                        {errors.zipCode ? 
+                            <Alert color='danger'>{errors.zipCode.message}</Alert>
+                            : null}
                             <Label for='zipcode' className='Form'>Zip Code</Label>
                             <Input
                                 type='number'
@@ -129,6 +143,9 @@ const UserRegister = (props) => {
                                 />
                         </FormGroup>
                         <FormGroup>
+                        {errors.password ? 
+                            <Alert color='danger'>{errors.password.message}</Alert>
+                            : null}
                             <Label for='password' className='Form'>Password</Label>
                             <Input
                                 type='password'
@@ -140,6 +157,9 @@ const UserRegister = (props) => {
                                 />
                         </FormGroup>
                         <FormGroup>
+                        {errors.confirmPassword ? 
+                            <Alert color='danger'>{errors.confirmPassword.message}</Alert>
+                            : null}
                             <Label for='confirmPassword' className='Form'>Confirm Password</Label>
                             <Input
                                 type='password'
