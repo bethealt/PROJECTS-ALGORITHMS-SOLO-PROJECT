@@ -3,23 +3,47 @@ heartBEAT TO DO LIST
 TO BUILD:
 - Dashboard    x
 - Catalog      x
-- Course Detail  X
+- Course Detail -- integrate Google Maps Embed
 - User Detail  x
 - Add Course View  x
 - Admin Login x
 
 INTEGRATIONS:
-- Google Directions API
-- Socket.io 
-- AWS EC2
+- Google Map Embed API (free)
+    <iframe
+      width="600"
+      height="450"
+      style="border:0"
+      loading="lazy"
+      allowfullscreen
+      src="https://www.google.com/maps/embed/v1/place?key=API_KEY
+        &q=${location}">
+    </iframe>
+- Socket.io - finish setup for users/courses/rooms
+- AWS EC2  N/A
 - .env (environment variables)          x
-- private route for site administrator
+- private route for site administrator TBD
 
 ISSUES:
 - initial rendering of index page requires refresh      x
-- revisit and refine CRUD applications 
+- revisit and refine CRUD applications for users/courses
+    - register          x
+    - read (users)      x
+    - readone (users)   x
+    - update (users)
+    - delete (users)    x
+    - create (course)
+    - read (courses)
+    - edit (courses)
+    - delete (courses)
+
 - revisit error messaging and apply consistent construction     x
-- onSubmitProp & undefined Object.error
+    - errors for UserRegister
+    - errors from UserSchema
+    - errors for CourseForm
+- onSubmitProp & undefined Object.error  x
+    - revisit UserRegister setup
+- revisit authentication/authorization/routing
 - standardize Submit buttons                           x
 
 ERRORS:
@@ -41,8 +65,8 @@ TECHNOLOGIES:
 - reactstrap                x
 - dotenv                    x
 - fontawesome               x
-- Socket.io                 x
+- Socket.io                 
 - JSON web tokens           x   
 - Cookies                   x
-- AWS EC2 deployment
-- google directions API
+- AWS EC2 deployment        N/A
+- google directions API     pending

@@ -3,9 +3,9 @@ import axios from 'axios';
 import {Container, Row, Col, Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
 
 const UserRegister = (props) => {
-    const {dbHost} = props;
+    const {dbHost, errors} = props;
     const [userRegConfirm, setUserRegConfirm] = useState('');
-    const [errs, setErrs] = useState([]);
+    const [errs, setErrs] = useState({});
 
     const[user, setUser] = useState({
         firstName: '',
@@ -15,6 +15,7 @@ const UserRegister = (props) => {
         zipCode: '',
         password: '',
         confirmPassword: '',
+        //uses a single state object to hold all data
     })
 
     const onChangeHandler = (e) => {
@@ -40,7 +41,7 @@ const UserRegister = (props) => {
                     confirmPassword: '',
                 })
                 setUserRegConfirm("Registration successful: please login.")
-                setErrs([]);
+                setErrs({});
                 //user state exists as an object with correct keys and values
                 //forces the send of credentials/cookies with request for update
                 //XMLHttpRequest from another domain cannot set cookie values for their own domain unless {withCredentials: true} before making request
@@ -48,25 +49,25 @@ const UserRegister = (props) => {
                 //reset errors state if registration is successful
             })
             .catch((err) => {
+                console.log('inside UserRegister:')
                 console.log(err);
-                console.log(err.response.data.errors);
-                setErrs(err.response.data.errors);
-                });
+                setErrs(err);
+                for (const key of Object.keys(errs)) {
+                    errors.push(errs[key.message])
+                }
+                console.log(errors)
+                setErrs({});
+            })
     };
 
     return (
         <Container>
-            {errs !== null ?
-                {errs, map((err, index) => {
-                    return(
-                    <Row>
-                        <Alert key={index} color='primary'>{err}</Alert><br/>
-                    </Row>)
-                    :
-                <Row>
-                    <Alert color='success'>{userRegConfirm}</Alert><br/>
-                </Row>
-            }
+            {userRegConfirm ?
+                <Alert color='success'>{userRegConfirm}</Alert>
+                : errors.map((err, index) => {
+                return (
+                    <Alert key={index} color='primary'>{err}</Alert>
+            )})}
             <Row>
                 <Form onSubmit={onSubmitHandler}>
                     <Col>

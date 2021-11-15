@@ -16,6 +16,7 @@ const UserSchema = new mongoose.Schema({
     emailAddress: {
         type: String,
         required: [true, "An email is required."],
+        unique: true, 
         minlength: [3, "An email must have at least 3 characters."],
         validate: {
             validator: val => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
