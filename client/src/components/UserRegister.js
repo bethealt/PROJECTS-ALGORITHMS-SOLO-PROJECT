@@ -69,7 +69,7 @@ const UserRegister = (props) => {
                 : null}
             <Row>
                 <Form onSubmit={onSubmitHandler}>
-                    <Col>
+                <Col>
                     <FormGroup>
                     {errors.firstName ? 
                         <Alert color='danger'>{errors.firstName.message}</Alert>
@@ -170,8 +170,8 @@ const UserRegister = (props) => {
                                 onChange={onChangeHandler}
                                 />
                         </FormGroup>
+                        <Button color='danger' type='submit'>Submit</Button>
                     </Col>
-                <Button color='danger' type='submit'>Submit</Button>
                 </Form>
             </Row>
         </Container>

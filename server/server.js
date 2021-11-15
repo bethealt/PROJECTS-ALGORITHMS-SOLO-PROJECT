@@ -82,23 +82,34 @@ io.on("connection", (socket) => {
         console.log(deletedCourseId);
         socket.broadcast.emit("course_deleted", deletedCourseId);
     });
-    socket.on("registered_user", data => {
-        socket.broadcast.emit("user_registered", data)
+    socket.on("registered_user", (regUserObj) => {
+        console.log("A new user was registered.");
+        console.log(regUserObj);
+        socket.broadcast.emit("user_registered", regUserObj)
     });
-    socket.on("updated_user", data => {
-        socket.broadcast.emit("user_updated", data)
+    socket.on("updated_user", (updUserObj) => {
+        console.log("An existing user was updated.");
+        console.log(updUserObj)
+        socket.broadcast.emit("user_updated", updUserObj);
     });
-    socket.on("deleted_user", data => {
-        socket.broadcast.emit("user_deleted", data)
-    })
-    socket.on("authorized_user", data => {
-        socket.broadcast.emit("user_authorized", data)
+    socket.on("deleted_user", (delUserObj) => {
+        console.log("An existing user was deleted.");
+        console.log(delUserObj)
+        socket.broadcast.emit("user_deleted", delUserObj);
     });
-    socket.on("enrolled_user", data => {
-        socket.broadcast.emit("user_enrolled", data)
+    socket.on("authorized_user", (authUserObj) => {
+        console.log("A user was authorized.");
+        console.log(authUserObj);
+        socket.broadcast.emit("user_authorized", authUserObj);
     });
-    socket.on("dropped_user", data => {
-        socket.broadcast.emit("user_droppped", data)
+    socket.on("enrolled_user", (enrlUserObj) => {
+        console.log("A user was enrolled in a course.");
+        console.log(enrlUserObj);
+        socket.broadcast.emit("user_enrolled", enrlUserObj);
+    });
+    socket.on("dropped_user", (dropUserObj) => {
+        console.log("A user was dropped from a course.")
+        socket.broadcast.emit("user_droppped", dropUserObj)
     });
 
 });
