@@ -19,46 +19,50 @@ module.exports = {
                 })
             })
             .catch((err) => {
-                console.log("Registration failed.");
+                console.log("Registration failed:");
+                console.log(err);
                 res.status(400).json(err);
             });
     },       
 
     login: (req, res) => {
-        User.findOne({emailAddress: req.body.emailAddress})
+        User.findOne({email: req.body.emailAddress})
             .then((user) => {
                 if (user === null) {
                     return res.status(400).json({message: "Invalid login attempt"});
                     //check if the returned user object is null
                     //if the email is not found in db.users, returns an error message
-                }
-                else {
-                    const correctPassword = bcrypt.compare(req.body.password, user.password)
-                    .then((correctPassword) => {
-                        if (correctPassword) {
-                        console.log("Password is valid");
-                        console.log(user) 
-                        console.log("Signing JSON webtoken");
-                        res.cookie("usertoken", 
-                        jwt.sign({
-                            user_id: user._id,
-                            email: user.emailAddress,
-                            admin: user.admin,
-                            //payload containing data to save
-                        },  process.env.JWT_SECRET_KEY1),
-                            //secret used to sign / hash data in the cookie
-                        {   httpOnly: true,
-                            expires: new Date(Date.now() + 900000)
-                            //configuration settings for this cookie
-                        })
-                        .json({
-                        message: "Login successful",
-                        userLoggedIn: user.emailAddress
-                        })
+                } else {
+                    bcrypt.compare(req.body.password, user.password)
+                    .then((isPasswordValid) => {
+                        if (isPasswordValid === true) {
+                            console.log("Password is valid");
+                            console.log(user) 
+                            console.log("Creating cookie and signing with JWT");
+                            res.cookie("usertoken", 
+                            jwt.sign({
+                                user_id: user._id,
+                                email: user.emailAddress,
+                                admin: user.admin,
+                                //payload containing data to save
+                            },  process.env.JWT_SECRET_KEY1),
+                                //secret used to sign / hash data in the cookie
+                            {   httpOnly: true,
+                                expires: new Date(Date.now() + 900000)
+                                //configuration settings for this cookie
+                            })
+                            .json({
+                            message: "Login successful",
+                            userLoggedIn: {
+                                user_id: user._id,
+                                email: user.emailAddress,
+                                admin: user.admin} 
+                                //returns data associated with the successful login
+                            })
                     
                         } else {
-                            //passwords did not match
-                            if (!correctPassword) {
+                            //Password is invalid --- password comparison failed.
+                            if (!isPasswordValid) {
                                 return res.status(400).json(err)}};
                     })
                     .catch((err) => {
