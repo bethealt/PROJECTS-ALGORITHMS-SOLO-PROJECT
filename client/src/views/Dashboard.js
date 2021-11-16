@@ -3,60 +3,66 @@ import axios from 'axios';
 import {Container, Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'reactstrap';
 import classnames from 'classnames';
 import {navigate} from '@reach/router';
+import io from 'socket.io-client';
 
 import CourseHistory from '../components/CourseHistory';
 import CourseList from '../components/CourseList';
-import UserRegister from '../components/UserRegister';
+import UserForm from '../components/UserForm';
 
 const Dashboard = (props) => {
-    const dbPort = process.env.DB_PORT
-    const {
-        catalog,
-        firstName,
-        lastName,
-        emailAddress,
-        birthDate,
-        zipcode,
-        password,
-        confirmPassword, users,
-        setUsers, setUserRegistered, userRegistered,
-        setUserLoggedIn, userLoggedIn, setErrors, errors
-    } = props;
+    const {dbHost, catalog, user, setUser, errors, setErrors} = props;
     const [activeTab, setActiveTab] = useState('1');
+    const [userUpdConfirm, setUserUpdConfirm] = useState('');
+    const [userUpdFail, setUserUpdFail] = useState('');
+    const [socket] = useState(() => io(':8000'));
+    //passes a callback function to initialize the socket
+    //setSocket is omitted as the socket state will not be updated
     
     const toggle = (tab) => {
         if(activeTab !== tab) setActiveTab(tab);
     }
 
-    const updateUser = user => {
-        axios.post(`http://localhost:${dbPort}/api/users/update`, {
-            firstName,
-            lastName,
-            emailAddress,
-            birthDate,
-            zipcode,
-            password,
-            confirmPassword}, 
+    const update = (e) => {
+        e.preventDefault();
+        axios.put(`http://${dbHost}/api/users/update`, user, 
+            {withCredentials: true})
             //ensures that cookies are sent with each request; 
             //Middleware verifies who is logged in
-            {withCredentials: true})
-        .then(res => {
-            console.log(res);
-            setUsers([...users, res.data]);
-            setUserRegistered(!userRegistered);
-            setUserLoggedIn(!userLoggedIn);
+        .then((res) => {
+            console.log('Updating user:')
+            console.log(res.data);
+            socket.emit("updated_user", res.data);
+            socket.disconnect();
+            setUser({
+                firstName: '',
+                lastName: '',
+                emailAddress: '',
+                birthDate: '',
+                zipCode: '',
+                password: '',
+                confirmPassword: '',
+            })
+            setUserUpdConfirm("Profile update successful");
+            setErrors({});
             navigate("/dashboard");
+
         })
         .catch(err => {
-            const errorResponse = err.response.data.errors;
+            /*const errorResponse = err.response.data.errors;
             const errorArr = [];
             for (const key of Object.keys(errorResponse)) {
                 errorArr.push(errorResponse[key].message)
             }
             setErrors(errorArr);
-            console.log(errorArr);
-        })
-    }
+            console.log(errorArr);*/
+            console.log('in user update:')
+            console.log(err);
+            console.log(err.response.data);
+            setErrors(err.response.data.errors);
+            setUserUpdFail("Update failed: please review the form and resubmit.")
+            setErrors({});
+            });
+    };
 
     return(
         <Container>
@@ -90,8 +96,12 @@ const Dashboard = (props) => {
                             md={{ offset: 1, size: 10}}
                             sm="12"><br/>
                             <h4>Manage Your Profile</h4><br/>
-                            <UserRegister
-                                onSubmitProp = {updateUser} 
+                            <UserForm
+                                onSubmitHandler={update}
+                                userUpdConfirm={userUpdConfirm}
+                                setUserUpdConfirm={setUserUpdConfirm}
+                                userUpdFail={userUpdFail}
+                                setUserUpdFail={setUserUpdFail}
                                 errors={errors} 
                             />
                         </Col>

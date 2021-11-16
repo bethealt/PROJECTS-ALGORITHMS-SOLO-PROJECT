@@ -8,7 +8,7 @@ const UserList = (props) => {
     const {dbHost, setAdmin, setLoaded, users, setUsers} = props;
     const [admins, setAdmins] = useState([]);
     const [socket] = useState(() => io(':8000'));
-    //passes a callback function to initialize the socket
+    //passes a callback function to initialize the socket 
     //setSocket is not required as the socket state will not be updated
 
     useEffect(() => {
@@ -22,9 +22,15 @@ const UserList = (props) => {
             console.log(authUserObj);
             console.log(admins);
             setAdmins((currentAdmins) => [...admins, authUserObj]);
-            //passes the current value of the catalog array as a parameter for the function
+            //passes the current value of the admin array as a parameter for the function
             //returns brand new array for the setter to use
-            //by default, it's an empty array because of when it was initiated and saved into state
+            ///by default, the array is empty due to when it was created and saved into state
+        })
+        socket.on('user_updated', (updUserObj) => {
+            console.log('in updated_user:');
+            console.log(updUserObj);
+            console.log(users);
+            setUsers((currentUsers) => [...users, updUserObj]);
         })
         socket.on('user_deleted', (delUserId) => {
             console.log('in deleted_user:');

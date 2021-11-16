@@ -20,6 +20,10 @@ INTEGRATIONS:
         &q=${location}">
     </iframe>
 - Socket.io - finish setup for users/courses
+    - loggedin_user x
+    - updated_user
+    - enrolled_user x
+    - dropped_user x
 - AWS EC2  N/A
 - .env (environment variables)          x
 - private route for site administrator TBD
@@ -27,6 +31,7 @@ INTEGRATIONS:
 ISSUES:
 - initial rendering of index page requires refresh      x
 - revisit and refine CRUD applications for users/courses
+    - login             x
     - register          x
     - read (users)      x
     - readone (users)   x
@@ -38,11 +43,11 @@ ISSUES:
     - delete (courses)
 
 - revisit error messaging and apply consistent construction     x
+    - errors from UserSchema/CourseSchema
     - errors for UserRegister
-    - errors from UserSchema
     - errors for CourseForm
 - onSubmitProp & undefined Object.error  x
-    - revisit UserRegister setup
+- revisit UserRegister setup                           x
 - revisit authentication/authorization/routing
 - standardize Submit buttons                           x
 

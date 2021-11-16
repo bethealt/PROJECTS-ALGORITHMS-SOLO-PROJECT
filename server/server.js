@@ -72,15 +72,15 @@ io.on("connection", (socket) => {
         console.log(newCourseObj);
         socket.broadcast.emit("new_course_added", newCourseObj);
     });
-    socket.on("updated_course", (updatedCourseObj) => {
+    socket.on("updated_course", (updCourseObj) => {
         console.log("An existing course was updated.");
-        console.log(updatedCourseObj);
-        socket.broadcast.emit("course_updated", updatedCourseObj);
+        console.log(updCourseObj);
+        socket.broadcast.emit("course_updated", updCourseObj);
     });
-    socket.on("deleted_course", (deletedCourseId) => {
+    socket.on("deleted_course", (delCourseId) => {
         console.log("An existing course was deleted.");
-        console.log(deletedCourseId);
-        socket.broadcast.emit("course_deleted", deletedCourseId);
+        console.log(delCourseId);
+        socket.broadcast.emit("course_deleted", delCourseId);
     });
     socket.on("registered_user", (regUserObj) => {
         console.log("A new user was registered.");
@@ -112,9 +112,10 @@ io.on("connection", (socket) => {
         console.log(enrlUserObj);
         socket.broadcast.emit("user_enrolled", enrlUserObj);
     });
-    socket.on("dropped_user", (dropUserObj) => {
+    socket.on("dropped_user", (dropUserId) => {
         console.log("A user was dropped from a course.")
-        socket.broadcast.emit("user_droppped", dropUserObj)
+        console.log(dropUserId)
+        socket.broadcast.emit("user_droppped", dropUserId);
     });
 
 });

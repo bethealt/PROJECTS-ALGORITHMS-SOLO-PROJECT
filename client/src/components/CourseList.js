@@ -5,8 +5,9 @@ import axios from 'axios';
 import io from 'socket.io-client';
 
 const CourseList = (props) => {
-    const {admin, catalog, setCatalog, setEnrolledCourses, dbHost, setLoaded} = props;
-    const [courses, setCourses] = useState([]);
+    const {admin, dbHost, setLoaded, user} = props;
+    const [catalog, setCatalog] = useState([]);
+    const [enrolled, setEnrolled] = useState([]);
     const [socket] = useState(() => io(':8000'));
     //passes a callback function to initialize the socket
     //setSocket is not required as the socket state will not be updated
@@ -27,22 +28,37 @@ const CourseList = (props) => {
             //returns brand new array for the setter to use
             //by default, it's an empty array because of when it was initiated and saved into state
         })
-        socket.on('course_updated', (updatedCourseObj) => {
+        socket.on('course_updated', (updCourseObj) => {
             console.log('in updated_course:');
-            console.log(updatedCourseObj);
+            console.log(updCourseObj);
             console.log(catalog);
-            setCatalog((currentCatalog) => [...catalog, updatedCourseObj]);
+            setCatalog((currentCatalog) => [...catalog, updCourseObj]);
         })
-        socket.on('course_deleted', (deletedCourseId) => {
+        socket.on('course_deleted', (delCourseId) => {
             console.log('in deleted_course:');
-            console.log(deletedCourseId);
+            console.log(delCourseId);
             console.log(catalog);
             setCatalog((currentCatalog) => {
                 let filteredCatalog = currentCatalog.filter(oneCourseObj => 
-                    oneCourseObj._id !== deletedCourseId);
+                    oneCourseObj._id !== delCourseId);
                 return filteredCatalog});
             //performs work inside the setter method to have access to the current course array value
             //returns the filtered array value to be used by the setCatatlog setter method
+        })
+        socket.on('user_enrolled', (enrlUserObj) => {
+            console.log('in enrolled_course:');
+            console.log(enrlUserObj)
+            console.log(enrolled);
+            setEnrolled((currentEnrolled) => [...enrolled, enrlUserObj]);
+        })
+        socket.on('user_dropped', (dropUserId) => {
+            console.log('in dropped_user:');
+            console.log(dropUserId);
+            console.log(enrolled);
+            setEnrolled((currentEnrolled) => {
+                let filteredEnrolled = currentEnrolled.filter(oneUserObj => 
+                    oneUserObj._id !== dropUserId);
+                return filteredEnrolled});
         })
         return () => socket.disconnect();
         //best practice: socket client disconnects when the component is closed
@@ -60,7 +76,7 @@ const CourseList = (props) => {
                 setLoaded(true);
             })
             .catch((err) => console.log(err));
-    }, [dbHost, setCatalog, setLoaded]);
+    }, []);
 
     const removeFromDom = (_id) => {
         setCatalog(catalog.filter(course => course._id !== _id));
@@ -85,31 +101,32 @@ const CourseList = (props) => {
     }
 
     const enrollUser = (_id) => {
-        axios.get(`http://${dbHost}/api/courses/${_id}`,
+        axios.get(`http://${dbHost}/api/users/${_id}`,
         {withCredentials: true})
         .then((res) => {
-            let enrollObj = res.data;
-            setCourses((currentCourses) => [...courses, enrollObj]);
             console.log('Enrolling user into a class:')
             console.log(res.data);
-            socket.emit("enroll_user", enrollObj)
+            setEnrolled([...enrolled, res.data]);
+            socket.emit("enrolled_user", res.data)
             socket.disconnect();
         })
         .catch((err) => console.log(err));
     }
 
-    const dropUser = (enrolledCourses, _id) => {
-        axios.get(`http://${dbHost}/api/courses/${_id}`,
+    const removeFromEnrolled = (_id) => {
+        setEnrolled(enrolled.filter(user._id !== _id));
+    }
+
+    const dropUser = (_id) => {
+        axios.get(`http://${dbHost}/api/users/${_id}`,
         {withCredentials: true})
         .then((res) => {
-            let dropObj = res.data
-            setEnrolledCourses((currentEnrolledCourses) => {
-            let filteredCourses = currentEnrolledCourses.flter(courseObj => (courseObj._id !== dropObj._id))
+            removeFromEnrolled(_id);
             console.log('Dropping user from a class:')
-            console.log(dropObj);
-            socket.emit("drop_user", dropObj);
+            console.log(res.data);
+            socket.emit("dropped_user", _id);
             socket.disconnect();
-        })})
+        })
         .catch((err) => console.log(err));
     }
 

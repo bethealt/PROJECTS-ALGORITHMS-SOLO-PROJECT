@@ -13,12 +13,21 @@ import UserView from './views/UserView';
 
 function App() {
   const dbHost = process.env.DB_HOST;
-  const dbPort = process.env.DB_PORT;
   const [admin, setAdmin] = useState(false);
   const [catalog, setCatalog] = useState([]);
-  const [courses, setCourses] = useState([]);
   const [errors, setErrors] = useState([]);
   const [users, setUsers] = useState([]);
+
+  const[user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    emailAddress: '',
+    birthDate: '',
+    zipCode: '',
+    password: '',
+    confirmPassword: '',
+    //uses a single state object to hold all data
+})
 
   return (
     <Container className='App'>
@@ -27,7 +36,8 @@ function App() {
         <Login
           path='/' admin={admin}
           dbHost={dbHost}
-          dbPort={dbPort}
+          user={user}
+          setUser={setUser}
           errors={errors}
           setErrors={setErrors}
           />
@@ -35,7 +45,6 @@ function App() {
           path='/admin'
           admin={admin} 
           dbHost={dbHost}
-          dbPort={dbPort}
           setAdmin={setAdmin}
           catalog={catalog} 
           setCatalog={setCatalog}
@@ -47,24 +56,20 @@ function App() {
         <Dashboard 
           path='/dashboard'
           dbHost={dbHost}
-          dbPort={dbPort} 
-          catalog={catalog} 
-          courses={courses}
-          setCourses={setCourses}
+          user={user}
+          setUser={setUser}
           errors={errors}
           setErrors={setErrors}
           />
         <CourseView 
           path='/courses/:id'
           dbHost={dbHost}
-          dbPort={dbPort}
           errors={errors}
           setErrors={setErrors}
           />
         <UserView
           path='/users/:id'
           dbHost={dbHost}
-          dbPort={dbPort}
           errors={errors}
           setErrors={setErrors}
           users={users}

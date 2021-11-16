@@ -2,24 +2,39 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {Container, Form, FormGroup, Input, Label, Button, Alert} from 'reactstrap';
 import {navigate} from '@reach/router';
+import io from 'socket.io-client';
 
 const LoginForm = (props) => {
-    const {dbHost, userLoggedIn, setUserLoggedIn, errors, setErrors} = props;
-    const [emailAddress, setEmailAddress] = useState('');
-    const [password, setPassword] = useState('');
-    
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
-        const newLogin = {
-            emailAddress,
-            password
-        };
+    const {dbHost, errors, setErrors} = props;
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
+    const [socket] = useState(() => io(':8000'));
 
-        axios.post(`http://${dbHost}/api/users/login`, newLogin,
+    const [userLogin, setUserLogin] = useState({
+        emailAddress: '',
+        password:'',
+        //uses a single state object to hold login data
+    })
+
+    const onChangeHandler = (e) => {
+        setUserLogin({...userLogin, [e.target.name]: e.target.value})
+        //uses a single function to update the state object
+        //input name serves as the key into the object
+    }
+        
+    const login = (e) => {
+        e.preventDefault();
+        axios.post(`http://${dbHost}/api/users/login`, userLogin,
         {withCredentials: true})
             .then((res) => {
-                console.log(res);
+                console.log('Logging in a user:')
+                console.log(res.data);
+                socket.emit("loggedin_user", res.data);
+                socket.disconnect();
                 setUserLoggedIn(!userLoggedIn);
+                setUserLogin({
+                    emailAddress: '',
+                    password:''
+                })
                 navigate('/dashboard');
             })
             .catch((err) => {
@@ -32,13 +47,12 @@ const LoginForm = (props) => {
                 }
             })   
     }
-
     return(
         <Container>
-            <Form onSubmit={onSubmitHandler}>
+            <Form onSubmit={login}>
                 {errors.map((err, index) => {
                     return(
-                        <Alert key={index} color='primary'>{err}</Alert>
+                        <Alert key={index} color='danger'>{err}</Alert>
                     )})}<br/>
                 <FormGroup>
                     <Label for='emailAddress' className='Form'>Email Address</Label>
@@ -47,8 +61,8 @@ const LoginForm = (props) => {
                         id='emailAddress'
                         name='emailAddress'
                         placeholder='Enter an email address'
-                        value={emailAddress}
-                        onChange = {(e) => setEmailAddress(e.target.value)}
+                        value={userLogin.emailAddress}
+                        onChange = {onChangeHandler}
                     />
                 </FormGroup>
                 <FormGroup>
@@ -58,8 +72,8 @@ const LoginForm = (props) => {
                         id='password'
                         name='password'
                         placeholder='Enter a password'
-                        value={password}
-                        onChange= {(e) => setPassword(e.target.value)}
+                        value={userLogin.password}
+                        onChange= {onChangeHandler}
                         />
                 </FormGroup>
                 <Button type='submit' color='danger'>Submit</Button>&nbsp;&nbsp;
