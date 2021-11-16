@@ -25,44 +25,68 @@ module.exports = {
     },       
 
     login: async(req, res) => {
-        const user = await User.findOne({emailAddress: req.body.emailAddress});
-        if (user === null) {
-            return res.status(400).json(err);
-        }
-        
-        const correctPassword = await bcrypt.compare(req.body.password, user.password);
-        if (!correctPassword) {
-            return res.status(400).json(err);
-        }
-
-        const payload = {
-            id: user._id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            admin: user.admin,
-          };
-        const userToken = jwt.sign(payload, process.env.JWT_SECRET_KEY1);
-
-        res
-          .cookie("usertoken", userToken, secret, {
-              httpOnly: true
-          })
-          .json({msg: "Login successful."});
+        User.findOne({emailAddress: req.body.emailAddress})
+            .then((user) => {
+                if (user === null) {
+                    return res.status(400).json({message: "Invalid login attempt"});
+                    //check if the returned user object is null
+                    //if the email is not found in db.users, returns an error message
+                }
+                else {
+                    const correctPassword = await bcrypt.compare(req.body.password, user.password)
+                    .then((correctPassword) => {
+                        if (correctPassword) {
+                        console.log("Password is valid");
+                        console.log(user) 
+                        console.log("Signing JSON webtoken");
+                        res.cookie("usertoken", 
+                        jwt.sign({
+                            user_id: user._id,
+                            email: user.emailAddress,
+                            admin: user.admin,
+                            //payload containing data to save
+                        },  process.env.JWT_SECRET_KEY1),
+                            //secret used to sign / hash data in the cookie
+                        {   httpOnly: true,
+                            expires: new Date(Date.now() + 900000)
+                            //configuration settings for this cookie
+                        })
+                        .json({
+                        message: "Login successful",
+                        userLoggedIn: user.emailAddress
+                        })
+                    
+                        } else {
+                            //passwords did not match
+                            if (!correctPassword) {
+                                return res.status(400).json(err)}};
+                    })
+                    .catch((err) => {
+                        console.log("Password comparison failed");
+                        res.status(400).json({message: "Invalid login attempt"});
+                    })
+                }
+            })
     },
+                        
     logout: (req, res) => {
+        console.log("Logging out user")
         res.clearCookie("usertoken");
-        res.status(200).json({msg: "Logout successful."});
+        res.status(200).json({message: "Logout successful."});
     },
+
     read: (req, res) => {
         User.find({})
             .then(allUsers => res.json(allUsers))
             .catch(err => res.json(err))
     },
+
     readOne: (req, res) => {
         User.findOne({_id:req.params.id})
             .then(user => res.json(user))
             .catch(err => res.json(err))
     },
+
     update: (req, res) => {
         User.findOneAndUpdate(
             {_id:req.params.id}, req.body, 
@@ -70,6 +94,7 @@ module.exports = {
                 .then(updateUser => res.json(updateUser))
                 .catch(err => res.status(400).json(err))
     },
+    
     delete: (req, res) => {
         User.deleteOne({_id:req.params.id})
             .then(deleteConfirmation => res.json(deleteConfirmation))
