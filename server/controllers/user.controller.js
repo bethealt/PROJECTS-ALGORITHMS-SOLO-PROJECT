@@ -24,7 +24,7 @@ module.exports = {
             });
     },       
 
-    login: async(req, res) => {
+    login: (req, res) => {
         User.findOne({emailAddress: req.body.emailAddress})
             .then((user) => {
                 if (user === null) {
@@ -33,7 +33,7 @@ module.exports = {
                     //if the email is not found in db.users, returns an error message
                 }
                 else {
-                    const correctPassword = await bcrypt.compare(req.body.password, user.password)
+                    const correctPassword = bcrypt.compare(req.body.password, user.password)
                     .then((correctPassword) => {
                         if (correctPassword) {
                         console.log("Password is valid");
@@ -78,13 +78,13 @@ module.exports = {
     read: (req, res) => {
         User.find({})
             .then(allUsers => res.json(allUsers))
-            .catch(err => res.json(err))
+            .catch(err => res.status(500).json(err))
     },
 
     readOne: (req, res) => {
         User.findOne({_id:req.params.id})
-            .then(user => res.json(user))
-            .catch(err => res.json(err))
+            .then(oneUser=> res.json(oneUser))
+            .catch(err => res.status(500).json(err))
     },
 
     update: (req, res) => {
@@ -94,7 +94,7 @@ module.exports = {
                 .then(updateUser => res.json(updateUser))
                 .catch(err => res.status(400).json(err))
     },
-    
+
     delete: (req, res) => {
         User.deleteOne({_id:req.params.id})
             .then(deleteConfirmation => res.json(deleteConfirmation))
