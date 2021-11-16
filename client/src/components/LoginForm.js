@@ -94,7 +94,7 @@ const LoginForm = (props) => {
                             <Label for='password' className='Form'>Password</Label>
                             <Input
                                 invalid
-                                type='text'
+                                type='password'
                                 id='password'
                                 name='password'
                                 placeholder='Enter a password'
@@ -106,7 +106,7 @@ const LoginForm = (props) => {
                             :<FormGroup className="position-relative">
                                 <Label for='password' className='Form'>Password</Label>
                                 <Input
-                                    type='text'
+                                    type='password'
                                     id='password'
                                     name='password'
                                     placeholder='Enter a password'

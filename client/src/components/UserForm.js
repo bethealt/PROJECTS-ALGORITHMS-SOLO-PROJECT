@@ -151,7 +151,7 @@ const UserRegister = (props) => {
                             <Label for='password' className='Form'>Password</Label>
                             <Input
                                 invalid
-                                type='text'
+                                type='password'
                                 id='password'
                                 name='password'
                                 placeholder='Enter a password'
@@ -163,7 +163,7 @@ const UserRegister = (props) => {
                         :<FormGroup className="position-relative">
                             <Label for='password' className='Form'>Password</Label>
                             <Input
-                                type='text'
+                                type='password'
                                 id='password'
                                 name='password'
                                 placeholder='Enter a password'
@@ -176,7 +176,7 @@ const UserRegister = (props) => {
                             <Label for='confirmPassword' className='Form'>Confirm Password</Label>
                             <Input
                                 invalid
-                                type='text'
+                                type='password'
                                 id='confirmPassword'
                                 name='confirmPassword'
                                 placeholder='Confirm your password'
@@ -188,7 +188,7 @@ const UserRegister = (props) => {
                         :<FormGroup className="position-relative">
                             <Label for='confirmPassword' className='Form'>Confirm Password</Label>
                             <Input
-                                type='text'
+                                type='password'
                                 id='confirmPassword'
                                 name='confirmPassword'
                                 placeholder='Enter a confirmPassword'
