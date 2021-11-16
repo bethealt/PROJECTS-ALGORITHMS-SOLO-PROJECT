@@ -130,12 +130,12 @@ const Login = (props) => {
                             sm="12"><br/>
                             <h4>Welcome to heartBEAT!</h4><br/>
                             <UserForm
-                                errors={errors}
                                 onSubmitHandler={register}
                                 user={user}
                                 setUser={setUser}
-                                userRegConfirm={userRegConfirm}
-                                userRegFail={userRegFail}
+                                alertConfirm={userRegConfirm}
+                                alertFail={userRegFail}
+                                errors={errors}
                             />
                         </Col>
                     </Row>

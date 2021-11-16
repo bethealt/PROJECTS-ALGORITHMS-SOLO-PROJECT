@@ -22,7 +22,7 @@ const Dashboard = (props) => {
         if(activeTab !== tab) setActiveTab(tab);
     }
 
-    const update = (e) => {
+    const updateUser = (e) => {
         e.preventDefault();
         axios.put(`http://${dbHost}/api/users/update`, user, 
             {withCredentials: true})
@@ -42,7 +42,7 @@ const Dashboard = (props) => {
                 password: '',
                 confirmPassword: '',
             })
-            setUserUpdConfirm("Profile update successful");
+            setUserUpdConfirm("User update successful");
             setErrors({});
             navigate("/dashboard");
 
@@ -97,11 +97,9 @@ const Dashboard = (props) => {
                             sm="12"><br/>
                             <h4>Manage Your Profile</h4><br/>
                             <UserForm
-                                onSubmitHandler={update}
-                                userUpdConfirm={userUpdConfirm}
-                                setUserUpdConfirm={setUserUpdConfirm}
-                                userUpdFail={userUpdFail}
-                                setUserUpdFail={setUserUpdFail}
+                                onSubmitHandler={updateUser}
+                                alertConfirm={userUpdConfirm}
+                                alertFail={userUpdFail}
                                 errors={errors} 
                             />
                         </Col>

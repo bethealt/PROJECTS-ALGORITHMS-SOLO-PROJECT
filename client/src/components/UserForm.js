@@ -2,7 +2,7 @@ import React from 'react';
 import {Container, Row, Col, Form, FormGroup, Input, Label, FormFeedback, Button, Alert} from 'reactstrap';
 
 const UserRegister = (props) => {
-    const {errors, onSubmitHandler, user, setUser, userRegConfirm, userRegFail} = props;
+    const {errors, user, setUser, onSubmitHandler, alertConfirm, alertFail} = props;
 
     const onChangeHandler = (e) => {
         setUser({...user, [e.target.name]: e.target.value})
@@ -12,33 +12,55 @@ const UserRegister = (props) => {
 
     return (
         <Container>
-            {userRegConfirm ?
-                <Alert color='success'>{userRegConfirm}</Alert>
+            {alertConfirm ?
+                <Alert color='success'>{alertConfirm}</Alert>
                 : null}
-            {userRegFail ? 
-                <Alert color='danger'>{userRegFail}</Alert>
+            {alertFail ? 
+                <Alert color='danger'>{alertFail}</Alert>
                 : null}
             <Row>
-                <Form inline onSubmit={onSubmitHandler}>
                 <Col>
-                    <FormGroup>
+                    <Form inline onSubmit={onSubmitHandler}>
                     {errors.firstName ? 
-                        <FormFeedback color='danger'>{errors.firstName.message}</FormFeedback>
-                        : null}
+                    <FormGroup className="position-relative">
                         <Label for='firstName' className='Form'>First Name</Label>
                         <Input
+                            invalid
                             type='text'
                             id='firstName'
                             name='firstName'
-                            placeholder='Enter a last name'
+                            placeholder='Enter a first name'
                             value={user.firstName}
                             onChange={onChangeHandler}
                             />
+                        <FormFeedback tooltip>{errors.firstName.message}</FormFeedback>
                         </FormGroup>
-                        <FormGroup>
+                        :<FormGroup className="position-relative">
+                            <Label for='firstName' className='Form'>First Name</Label>
+                            <Input
+                                type='text'
+                                id='firstName'
+                                name='firstName'
+                                placeholder='Enter a first name'
+                                value={user.firstName}
+                                onChange={onChangeHandler}
+                                />
+                        </FormGroup>}
                         {errors.lastName ? 
-                            <FormFeedback color='danger'>{errors.lastName.message}</FormFeedback>
-                            : null}
+                        <FormGroup className="position-relative">
+                            <Label for='lastName' className='Form'>Last Name</Label>
+                            <Input
+                                invalid
+                                type='text'
+                                id='lastName'
+                                name='lastName'
+                                placeholder='Enter a last name'
+                                value={user.lastName}
+                                onChange={onChangeHandler}
+                                />
+                            <FormFeedback tooltip>{errors.lastName.message}</FormFeedback>
+                        </FormGroup>
+                        :<FormGroup className="position-relative">
                             <Label for='lastName' className='Form'>Last Name</Label>
                             <Input
                                 type='text'
@@ -48,42 +70,73 @@ const UserRegister = (props) => {
                                 value={user.lastName}
                                 onChange={onChangeHandler}
                                 />
-                        </FormGroup>
-                        <FormGroup>
+                        </FormGroup>}
                         {errors.emailAddress ? 
-                            <FormFeedback color='danger'>{errors.emailAddress.message}</FormFeedback>
-                            : null}
+                        <FormGroup className="position-relative">
                             <Label for='emailAddress' className='Form'>Email Address</Label>
                             <Input
-                                type='email'
+                                invalid
+                                type='text'
                                 id='emailAddress'
                                 name='emailAddress'
                                 placeholder='Enter an email address'
                                 value={user.emailAddress}
                                 onChange={onChangeHandler}
                                 />
+                            <FormFeedback tooltip>{errors.emailAddress.message}</FormFeedback>
                         </FormGroup>
-                        <FormGroup>
+                        :<FormGroup className="position-relative">
+                            <Label for='emailAddress' className='Form'>Email Address</Label>
+                            <Input
+                                type='text'
+                                id='emailAddress'
+                                name='emailAddress'
+                                placeholder='Enter an email address'
+                                value={user.emailAddress}
+                                onChange={onChangeHandler}
+                                />
+                            </FormGroup>}
                         {errors.birthDate ? 
-                            <FormFeedback color='danger'>{errors.birthDate.message}</FormFeedback>
-                            : null}
+                        <FormGroup className="position-relative">
+                            <Label for='birthDate' className='Form'>Birth Date</Label>
+                            <Input
+                                invalid
+                                type='date'
+                                id='birthDate'
+                                name='birthDate'
+                                placeholder='Enter a birth date'
+                                value={user.birthDate}
+                                onChange={onChangeHandler}
+                                />
+                            <FormFeedback tooltip>{errors.birthDate.message}</FormFeedback>
+                        </FormGroup>
+                        :<FormGroup className="position-relative">
                             <Label for='birthDate' className='Form'>Birth Date</Label>
                             <Input
                                 type='date'
                                 id='birthDate'
                                 name='birthDate'
-                                placeholder='mm/dd/yyyy'
+                                placeholder='Enter a birth date'
                                 value={user.birthDate}
                                 onChange={onChangeHandler}
                                 />
-                        </FormGroup>
-                    </Col>
-                    <Col>
-                        <FormGroup>
+                        </FormGroup>}
                         {errors.zipCode ? 
-                            <FormFeedback color='danger'>{errors.zipCode.message}</FormFeedback>
-                            : null}
-                            <Label for='zipcode' className='Form'>Zip Code</Label>
+                        <FormGroup className="position-relative">
+                            <Label for='zipCode' className='Form'>Zip Code</Label>
+                            <Input
+                                invalid
+                                type='number'
+                                id='zipCode'
+                                name='zipCode'
+                                placeholder='Enter a zip code'
+                                value={user.zipCode}
+                                onChange={onChangeHandler}
+                                />
+                            <FormFeedback tooltip>{errors.zipCode.message}</FormFeedback>
+                        </FormGroup>
+                        :<FormGroup className="position-relative">
+                            <Label for='zipCode' className='Form'>Zip Code</Label>
                             <Input
                                 type='number'
                                 id='zipCode'
@@ -92,38 +145,60 @@ const UserRegister = (props) => {
                                 value={user.zipCode}
                                 onChange={onChangeHandler}
                                 />
-                        </FormGroup>
-                        <FormGroup>
+                        </FormGroup>}    
                         {errors.password ? 
-                            <FormFeedback color='danger'>{errors.password.message}</FormFeedback>
-                            : null}
+                        <FormGroup className="position-relative">
                             <Label for='password' className='Form'>Password</Label>
                             <Input
-                                type='password'
+                                invalid
+                                type='text'
                                 id='password'
                                 name='password'
                                 placeholder='Enter a password'
                                 value={user.password}
                                 onChange={onChangeHandler}
                                 />
+                            <FormFeedback tooltip>{errors.password.message}</FormFeedback>
                         </FormGroup>
-                        <FormGroup>
-                        {errors.confirmPassword ? 
-                            <FormFeedback color='danger'>{errors.confirmPassword.message}</FormFeedback>
-                            : null}
-                            <Label for='confirmPassword' className='Form'>Confirm Password</Label>
+                        :<FormGroup className="position-relative">
+                            <Label for='password' className='Form'>Password</Label>
                             <Input
-                                type='password'
-                                id='confirmPassword'
-                                name='confirmPassword'
-                                value={user.confirmPassword}
-                                placeholder='Confirm the password'
+                                type='text'
+                                id='password'
+                                name='password'
+                                placeholder='Enter a password'
+                                value={user.password}
                                 onChange={onChangeHandler}
                                 />
+                        </FormGroup>}
+                        {errors.confirmPassword ? 
+                        <FormGroup className="position-relative">
+                            <Label for='confirmPassword' className='Form'>Confirm Password</Label>
+                            <Input
+                                invalid
+                                type='text'
+                                id='confirmPassword'
+                                name='confirmPassword'
+                                placeholder='Confirm your password'
+                                value={user.confirmPassword}
+                                onChange={onChangeHandler}
+                                />
+                            <FormFeedback tooltip>{errors.confirmPassword.message}</FormFeedback>
                         </FormGroup>
-                        <Button color='danger' type='submit'>Submit</Button>
-                    </Col>
-                </Form>
+                        :<FormGroup className="position-relative">
+                            <Label for='confirmPassword' className='Form'>Confirm Password</Label>
+                            <Input
+                                type='text'
+                                id='confirmPassword'
+                                name='confirmPassword'
+                                placeholder='Enter a confirmPassword'
+                                value={user.confirmPassword}
+                                onChange={onChangeHandler}
+                                />
+                        </FormGroup>}
+                        <Button color='primary' type='submit'>Submit</Button>
+                    </Form>
+                </Col>
             </Row>
         </Container>
     )
