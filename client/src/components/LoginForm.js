@@ -21,7 +21,7 @@ const LoginForm = (props) => {
         //input name serves as the key into the object
     }
         
-    const login = (e) => {
+    const loginUser = (e) => {
         e.preventDefault();
         axios.post(`http://${dbHost}/api/users/login`, userLogin,
         {withCredentials: true})
@@ -49,11 +49,11 @@ const LoginForm = (props) => {
     }
     return(
         <Container>
-            <Form onSubmit={login}>
-                {errors.map((err, index) => {
+            <Form onSubmit={loginUser}>
+                {/*{errors.map((err, index) => {
                     return(
                         <Alert key={index} color='danger'>{err}</Alert>
-                    )})}<br/>
+                    )})}<br/>*/}
                 <FormGroup>
                     <Label for='emailAddress' className='Form'>Email Address</Label>
                     <Input
