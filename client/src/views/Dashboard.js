@@ -48,13 +48,6 @@ const Dashboard = (props) => {
 
         })
         .catch(err => {
-            /*const errorResponse = err.response.data.errors;
-            const errorArr = [];
-            for (const key of Object.keys(errorResponse)) {
-                errorArr.push(errorResponse[key].message)
-            }
-            setErrors(errorArr);
-            console.log(errorArr);*/
             console.log('in user update:')
             console.log(err);
             console.log(err.response.data);

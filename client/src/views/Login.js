@@ -54,7 +54,7 @@ const Login = (props) => {
 
     const register = (e) => {
         e.preventDefault();
-        axios.post(`http://${dbHost}/api/users/register`, user,
+        axios.post(`http://localhost:8000/api/users/register`, user,
             {withCredentials: true})
             //ensures that cookies are sent with each request; 
             //Middleware verifies who is logged in

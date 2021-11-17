@@ -12,7 +12,6 @@ import CourseView from './views/CourseView';
 import UserView from './views/UserView';
 
 function App() {
-  const dbHost = process.env.DB_HOST;
   const [admin, setAdmin] = useState(false);
   const [catalog, setCatalog] = useState([]);
   const [errors, setErrors] = useState([]);
@@ -35,7 +34,6 @@ function App() {
       <Router>
         <Login
           path='/' admin={admin}
-          dbHost={dbHost}
           user={user}
           setUser={setUser}
           errors={errors}
@@ -44,7 +42,6 @@ function App() {
         <Admin 
           path='/admin'
           admin={admin} 
-          dbHost={dbHost}
           setAdmin={setAdmin}
           catalog={catalog} 
           setCatalog={setCatalog}
@@ -55,7 +52,6 @@ function App() {
           />
         <Dashboard 
           path='/dashboard'
-          dbHost={dbHost}
           user={user}
           setUser={setUser}
           errors={errors}
@@ -63,13 +59,11 @@ function App() {
           />
         <CourseView 
           path='/courses/:id'
-          dbHost={dbHost}
           errors={errors}
           setErrors={setErrors}
           />
         <UserView
           path='/users/:id'
-          dbHost={dbHost}
           errors={errors}
           setErrors={setErrors}
           users={users}

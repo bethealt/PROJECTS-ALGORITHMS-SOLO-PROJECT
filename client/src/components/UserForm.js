@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Container, Row, Col, Form, FormGroup, Input, Label, FormFeedback, Button, Alert} from 'reactstrap';
 
-const UserRegister = (props) => {
-    const {errors, user, setUser, onSubmitHandler, alertConfirm, alertFail} = props;
+const UserForm = (props) => {
+    const {errors, onSubmitHandler, alertConfirm, alertFail, user, setUser} = props;
+    //const [user, setUser] = useState('');
 
     const onChangeHandler = (e) => {
         setUser({...user, [e.target.name]: e.target.value})
@@ -23,7 +24,7 @@ const UserRegister = (props) => {
                     <Form inline onSubmit={onSubmitHandler}>
                     {errors.firstName ? 
                     <FormGroup className="position-relative">
-                        <Label for='firstName' className='Form'>First Name</Label>
+                        <Label for='firstName'>First Name</Label>
                         <Input
                             invalid
                             type='text'
@@ -191,7 +192,7 @@ const UserRegister = (props) => {
                                 type='password'
                                 id='confirmPassword'
                                 name='confirmPassword'
-                                placeholder='Enter a confirmPassword'
+                                placeholder='Confirm your password'
                                 value={user.confirmPassword}
                                 onChange={onChangeHandler}
                                 />
@@ -204,4 +205,4 @@ const UserRegister = (props) => {
     )
 }
 
-export default UserRegister;
+export default UserForm;

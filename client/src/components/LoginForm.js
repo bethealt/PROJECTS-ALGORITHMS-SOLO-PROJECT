@@ -5,7 +5,7 @@ import {navigate} from '@reach/router';
 import io from 'socket.io-client';
 
 const LoginForm = (props) => {
-    const {dbHost, errors, setErrors} = props;
+    const {errors, setErrors} = props;
     const [userLoggedIn, setUserLoggedIn] = useState(false);
     const [userLogConfirm, setUserLogConfirm] = useState('');
     const [userLogFail, setUserLogFail] = useState('');
@@ -27,7 +27,7 @@ const LoginForm = (props) => {
         
     const loginUser = (e) => {
         e.preventDefault();
-        axios.post(`http://${dbHost}/api/users/login`, userLogin,
+        axios.post(`http://${process.env.DB_HOST}/api/users/login`, userLogin,
         {withCredentials: true})
             .then((res) => {
                 console.log('Logging in a user:')
@@ -38,17 +38,18 @@ const LoginForm = (props) => {
                 setUserLogin({
                     emailAddress: '',
                     password:''
+                    
                 })
                 setUserLogConfirm("Login successful.")
+                setErrors({});
                 navigate('/dashboard');
             })
             .catch((err) => {
                 console.log('in user login')
                 console.log(err);
                 console.log(err.response.data);
-                if (err.response.data.errors) {
-                    setErrors(err.response.data.errors);
-                setUserLogFail("Login failed: please review the form and resubmit.")}
+                setErrors(err.response.data.errors);
+                setUserLogFail("Login failed: please review the form and resubmit.")
                 setErrors({});
             });   
     };

@@ -61,47 +61,76 @@ module.exports = {
                             })
                     
                         } else {
-                            //Password is invalid --- password comparison failed.
+                            //Password is invalid --- password comparison failed
                             if (!isPasswordValid) {
-                                return res.status(400).json(err)}};
+                                console.log("bcrypt comparison failed:");
+                                res.status(400).json({message: "Invalid login attempt (1)"});
+                            }
+                        }
                     })
                     .catch((err) => {
-                        console.log("Password comparison failed");
-                        res.status(400).json({message: "Invalid login attempt"});
+                        console.log("Password comparison failed:");
+                        res.status(400).json({message: "Invalid login attempt (2)"});
                     })
                 }
+            })
+            .catch((err) => {
+                console.log('findOne failed: email not found in the database.');
+                res.status(400).json({message: "Invalid login attempt (3)"});
             })
     },
                         
     logout: (req, res) => {
-        console.log("Logging out user")
+        console.log("Logging out...")
         res.clearCookie("usertoken");
         res.status(200).json({message: "Logout successful."});
     },
 
     read: (req, res) => {
+        console.log('inside findAllUsers:')
         User.find({})
             .then(allUsers => res.json(allUsers))
-            .catch(err => res.status(500).json(err))
+            .catch(err => res.status(400).json(err))
     },
 
     readOne: (req, res) => {
+        console.log('inside findOne:');
+        console.log('searching for:' + req.params.id);
         User.findOne({_id:req.params.id})
             .then(oneUser=> res.json(oneUser))
-            .catch(err => res.status(500).json(err))
+            .catch(err => res.status(400).json(err))
     },
 
     update: (req, res) => {
-        User.findOneAndUpdate(
-            {_id:req.params.id}, req.body, 
-            {new:true, runValidators:true, context: 'query'})
-                .then(updateUser => res.json(updateUser))
-                .catch(err => res.status(400).json(err))
+        //decode JWT to retrieve loggedin user data
+        const decodedJWT = jwt.decode(req.cookies.usertoken, {complete: true});
+        const user = decodedJWT.payload 
+        //restrict access to JWT user_id that matches Update user_id
+        if (user._id === updatedUser._id) {
+            User.findOneAndUpdate(
+                {_id:req.params.id}, req.body, 
+                {new:true, runValidators:true, context: 'query'})
+                    .then(updatedUser => res.json(updatedUser))
+                    .catch(err => res.status(400).json(err))
+        }
+        else {
+            res.status(403).json({message: "Permission to update denied."})
+        }
     },
 
     delete: (req, res) => {
-        User.deleteOne({_id:req.params.id})
-            .then(deleteConfirmation => res.json(deleteConfirmation))
-            .catch(err => res.json(err))
+        //decode JWT to retrieve loggedin user data
+        const decodedJWT = jwt.decode(req.cookies.usertoken, {complete: true});
+        const user = decodedJWT.payload 
+
+        if (user._id === deletedUser._id) {
+            //restrict access to JWT user_id that matches Update user_id
+            User.deleteOne({_id:req.params.id})
+                .then(deletedUser => res.json(deletedUser))
+                .catch(err => res.json(400).json(err))
+        }
+        else {
+            res.status(403).json({message: "Permission to delete denied."})
+        }
     }
-}
+};

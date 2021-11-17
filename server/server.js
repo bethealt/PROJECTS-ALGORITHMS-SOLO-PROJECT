@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 //adds the ability to use credentials with cookies
-app.use(cors({credentials: true, origin: `http://${process.env.DB_HOST}`}));
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 //enables the app to send and read cookies with each request/response
 app.use(cookieParser());

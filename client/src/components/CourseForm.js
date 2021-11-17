@@ -36,7 +36,7 @@ const CourseForm = (props) => {
     
     const createCourse = (e) => {
         e.preventDefault();
-        axios.post(`http://${dbHost}/api/courses`, newCourse,
+        axios.post(`http://${process.env.DB_HOST}/api/courses`, newCourse,
         {withCredentials: true})
             .then((res) => {
                 console.log('Adding a new course:')
@@ -58,10 +58,8 @@ const CourseForm = (props) => {
                 console.log(err);
                 console.log(err.response.data);
                 console.log(err.response.data.errors);
-                if (err.response.data.errors) {
-                    setErrors(err.response.data.errors);
+                setErrors(err.response.data.errors);
                 setCourseCreateFail("")
-                }
             })
     }
     
