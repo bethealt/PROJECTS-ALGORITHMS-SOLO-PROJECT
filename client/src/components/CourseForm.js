@@ -5,7 +5,7 @@ import {navigate} from '@reach/router';
 import io from 'socket.io-client';
 
 const CourseForm = (props) => {
-    const {dbHost, errors, setErrors} = props;
+    const {errors, setErrors} = props;
     const [courseCreateConfirm, setCourseCreateConfirm] = useState('');
     const [courseCreateFail, setCourseCreateFail] = useState('');
     const [socket] = useState(() => io(':8000'));
@@ -36,7 +36,7 @@ const CourseForm = (props) => {
     
     const createCourse = (e) => {
         e.preventDefault();
-        axios.post(`http://${process.env.DB_HOST}/api/courses`, newCourse,
+        axios.post(`http://localhost:8000/api/courses`, newCourse,
         {withCredentials: true})
             .then((res) => {
                 console.log('Adding a new course:')
@@ -59,7 +59,7 @@ const CourseForm = (props) => {
                 console.log(err.response.data);
                 console.log(err.response.data.errors);
                 setErrors(err.response.data.errors);
-                setCourseCreateFail("")
+                setCourseCreateFail("");
             })
     }
     

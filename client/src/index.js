@@ -4,6 +4,7 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+//require('dotenv').config();
 
 ReactDOM.render(
 // deactivating StrictMode prevents duplicate socket connections

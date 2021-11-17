@@ -86,7 +86,6 @@ const Login = (props) => {
                 console.log(err.response.data);
                 setErrors(err.response.data.errors);
                 setUserRegFail("Registration failed: please review the form and resubmit.")
-                setErrors({});
             });
     };
 

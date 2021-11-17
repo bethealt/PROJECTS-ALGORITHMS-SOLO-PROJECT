@@ -2,9 +2,18 @@ import React, {useState} from 'react';
 import {Container, Row, Col, Form, FormGroup, Input, Label, FormFeedback, Button, Alert} from 'reactstrap';
 
 const UserForm = (props) => {
-    const {errors, onSubmitHandler, alertConfirm, alertFail, user, setUser} = props;
-    //const [user, setUser] = useState('');
-
+    const {errors, onSubmitHandler, alertConfirm, alertFail} = props;
+    const [user, setUser] = useState({
+        firstName: '',
+        lastName: '',
+        emailAddress: '',
+        birthDate: '',
+        zipCode: '',
+        password: '',
+        confirmPassword: '',
+        //uses a single state object to hold user data
+    })
+    
     const onChangeHandler = (e) => {
         setUser({...user, [e.target.name]: e.target.value})
         //uses a single function to update the state object

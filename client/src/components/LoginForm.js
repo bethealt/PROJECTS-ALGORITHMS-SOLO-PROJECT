@@ -11,23 +11,23 @@ const LoginForm = (props) => {
     const [userLogFail, setUserLogFail] = useState('');
     const [socket] = useState(() => io(':8000'));
 
-    const [userLogin, setUserLogin] = useState({
+    const [user, setUser] = useState({
         emailAddress: '',
         password:'',
         //uses a single state object to hold login data
     })
 
     const onChangeHandler = (e) => {
-        setUserLogin({...userLogin, [e.target.name]: e.target.value})
+        setUser({...user, [e.target.name]: e.target.value})
         //uses a single function to update the state object
         //input name serves as the key into the object
         //uses a single function to update the state object
         //input name serves as the key into the object
     }
         
-    const loginUser = (e) => {
+    const login = (e) => {
         e.preventDefault();
-        axios.post(`http://${process.env.DB_HOST}/api/users/login`, userLogin,
+        axios.post(`http://localhost:8000/api/users/login`, user,
         {withCredentials: true})
             .then((res) => {
                 console.log('Logging in a user:')
@@ -35,7 +35,7 @@ const LoginForm = (props) => {
                 socket.emit("loggedin_user", res.data);
                 socket.disconnect();
                 setUserLoggedIn(!userLoggedIn);
-                setUserLogin({
+                setUser({
                     emailAddress: '',
                     password:''
                     
@@ -50,7 +50,6 @@ const LoginForm = (props) => {
                 console.log(err.response.data);
                 setErrors(err.response.data.errors);
                 setUserLogFail("Login failed: please review the form and resubmit.")
-                setErrors({});
             });   
     };
 
@@ -64,7 +63,7 @@ const LoginForm = (props) => {
                 : null}
             <Row>
                 <Col>
-                    <Form inline onSubmit={loginUser}>
+                <Form inline onSubmit={login}>
                     {errors.emailAddress ? 
                     <FormGroup className="position-relative">
                         <Label for='emailAddress' className='Form'>Email Address</Label>
@@ -74,7 +73,7 @@ const LoginForm = (props) => {
                             id='emailAddress'
                             name='emailAddress'
                             placeholder='Enter an email address'
-                            value={userLogin.emailAddress}
+                            value={user.emailAddress}
                             onChange={onChangeHandler}
                             />
                         <FormFeedback tooltip>{errors.emailAddress.message}</FormFeedback>
@@ -86,7 +85,7 @@ const LoginForm = (props) => {
                                 id='emailAddress'
                                 name='emailAddress'
                                 placeholder='Enter an email address'
-                                value={userLogin.emailAddress}
+                                value={user.emailAddress}
                                 onChange={onChangeHandler}
                                 />
                         </FormGroup>}
@@ -99,7 +98,7 @@ const LoginForm = (props) => {
                                 id='password'
                                 name='password'
                                 placeholder='Enter a password'
-                                value={userLogin.password}
+                                value={user.password}
                                 onChange={onChangeHandler}
                                 />
                             <FormFeedback tooltip>{errors.password.message}</FormFeedback>
@@ -111,7 +110,7 @@ const LoginForm = (props) => {
                                     id='password'
                                     name='password'
                                     placeholder='Enter a password'
-                                    value={userLogin.password}
+                                    value={user.password}
                                     onChange={onChangeHandler}
                                     />
                             </FormGroup>}

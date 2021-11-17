@@ -10,7 +10,7 @@ import CourseList from '../components/CourseList';
 import UserForm from '../components/UserForm';
 
 const Dashboard = (props) => {
-    const {dbHost, catalog, user, setUser, errors, setErrors} = props;
+    const {catalog, user, setUser, errors, setErrors} = props;
     const [activeTab, setActiveTab] = useState('1');
     const [userUpdConfirm, setUserUpdConfirm] = useState('');
     const [userUpdFail, setUserUpdFail] = useState('');
@@ -24,7 +24,7 @@ const Dashboard = (props) => {
 
     const updateUser = (e) => {
         e.preventDefault();
-        axios.put(`http://${dbHost}/api/users/update`, user, 
+        axios.put(`http://localhost:8000/api/users/update/${user._id}`, 
             {withCredentials: true})
             //ensures that cookies are sent with each request; 
             //Middleware verifies who is logged in
