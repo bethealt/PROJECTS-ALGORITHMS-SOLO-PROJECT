@@ -10,15 +10,17 @@ const LoginForm = (props) => {
     const [userLogConfirm, setUserLogConfirm] = useState('');
     const [userLogFail, setUserLogFail] = useState('');
     const [socket] = useState(() => io(':8000'));
+    //passes a callback function to initialize the socket
+    //setSocket is omitted as the socket state will not be updated
 
-    const [user, setUser] = useState({
+    const [userLogin, setUserLogin] = useState({
         emailAddress: '',
         password:'',
         //uses a single state object to hold login data
     })
 
     const onChangeHandler = (e) => {
-        setUser({...user, [e.target.name]: e.target.value})
+        setUserLogin({...userLogin, [e.target.name]: e.target.value})
         //uses a single function to update the state object
         //input name serves as the key into the object
         //uses a single function to update the state object
@@ -27,29 +29,30 @@ const LoginForm = (props) => {
         
     const login = (e) => {
         e.preventDefault();
-        axios.post(`http://localhost:8000/api/users/login`, user,
+        console.log(userLogin);
+        axios.post(`http://localhost:8000/api/users/login`, userLogin,
         {withCredentials: true})
             .then((res) => {
-                console.log('Logging in a user:')
+                console.log('Logging in a user')
                 console.log(res.data);
                 socket.emit("loggedin_user", res.data);
                 socket.disconnect();
                 setUserLoggedIn(!userLoggedIn);
-                setUser({
+                setUserLogin({
                     emailAddress: '',
                     password:''
                     
                 })
-                setUserLogConfirm("Login successful.")
+                setUserLogConfirm("Login successful.");
                 setErrors({});
                 navigate('/dashboard');
             })
             .catch((err) => {
-                console.log('in user login')
+                console.log('in user login');
                 console.log(err);
                 console.log(err.response.data);
                 setErrors(err.response.data.errors);
-                setUserLogFail("Login failed: please review the form and resubmit.")
+                setUserLogFail("Login failed: please review the form and resubmit.");
             });   
     };
 
@@ -64,7 +67,7 @@ const LoginForm = (props) => {
             <Row>
                 <Col>
                 <Form inline onSubmit={login}>
-                    {errors.emailAddress ? 
+                    {errors && errors.emailAddress ? 
                     <FormGroup className="position-relative">
                         <Label for='emailAddress' className='Form'>Email Address</Label>
                         <Input
@@ -73,7 +76,7 @@ const LoginForm = (props) => {
                             id='emailAddress'
                             name='emailAddress'
                             placeholder='Enter an email address'
-                            value={user.emailAddress}
+                            value={userLogin.emailAddress}
                             onChange={onChangeHandler}
                             />
                         <FormFeedback tooltip>{errors.emailAddress.message}</FormFeedback>
@@ -85,11 +88,11 @@ const LoginForm = (props) => {
                                 id='emailAddress'
                                 name='emailAddress'
                                 placeholder='Enter an email address'
-                                value={user.emailAddress}
+                                value={userLogin.emailAddress}
                                 onChange={onChangeHandler}
                                 />
                         </FormGroup>}
-                        {errors.password ? 
+                        {errors && errors.password ? 
                         <FormGroup className="position-relative">
                             <Label for='password' className='Form'>Password</Label>
                             <Input
@@ -98,7 +101,7 @@ const LoginForm = (props) => {
                                 id='password'
                                 name='password'
                                 placeholder='Enter a password'
-                                value={user.password}
+                                value={userLogin.password}
                                 onChange={onChangeHandler}
                                 />
                             <FormFeedback tooltip>{errors.password.message}</FormFeedback>
@@ -110,11 +113,11 @@ const LoginForm = (props) => {
                                     id='password'
                                     name='password'
                                     placeholder='Enter a password'
-                                    value={user.password}
+                                    value={userLogin.password}
                                     onChange={onChangeHandler}
                                     />
                             </FormGroup>}
-                        <Button type='submit' color='danger'>Submit</Button>&nbsp;&nbsp;
+                        <Button type='submit' id='loginform' color='danger'>Submit</Button>&nbsp;&nbsp;
                     </Form>
                 </Col>
             </Row>

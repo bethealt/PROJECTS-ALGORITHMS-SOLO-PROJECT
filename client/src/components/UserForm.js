@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import {Container, Row, Col, Form, FormGroup, Input, Label, FormFeedback, Button, Alert} from 'reactstrap';
 
 const UserForm = (props) => {
-    const {errors, onSubmitHandler, alertConfirm, alertFail} = props;
+    const {alertConfirm, alertFail, errors, onSubmitHandler} = props;
+
     const [user, setUser] = useState({
         firstName: '',
         lastName: '',
@@ -30,8 +31,8 @@ const UserForm = (props) => {
                 : null}
             <Row>
                 <Col>
-                    <Form inline onSubmit={onSubmitHandler}>
-                    {errors.firstName ? 
+                    <Form inline onSubmit={(e) => onSubmitHandler(e, user, setUser)}>
+                    {errors && errors && errors.firstName ? 
                     <FormGroup className="position-relative">
                         <Label for='firstName'>First Name</Label>
                         <Input
@@ -43,7 +44,7 @@ const UserForm = (props) => {
                             value={user.firstName}
                             onChange={onChangeHandler}
                             />
-                        <FormFeedback tooltip>{errors.firstName.message}</FormFeedback>
+                        <FormFeedback tooltip>{errors && errors.firstName.message}</FormFeedback>
                         </FormGroup>
                         :<FormGroup className="position-relative">
                             <Label for='firstName' className='Form'>First Name</Label>
@@ -56,7 +57,7 @@ const UserForm = (props) => {
                                 onChange={onChangeHandler}
                                 />
                         </FormGroup>}
-                        {errors.lastName ? 
+                        {errors && errors.lastName ? 
                         <FormGroup className="position-relative">
                             <Label for='lastName' className='Form'>Last Name</Label>
                             <Input
@@ -68,7 +69,7 @@ const UserForm = (props) => {
                                 value={user.lastName}
                                 onChange={onChangeHandler}
                                 />
-                            <FormFeedback tooltip>{errors.lastName.message}</FormFeedback>
+                            <FormFeedback tooltip>{errors && errors.lastName.message}</FormFeedback>
                         </FormGroup>
                         :<FormGroup className="position-relative">
                             <Label for='lastName' className='Form'>Last Name</Label>
@@ -81,7 +82,7 @@ const UserForm = (props) => {
                                 onChange={onChangeHandler}
                                 />
                         </FormGroup>}
-                        {errors.emailAddress ? 
+                        {errors && errors.emailAddress ? 
                         <FormGroup className="position-relative">
                             <Label for='emailAddress' className='Form'>Email Address</Label>
                             <Input
@@ -93,7 +94,7 @@ const UserForm = (props) => {
                                 value={user.emailAddress}
                                 onChange={onChangeHandler}
                                 />
-                            <FormFeedback tooltip>{errors.emailAddress.message}</FormFeedback>
+                            <FormFeedback tooltip>{errors && errors.emailAddress.message}</FormFeedback>
                         </FormGroup>
                         :<FormGroup className="position-relative">
                             <Label for='emailAddress' className='Form'>Email Address</Label>
@@ -106,7 +107,7 @@ const UserForm = (props) => {
                                 onChange={onChangeHandler}
                                 />
                             </FormGroup>}
-                        {errors.birthDate ? 
+                        {errors && errors.birthDate ? 
                         <FormGroup className="position-relative">
                             <Label for='birthDate' className='Form'>Birth Date</Label>
                             <Input
@@ -118,7 +119,7 @@ const UserForm = (props) => {
                                 value={user.birthDate}
                                 onChange={onChangeHandler}
                                 />
-                            <FormFeedback tooltip>{errors.birthDate.message}</FormFeedback>
+                            <FormFeedback tooltip>{errors && errors.birthDate.message}</FormFeedback>
                         </FormGroup>
                         :<FormGroup className="position-relative">
                             <Label for='birthDate' className='Form'>Birth Date</Label>
@@ -131,7 +132,7 @@ const UserForm = (props) => {
                                 onChange={onChangeHandler}
                                 />
                         </FormGroup>}
-                        {errors.zipCode ? 
+                        {errors && errors.zipCode ? 
                         <FormGroup className="position-relative">
                             <Label for='zipCode' className='Form'>Zip Code</Label>
                             <Input
@@ -143,7 +144,7 @@ const UserForm = (props) => {
                                 value={user.zipCode}
                                 onChange={onChangeHandler}
                                 />
-                            <FormFeedback tooltip>{errors.zipCode.message}</FormFeedback>
+                            <FormFeedback tooltip>{errors && errors.zipCode.message}</FormFeedback>
                         </FormGroup>
                         :<FormGroup className="position-relative">
                             <Label for='zipCode' className='Form'>Zip Code</Label>
@@ -156,7 +157,7 @@ const UserForm = (props) => {
                                 onChange={onChangeHandler}
                                 />
                         </FormGroup>}    
-                        {errors.password ? 
+                        {errors && errors.password ? 
                         <FormGroup className="position-relative">
                             <Label for='password' className='Form'>Password</Label>
                             <Input
@@ -168,7 +169,7 @@ const UserForm = (props) => {
                                 value={user.password}
                                 onChange={onChangeHandler}
                                 />
-                            <FormFeedback tooltip>{errors.password.message}</FormFeedback>
+                            <FormFeedback tooltip>{errors && errors.password.message}</FormFeedback>
                         </FormGroup>
                         :<FormGroup className="position-relative">
                             <Label for='password' className='Form'>Password</Label>
@@ -181,7 +182,7 @@ const UserForm = (props) => {
                                 onChange={onChangeHandler}
                                 />
                         </FormGroup>}
-                        {errors.confirmPassword ? 
+                        {errors && errors.confirmPassword ? 
                         <FormGroup className="position-relative">
                             <Label for='confirmPassword' className='Form'>Confirm Password</Label>
                             <Input
@@ -193,7 +194,7 @@ const UserForm = (props) => {
                                 value={user.confirmPassword}
                                 onChange={onChangeHandler}
                                 />
-                            <FormFeedback tooltip>{errors.confirmPassword.message}</FormFeedback>
+                            <FormFeedback tooltip>{errors && errors.confirmPassword.message}</FormFeedback>
                         </FormGroup>
                         :<FormGroup className="position-relative">
                             <Label for='confirmPassword' className='Form'>Confirm Password</Label>
@@ -206,7 +207,7 @@ const UserForm = (props) => {
                                 onChange={onChangeHandler}
                                 />
                         </FormGroup>}
-                        <Button color='primary' type='submit'>Submit</Button>
+                        <Button color='danger' id='userform' type='submit'>Submit</Button>
                     </Form>
                 </Col>
             </Row>

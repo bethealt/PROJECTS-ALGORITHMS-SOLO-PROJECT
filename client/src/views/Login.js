@@ -20,6 +20,7 @@ const Login = (props) => {
 
     const toggle = (tab) => {
         if(activeTab !== tab) setActiveTab(tab);
+        setErrors({});
     }
 
     useEffect(() => {
@@ -52,8 +53,9 @@ const Login = (props) => {
 
 }, []);
 
-    const register = (e) => {
+    const register = (e, user, setUser) => {
         e.preventDefault();
+        console.log(user)
         axios.post(`http://localhost:8000/api/users/register`, user,
             {withCredentials: true})
             //ensures that cookies are sent with each request; 

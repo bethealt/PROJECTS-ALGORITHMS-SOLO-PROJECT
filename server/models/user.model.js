@@ -75,5 +75,5 @@ UserSchema.pre('save', function(next) {
 });
 
 
-//mongoose creates a db collection with a lowercase & plural conversion of User/Admin
+//mongoose creates a db collection with a lowercase & plural conversion of User
 module.exports = mongoose.model('User', UserSchema);

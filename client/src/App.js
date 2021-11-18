@@ -34,8 +34,8 @@ function App() {
       <Router>
         <Login
           path='/' admin={admin}
-          user={user}
-          setUser={setUser}
+          /*user={user}
+          setUser={setUser}*/
           errors={errors}
           setErrors={setErrors}
           />

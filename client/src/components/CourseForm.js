@@ -74,7 +74,7 @@ const CourseForm = (props) => {
            <Row>
                 <Col>
                     <Form inline onSubmit={createCourse}>   
-                    {errors.title ? 
+                    {errors && errors.title ? 
                         <FormGroup className="position-relative">
                             <Label for='title' className='Form'>Title</Label>
                             <Input

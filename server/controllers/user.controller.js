@@ -26,7 +26,8 @@ module.exports = {
     },       
 
     login: (req, res) => {
-        User.findOne({email: req.body.emailAddress})
+        console.log(req.body)
+        User.findOne({emailAddress: req.body.emailAddress})
             .then((user) => {
                 if (user === null) {
                     return res.status(400).json({message: "Invalid login attempt"});
@@ -42,7 +43,7 @@ module.exports = {
                             res.cookie("usertoken", 
                             jwt.sign({
                                 user_id: user._id,
-                                email: user.emailAddress,
+                                emailAddress: user.emailAddress,
                                 admin: user.admin,
                                 //payload containing data to save
                             },  process.env.JWT_SECRET_KEY1),
@@ -62,11 +63,12 @@ module.exports = {
                     
                         } else {
                             //Password is invalid --- password comparison failed
-                            if (!isPasswordValid) {
+                                console.log(user);
                                 console.log("bcrypt comparison failed:");
-                                res.status(400).json({message: "Invalid login attempt (1)"});
+                                console.log()
+                                res.status(400).json({message: "Invalid login attempt (1)"}); 
                             }
-                        }
+                        
                     })
                     .catch((err) => {
                         console.log("Password comparison failed:");
