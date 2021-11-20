@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import io from 'socket.io-client'
+import {navigate} from '@reach/router'
+
 import { render } from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, NavbarBrand, NavbarToggler, Nav, NavItem, NavLink, Collapse } from 'reactstrap';
 import { faHeartPulse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
-
 const NavBar = (props) => {
-    const {userLogin, setUserLogin} = props;
+    const {errors, setErrors, userLogin, setUserLogin, userLoggedIn, setUserLoggedIn} = props;
     const [isOpen, setIsOpen] = useState(false);
+    const [socket] = useState(() => io(':8000'));
 
-    /*const logout = (e, userLogin, setUserLogin) => {
+    const logout = (e, userLogin, setUserLogin) => {
         e.prevent.Default();
         console.log(userLogin);
         axios.post(`http://localhost:8000/api/users/logout`, userLogin,
@@ -37,7 +40,7 @@ const NavBar = (props) => {
                 setErrors(err.response.data.errors);
                 navigate('/login');
             });   
-    };*/
+    };
 
     return (
         <div style={{ display: 'block', width: 900, padding: 30}}>
@@ -73,7 +76,7 @@ const NavBar = (props) => {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href='/logout'>
+                            <NavLink href='/logout' onClick={logout}>
                                 Logout
                             </NavLink>
                         </NavItem>

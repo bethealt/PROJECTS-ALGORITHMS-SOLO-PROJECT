@@ -111,7 +111,7 @@ const Dashboard = (props) => {
                 <TabPane tabId='3'>
                     <Row>
                         <Col 
-                            md={{ offset: 1, size: 10}}
+                            md={{ offset: 0, size: 12}}
                             sm="12"><br/>
                             <h4>View Available Courses</h4><br/>
                             <CourseList catalog={catalog}/>

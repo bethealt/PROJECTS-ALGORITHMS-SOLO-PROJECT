@@ -137,7 +137,7 @@ const CourseList = (props) => {
                 <thead>
                     <tr>
                         <th data-type='string'>Title</th>
-                        <th data-type='string'>Description</th>
+                        {/*<th data-type='string'>Description</th>*/}
                         <th data-type='date'>Date</th>
                         <th data-type='string'>Start Time</th>
                         <th data-type='string'>End Time</th>
@@ -154,30 +154,24 @@ const CourseList = (props) => {
                             return(
                                 <tr key={_id}>
                                     <td>{course.title}</td>
-                                    <td>{course.description}</td>
+                                   {/* <td>{course.description}</td>*/}
                                     <td>{course.date}</td>
                                     <td>{course.start}</td>
                                     <td>{course.end}</td>
                                     <td>{course.city}</td>
                                     <td>{course.zipCode}</td>
                                     <td>{course.county}</td>
-                                    {
-                                        admin === true ?
-                                        <td>
-                                        <Link to={`/courses/${course._id}`}>
-                                        <Button>View</Button></Link>&nbsp;&nbsp;
-                                        <Link to={`/courses/edit/${course._id}`}>
-                                        <Button>Edit</Button></Link>&nbsp;&nbsp;
-                                        <Button onClick={deleteCourse}>Delete</Button>&nbsp;&nbsp;
-                                        </td>
-                                        :
-                                        <ButtonGroup>
-                                            <Link to={`/courses/${course._id}`}><Button color='secondary' outline>View</Button></Link>
-                                            <Link to={`/courses/edit/${course._id}`}>
-                                            <Button color='secondary' outline onClick={enrollUser}>Enroll</Button></Link>
-                                            <Button color='secondary' outline onClick={dropUser}>Drop</Button>
-                                        </ButtonGroup>
-                                    }
+                                    {admin === true ?
+                                    <td><ButtonGroup>
+                                        <Link to={`/courses/:${course._id}`}><Button color='secondary' outline>View</Button></Link>
+                                        <Link to={`/courses/edit/:${course._id}`}><Button color='secondary' outline>Edit</Button></Link>
+                                        <Button onClick={deleteCourse} color='secondary' outline>Delete</Button>
+                                    </ButtonGroup></td> :
+                                    <td><ButtonGroup>
+                                        <Link to={`/courses/:${course._id}`}><Button color='secondary' outline>View</Button></Link>
+                                        <Button onClick={enrollUser} color='secondary' outline>Enroll</Button>
+                                        <Button onClick={dropUser} color='secondary' outline>Drop</Button>
+                                    </ButtonGroup></td>}
                                 </tr>
                         )})}
                 </tbody>
