@@ -22,7 +22,7 @@ const CourseUpdate = (props) => {
     //setSocket is not required as the socket state will not be updated
     
     useEffect(() => {
-        axios.get(`http://${dbHost}/api/courses/${_id}`,
+        axios.get(`http://localhost:8000/api/courses/${_id}`,
         {withCredentials: true})
             .then((res) => {
                 console.log(res);

@@ -49,7 +49,7 @@ module.exports = {
                             },  process.env.JWT_SECRET_KEY1),
                                 //secret used to sign / hash data in the cookie
                             {   httpOnly: true,
-                                expires: new Date(Date.now() + 900000)
+                                //expires: new Date(Date.now() + 900000)
                                 //configuration settings for this cookie
                             })
                             .json({

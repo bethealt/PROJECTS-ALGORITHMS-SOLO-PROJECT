@@ -112,7 +112,7 @@ const UserList = (props) => {
                 </thead>
                 <tbody>
                     {users
-                        .slice().sort((a, b) => a.lastName > b.lastName ? 1 : -1)
+                        .sort((a, b) => a.lastName > b.lastName ? 1 : -1)
                         .map((user, _id) => {
                             return(
                                 <tr key={_id}>

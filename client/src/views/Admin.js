@@ -3,7 +3,7 @@ import {Container, Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'r
 import classnames from 'classnames';
 
 import CourseList from '../components/CourseList';
-import CourseForm from '../components/CourseForm';
+import CourseUpdate from '../components/CourseUpdate';
 import UserList from '../components/UserList';
 
 const Admin = (props) => {
@@ -74,7 +74,7 @@ const Admin = (props) => {
                         md={{ offset: 1, size: 10}}
                         sm="12"><br/>
                         <h4>Add a Course</h4><br/>
-                        <CourseForm 
+                        <CourseUpdate
                             errors={errors}
                             setErrors={setErrors}
                             setCatalog={setCatalog}
