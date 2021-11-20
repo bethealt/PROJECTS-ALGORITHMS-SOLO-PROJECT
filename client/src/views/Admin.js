@@ -9,7 +9,6 @@ import UserList from '../components/UserList';
 const Admin = (props) => {
     const {setAdmin, catalog, setCatalog, errors, setErrors, users, setUsers,
     } = props;
-    const [loaded, setLoaded] = useState(false);
     const [activeTab, setActiveTab] = useState('1');
 
     const toggle = (tab) => {
@@ -50,7 +49,6 @@ const Admin = (props) => {
                         <h4>Manage Users</h4><br/>
                         <UserList 
                             setAdmin={setAdmin}
-                            setLoaded={setLoaded}
                             users={users}
                             setUsers={setUsers}
                         />
@@ -64,7 +62,6 @@ const Admin = (props) => {
                         sm="12"><br/>
                         <h4>Manage Courses</h4><br/>
                         <CourseList 
-                            setLoaded={setLoaded}
                             catalog={catalog}
                             setCatalog={setCatalog}
                         />
