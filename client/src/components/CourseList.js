@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Container, Table, ButtonGroup, Button} from 'reactstrap';
 import {Link, navigate} from '@reach/router';
 import axios from 'axios';
+import {format} from 'date-fns';
 import io from 'socket.io-client';
 
 const CourseList = (props) => {
@@ -143,7 +144,7 @@ const CourseList = (props) => {
                         <th data-type='string'>End Time</th>
                         <th data-type='string'>City</th>
                         <th data-type='number'>Zip Code</th>
-                        <th data-type='string'>County</th>
+                        {/*<th data-type='string'>County</th>*/}
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -155,12 +156,12 @@ const CourseList = (props) => {
                                 <tr key={_id}>
                                     <td>{course.title}</td>
                                    {/* <td>{course.description}</td>*/}
-                                    <td>{course.date}</td>
+                                    <td>{format ( new Date(course.date), 'E, dd MMM yy')}</td>
                                     <td>{course.start}</td>
                                     <td>{course.end}</td>
                                     <td>{course.city}</td>
                                     <td>{course.zipCode}</td>
-                                    <td>{course.county}</td>
+                                    {/*<td>{course.county}</td>*/}
                                     {admin === true ?
                                     <td><ButtonGroup>
                                         <Link to={`/courses/:${course._id}`}><Button color='secondary' outline>View</Button></Link>

@@ -8,9 +8,7 @@ import CourseDetails from '../components/CourseDetails.js';
 import UserList from '../components/UserList';
 
 const CourseView = (props) => {
-    const {dbHost, _id, setAdmin, catalog, setCatalog, errors, setErrors, users, setUsers,
-        } = props;
-    const [loaded, setLoaded] = useState(false);
+    const {setAdmin, catalog, setCatalog, errors, setErrors, users, setUsers} = props;
     const [activeTab, setActiveTab] = useState('4');
 
     const toggle = (tab) => {
@@ -58,7 +56,6 @@ const CourseView = (props) => {
                         <h4>Manage Users</h4><br/>
                         <UserList 
                             setAdmin={setAdmin}
-                            setLoaded={setLoaded}
                             users={users}
                             setUsers={setUsers}
                         />
@@ -72,7 +69,6 @@ const CourseView = (props) => {
                         sm="12"><br/>
                         <h4>Manage Courses</h4><br/>
                       <CourseList 
-                            setLoaded={setLoaded}
                             catalog={catalog}
                             setCatalog={setCatalog}
                         />
@@ -99,10 +95,7 @@ const CourseView = (props) => {
                         md={{ offset: 1, size: 10}}
                         sm="12"><br/>
                         <h4>View Course</h4><br/>
-                        <CourseDetails
-                            dbHost={dbHost}
-                            _id={_id}
-                        />
+                        <CourseDetails/>
                     </Col>
                 </Row>
             </TabPane>

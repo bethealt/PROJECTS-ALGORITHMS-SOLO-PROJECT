@@ -6,15 +6,15 @@ App.js
 - article: https://www.cloudhadoop.com/hide-apikey-react-application/
 
 Authentication
-- setup of cookies/bearer tokens in Postman for testing
-- testing loggedin user status
-- confirming credentials 
+- setup of cookies/bearer tokens in Postman for testing     X
+- testing loggedin user status                              X
+- confirming credentials                                    X 
 
 Key/CRUD functions:
     
     Users
     - CREATE                X
-        -if the users array is being updated by the socket, do I need to include a similar update to users in the register function as well?
+        -if the users array is being updated by the socket, do I need to include a similar update to users in the register function as well? No.
     - DROP COURSE
     - ENROLL COURSE
     - LOGIN 
@@ -38,13 +38,13 @@ Key/CRUD functions:
     - users can register/are being created
 
     UserList.js
-    - Page created but displays with no data
-    - Confirmed 10 users have been added to the database
-    - bcrypt password hashing is working properly
-    - admin flags are being set to false by default
+    - Page created but displays with no data                    X
+    - Confirmed 10 users have been added to the database        X
+    - bcrypt password hashing is working properly               X
+    - admin flags are being set to false by default             X
 
     LoginForm.js
-    - only login failure alert displays but not individual input error messages
+    - only login failure alert displays but not individual input error messages 
     - field-based error-messaging does not displaying
     - users can login
 
@@ -61,9 +61,9 @@ Key/CRUD functions:
     - model update required
 
     CourseList.js
-    - Page created
-    - No data/no courses in the db 
-    - course creation not functioning
+    - Page created                          X
+    - No data/no courses in the db          X
+    - course creation not functioning       X
     - drop/enroll functions created but untested
 
     CourseDetail.js
