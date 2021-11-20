@@ -3,16 +3,15 @@ import axios from 'axios';
 import {Container, ListGroup, ListGroupItem, ListGroupItemHeading} from 'reactstrap';
 
 const CourseDetails = (props) => {
-    const {dbHost, _id} = props;
+    const {_id} = props;
     const [course, setCourse] = useState({});
     
     useEffect(() => {
-        axios.get(`http://${dbHost}/api/courses/${_id}`,
+        axios.get(`http://localhost:8000/api/courses/${_id}`,
         {withCredentials: true})
             .then((res) => {
                 console.log(res);
-                setCourse(res.data)
-                
+                setCourse(res.data)   
             })
             .catch((err) => console.log(err))  
     }, []);

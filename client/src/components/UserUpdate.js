@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {navigate} from '@reach/router';
 import io from 'socket.io-client';
 
+//components
 import UserForm from '../components/UserForm';
 
 const UpdateUser = (props) => {
@@ -22,7 +22,7 @@ const UpdateUser = (props) => {
     //setSocket is omitted as the socket state will not be updated
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/courses/${_id}`,
+        axios.get(`http://localhost:8000/api/users/${_id}`,
         {withCredentials: true})
             .then(res => {
                 console.log('in update user:')
@@ -55,12 +55,10 @@ const UpdateUser = (props) => {
                 birthDate: '',
                 zipCode: '',
                 password: '',
-                confirmPassword: '',
-            })
+                confirmPassword: ''
+            });
             setUserUpdConfirm("User update successful");
             setErrors({});
-            navigate("/dashboard");
-    
         })
         .catch(err => {
             console.log('in user update:')
@@ -68,9 +66,10 @@ const UpdateUser = (props) => {
             console.log(err.response.data);
             setErrors(err.response.data.errors);
             setUserUpdFail("Update failed: please review the form and resubmit.")
-            setErrors({});
-            });
-    }
+        })
+    };
+        
+    
 
     return(
         <div>

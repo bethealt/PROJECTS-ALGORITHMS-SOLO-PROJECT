@@ -34,9 +34,8 @@ function App() {
       <NavBar/>
       <Router>
         <Login
-          path='/' admin={admin}
-          /*user={user}
-          setUser={setUser}*/
+          path='/' 
+          admin={admin}
           errors={errors}
           setErrors={setErrors}
           />

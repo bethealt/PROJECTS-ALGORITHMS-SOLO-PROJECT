@@ -99,7 +99,7 @@ module.exports = {
         console.log('inside findOne:');
         console.log('searching for:' + req.params.id);
         User.findOne({_id:req.params.id})
-            .then(oneUser=> res.json(oneUser))
+            .then(user=> res.json(user))
             .catch(err => res.status(400).json(err))
     },
 

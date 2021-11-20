@@ -4,11 +4,12 @@ import {Container, Nav, NavItem, NavLink, TabContent, TabPane, Row, Col} from 'r
 import classnames from 'classnames';
 import io from'socket.io-client';
 
+//components
 import LoginForm from '../components/LoginForm';
-import UserForm from '../components/UserForm';
+import UserForm from '../components/UserForm'; 
 
 const Login = (props) => {
-    const {dbHost, user, setUser, users, setUsers} = props;
+    const {user, setUser, users, setUsers} = props;
     const [activeTab, setActiveTab] = useState('1');
     const [loggedIn, setLoggedIn] = useState([]);
     const [userRegConfirm, setUserRegConfirm] = useState('');
@@ -118,7 +119,6 @@ const Login = (props) => {
                             sm="12"><br/>
                             <h4>Welcome Back!</h4><br/>
                             <LoginForm
-                                dbHost={dbHost}
                                 errors={errors} 
                                 setErrors={setErrors}
                             />
