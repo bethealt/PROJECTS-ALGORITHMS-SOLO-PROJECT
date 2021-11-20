@@ -21,20 +21,20 @@ const CourseForm = (props) => {
         location: '',
         streetAddress: '',
         city: '',
+        state: '',
         zipCode: '',
         county: '',
         //uses a single state object to hold course data
     })
 
-    const onChangeHandler = (e) => {
+    const onChangeHandler = (e, newCourse) => {
         setNewCourse({...newCourse, [e.target.name]: e.target.value})
         //uses a single function to update the state object
         //input name serves as the key into the object
-        //uses a single function to update the state object
-        //input name serves as the key into the object
+        
     }
     
-    const createCourse = (e) => {
+    const createCourse = (e, newCourse, setNewCourse) => {
         e.preventDefault();
         axios.post(`http://localhost:8000/api/courses`, newCourse,
         {withCredentials: true})
@@ -59,7 +59,7 @@ const CourseForm = (props) => {
                 console.log(err.response.data);
                 console.log(err.response.data.errors);
                 setErrors(err.response.data.errors);
-                setCourseCreateFail("");
+                setCourseCreateFail("New course creation failed: please review the form and resumit");
             })
     }
     

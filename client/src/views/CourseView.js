@@ -45,7 +45,7 @@ const CourseView = (props) => {
                 <NavLink
                     className={classnames({active: activeTab === '4'})}
                     onClick={() => {toggle('4'); }}>
-                    EDIT
+                    VIEW
                 </NavLink>
             </NavItem>
         </Nav>
@@ -56,12 +56,12 @@ const CourseView = (props) => {
                         md={{ offset: 1, size: 10}}
                         sm="12"><br/>
                         <h4>Manage Users</h4><br/>
-                        {loaded && <UserList 
+                        <UserList 
                             setAdmin={setAdmin}
                             setLoaded={setLoaded}
                             users={users}
                             setUsers={setUsers}
-                        />}
+                        />
                     </Col>
                 </Row>
             </TabPane>
@@ -71,11 +71,11 @@ const CourseView = (props) => {
                         md={{ offset: 1, size: 10}}
                         sm="12"><br/>
                         <h4>Manage Courses</h4><br/>
-                        {loaded && <CourseList 
+                      <CourseList 
                             setLoaded={setLoaded}
                             catalog={catalog}
                             setCatalog={setCatalog}
-                        />}
+                        />
                     </Col>
                 </Row>
             </TabPane>

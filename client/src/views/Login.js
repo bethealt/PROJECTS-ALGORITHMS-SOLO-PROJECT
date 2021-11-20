@@ -39,8 +39,8 @@ const Login = (props) => {
         //returns brand new array for the setter to use
         //by default, the array is empty due to when it was created and saved into state
     })
-    socket.on('user_loggedin', (logUserObj) => {
-        console.log('in loggedin_user:');
+    socket.on('user_login', (logUserObj) => {
+        console.log('in login_user:');
         console.log(logUserObj);
         console.log(loggedIn);
         setLoggedIn((currentLoggedIn) => [...loggedIn, logUserObj]);
@@ -90,6 +90,7 @@ const Login = (props) => {
                 setUserRegFail("Registration failed: please review the form and resubmit.")
             });
     };
+
 
     return(
         <Container>

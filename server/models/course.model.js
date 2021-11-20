@@ -39,6 +39,11 @@ const CourseSchema = new mongoose.Schema({
         required: [true, "Please enter a city for the course."],
         minlength: [3, "A city must have at least 3 characters."]
     },
+    state: {
+        type: String,
+        required: [true, "Please enter a state for the course."],
+        maxlength: [2]
+    },
     zipCode: {
         type: Number,
         required: [true, "Please enter a zip code for the course."],

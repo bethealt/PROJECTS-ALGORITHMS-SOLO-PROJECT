@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Container, Table, Button} from 'reactstrap';
+import {Container, Table, ButtonGroup, Button} from 'reactstrap';
 import {Link, navigate} from '@reach/router';
 import io from 'socket.io-client';
 
 const UserList = (props) => {
-    const {dbHost, setAdmin, setLoaded, users, setUsers} = props;
+    const {setAdmin, setLoaded, users, setUsers} = props;
     const [admins, setAdmins] = useState([]);
     const [socket] = useState(() => io(':8000'));
     //passes a callback function to initialize the socket 
@@ -50,10 +50,11 @@ const UserList = (props) => {
     }, []);
 
     useEffect(() => {
-        axios.get(`http://${dbHost}/api/users`,
+        axios.get(`http://localhost:8000/api/users`,
         {withCredentials: true})
             .then((res) => {
-                console.log(res);
+                console.log('inside read all users');
+                console.log(res.data);
                 setUsers(res.data);
                 setLoaded(true);
             })
@@ -61,7 +62,7 @@ const UserList = (props) => {
     }, []);
 
     const authorizeUser = (_id) => {
-        axios.get(`http://${dbHost}/api/users/${_id}`,
+        axios.get(`http://localhost:8000/api/users/:${_id}`,
         {withCredentials: true})
             .then((res) => {
                 setAdmin(true);
@@ -79,7 +80,7 @@ const UserList = (props) => {
     }
 
     const deleteUser = (_id) => {
-        axios.delete(`http://${dbHost}/api/users/${_id}`,
+        axios.delete(`http://localhost:8000/api/users/:${_id}`,
         {withCredentials: true})
             .then(res => {
                 removeFromDom(_id)
@@ -118,11 +119,14 @@ const UserList = (props) => {
                                     <td>{user.firstName}</td>
                                     <td>{user.lastName}</td>
                                     <td>{user.emailAddress}</td>
-                                    <td>{user.zipcode}</td>
+                                    <td>{user.zipCode}</td>
+                                    <td>{user.admin}</td>
                                     <td>
-                                        <Link to={`/users/${user._id}`}><Button>View</Button></Link>&nbsp;&nbsp;
-                                        <Button onClick={authorizeUser}>Authorize</Button>&nbsp;&nbsp;
-                                        <Button onClick={deleteUser}>Delete</Button>
+                                    <ButtonGroup>
+                                        <Link to={`/users/${user._id}`}><Button color='secondary' outline>View</Button></Link>
+                                        <Button color='secondary' outline onClick={authorizeUser}>Authorize</Button>
+                                        <Button color='secondary' outline onClick={deleteUser}>Delete</Button>
+                                    </ButtonGroup>
                                     </td>
                                 </tr>
                         )})}

@@ -87,10 +87,15 @@ io.on("connection", (socket) => {
         console.log(regUserObj);
         socket.broadcast.emit("user_registered", regUserObj)
     });
-    socket.on("loggedin_user", (logUserObj) => {
+    socket.on("login_user", (logUserObj) => {
         console.log("A user logged in.");
         console.log(logUserObj);
-        socket.broadcast.emit("user_loggedin", logUserObj)
+        socket.broadcast.emit("user_login", logUserObj)
+    });
+    socket.on("logout_user", (lgtUserObj) => {
+        console.log("A user logged out.");
+        console.log(lgtUserobj);
+        socket.broadcast.emit("user_logout", lgtUserObj)
     });
     socket.on("updated_user", (updUserObj) => {
         console.log("An existing user was updated.");

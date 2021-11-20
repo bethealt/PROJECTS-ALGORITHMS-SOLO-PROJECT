@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Table, Button} from 'reactstrap';
+import {Container, Table, ButtonGroup, Button} from 'reactstrap';
 import {Link, navigate} from '@reach/router';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -68,10 +68,11 @@ const CourseList = (props) => {
     }, []);
     
     useEffect(() => {
-        axios.get(`http://${dbHost}/api/courses`,
+        axios.get(`http://localhost:8000/api/courses`,
         {withCredentials: true})
             .then((res) => {
-                console.log(res);
+                console.log("inside read all courses:")
+                console.log(res.data);
                 setCatalog(res.data);
                 setLoaded(true);
             })
@@ -170,12 +171,12 @@ const CourseList = (props) => {
                                         <Button onClick={deleteCourse}>Delete</Button>&nbsp;&nbsp;
                                         </td>
                                         :
-                                        <td>
-                                        <Link to={`/courses/${course._id}`}>
-                                        <Button>View</Button></Link>&nbsp;&nbsp;
-                                        <Button onClick={enrollUser}>Enroll</Button>&nbsp;&nbsp;
-                                        <Button onClick={dropUser}>Drop</Button>
-                                        </td>
+                                        <ButtonGroup>
+                                            <Link to={`/courses/${course._id}`}><Button color='secondary' outline>View</Button></Link>
+                                            <Link to={`/courses/edit/${course._id}`}>
+                                            <Button color='secondary' outline onClick={enrollUser}>Enroll</Button></Link>
+                                            <Button color='secondary' outline onClick={dropUser}>Drop</Button>
+                                        </ButtonGroup>
                                     }
                                 </tr>
                         )})}

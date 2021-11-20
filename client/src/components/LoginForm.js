@@ -33,9 +33,9 @@ const LoginForm = (props) => {
         axios.post(`http://localhost:8000/api/users/login`, userLogin,
         {withCredentials: true})
             .then((res) => {
-                console.log('Logging in a user')
+                console.log('Logging in user:');
                 console.log(res.data);
-                socket.emit("loggedin_user", res.data);
+                socket.emit("login_user", res.data);
                 socket.disconnect();
                 setUserLoggedIn(!userLoggedIn);
                 setUserLogin({

@@ -48,12 +48,12 @@ const Admin = (props) => {
                         md={{ offset: 1, size: 10}}
                         sm="12"><br/>
                         <h4>Manage Users</h4><br/>
-                        {loaded && <UserList 
+                        <UserList 
                             setAdmin={setAdmin}
                             setLoaded={setLoaded}
                             users={users}
                             setUsers={setUsers}
-                        />}
+                        />
                     </Col>
                 </Row>
             </TabPane>
@@ -63,11 +63,11 @@ const Admin = (props) => {
                         md={{ offset: 1, size: 10}}
                         sm="12"><br/>
                         <h4>Manage Courses</h4><br/>
-                        {loaded && <CourseList 
+                        <CourseList 
                             setLoaded={setLoaded}
                             catalog={catalog}
                             setCatalog={setCatalog}
-                        />}
+                        />
                     </Col>
                 </Row>
             </TabPane>
