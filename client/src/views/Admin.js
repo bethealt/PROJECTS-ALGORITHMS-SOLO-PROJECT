@@ -60,7 +60,7 @@ const Admin = (props) => {
             <TabPane tabId='2'>
                 <Row>
                     <Col 
-                        md={{ offset: 1, size: 10}}
+                        md={{ offset: 0, size: 12}}
                         sm="12"><br/>
                         <h4>Manage Courses</h4><br/>
                         <CourseList 
