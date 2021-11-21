@@ -166,12 +166,12 @@ const CourseList = (props) => {
                                     <td><ButtonGroup>
                                         <Link to={`/courses/:${course._id}`}><Button color='secondary' outline>View</Button></Link>
                                         <Link to={`/courses/edit/:${course._id}`}><Button color='secondary' outline>Edit</Button></Link>
-                                        <Button onClick={deleteCourse} color='secondary' outline>Delete</Button>
+                                        <Button onClick={() => deleteCourse(_id)} color='secondary' outline>Delete</Button>
                                     </ButtonGroup></td> :
                                     <td><ButtonGroup>
                                         <Link to={`/courses/:${course._id}`}><Button color='secondary' outline>View</Button></Link>
-                                        <Button onClick={enrollUser} color='secondary' outline>Enroll</Button>
-                                        <Button onClick={dropUser} color='secondary' outline>Drop</Button>
+                                        <Button onClick={() => enrollUser(course._id)} color='secondary' outline>Enroll</Button>
+                                        <Button onClick={() => dropUser(course._id)} color='secondary' outline>Drop</Button>
                                     </ButtonGroup></td>}
                                 </tr>
                         )})}

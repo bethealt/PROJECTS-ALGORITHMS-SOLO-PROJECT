@@ -4,11 +4,11 @@ import {Container, Row, Col, CardGroup, Card, CardImg, CardTitle, CardSubtitle, 
 import {Link} from '@reach/router';
 
 const CourseHistory = (props) => {
-    const {dbHost, _id, dropUser} = props;
+    const {_id, dropUser} = props;
     const [enrolledCourses, setEnrolledCourses] = useState([]);
     
     useEffect(() => {
-        axios.get(`http://${dbHost}/api/users/${_id}`,
+        axios.get(`http://localhost:8000/api/users/${_id}`,
         {withCredentials: true})
             .then((res) => {
                 console.log(res);
